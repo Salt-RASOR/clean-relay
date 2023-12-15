@@ -1,1 +1,1 @@
-# neighborhood-snitch
+# clean-relay
