@@ -2,4 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
+
+/* tabs */
+.react-tabs__tab-list {
+  border-bottom: none !important;
+}
+.react-tabs__tab {
+  border: none !important;
+  color: #343758 !important;
+}
+
+.react-tabs__tab--selected {
+  border-bottom: 2px solid #343758 !important;
+}
