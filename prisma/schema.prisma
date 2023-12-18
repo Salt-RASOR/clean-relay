@@ -9,3 +9,43 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id     Int     @id @default(autoincrement())
+  name   String
+  role   Role    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roleId Int
+  Issues Issue[]
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String
+  Users User[]
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String
+  issues Issue[]
+}
+
+model IssueStatus {
+  id     Int     @id @default(autoincrement())
+  text   String
+  issues Issue[]
+}
+
+model Issue {
+  id         Int         @id @default(autoincrement())
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  category   Category    @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  categoryId Int
+  status     IssueStatus @relation(fields: [statusId], references: [id], onDelete: Cascade)
+  statusId   Int
+  lat        Int
+  lng        Int
+  userText   String
+  imgUrl     String
+}
