@@ -21,10 +21,12 @@ const page = () => {
           ))}
         </TabList>
 
-        <TabPanel>
+        <TabPanel >
+          <div className={'flex flex-wrap gap-4 justify-center md:justify-start'}>
           {MOCK_DATA.map((item, index) => (
             <Card key={index} {...item} />
           ))}
+          </div>
         </TabPanel>
         <TabPanel>
           <CustomMap />

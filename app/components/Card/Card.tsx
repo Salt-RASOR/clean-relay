@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const isInProgress = status === "in progress";
   return (
-    <div className="rounded-[21px] bg-card_bg p-8 relative my-6" style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)",}}>
+    <div className="rounded-[21px] bg-card_bg p-8 relative my-6 w-1/3 min-w-[300px]" style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)",}}>
       <div className="font-bold mb-5">{adress}</div>
       <div className="flex justify-center">
         <Image
