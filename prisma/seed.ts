@@ -3,6 +3,8 @@ config();
 import prisma from "@/app/client";
 
 const seed = async () => {
+  await prisma.$queryRawUnsafe(`TRUNCATE "Issue" RESTART IDENTITY`);
+
   const roles = ["User", "SuperUser"];
   const categories = [
     "Snow",
