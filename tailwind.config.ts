@@ -20,6 +20,8 @@ const config: Config = {
         in_progress: "#5AC29E",
         untouched: "#E20074",
         violet: "#F7ECFF",
+        drag_accepted_files: "#00800063",
+        drag_rejected_files: "#ff00005e"
       },
     },
   },

@@ -5,6 +5,7 @@ import "react-tabs/style/react-tabs.css";
 import Image from "next/image";
 import BG from "../assets/bg.svg";
 import { newReportPageSections } from "../common/contants";
+import FileInput from "../components/FileInput/FileInput";
 
 const page = () => {
   return (
@@ -19,7 +20,9 @@ const page = () => {
         ))}
       </TabList>
       <div className="background-container bg-violet">
-        <TabPanel>Drop your photo here</TabPanel>
+        <TabPanel>
+          <FileInput />
+        </TabPanel>
 
         <TabPanel>Provide the description</TabPanel>
       </div>
