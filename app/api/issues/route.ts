@@ -10,4 +10,10 @@ export const GET = async (req: Request) => {
   }
 };
 
-export const POST = async () => {};
+export const POST = async (req: Request) => {
+  try {
+    return NextResponse.json({});
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
+  }
+};
