@@ -9,7 +9,7 @@ const IssuePostSchema = z.object({
 });
 
 const IssuePatchSchema = z.object({
-  statusText: z.string(),
+  statusId: z.number(),
 });
 
 export type IssuePost = z.infer<typeof IssuePostSchema>;
