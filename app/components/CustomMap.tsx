@@ -13,9 +13,9 @@ const center = {
   lng: 18.0686,
 };
 
-const Map = () => {
+const CustomMap = () => {
   const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
+    id: "google-Custommap-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
   });
 
@@ -46,4 +46,4 @@ const Map = () => {
   );
 };
 
-export default React.memo(Map);
+export default React.memo(CustomMap);

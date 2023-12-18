@@ -2,6 +2,7 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import CustomMap from "../components/CustomMap";
 
 const page = () => {
   return (
@@ -19,7 +20,7 @@ const page = () => {
           <h2>Any content 1</h2>
         </TabPanel>
         <TabPanel>
-          <h2>Here should be map</h2>
+          <CustomMap />
         </TabPanel>
       </Tabs>
     </>
