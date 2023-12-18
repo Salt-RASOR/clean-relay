@@ -18,13 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AllProviders>
-      <html lang="en">
-        <body className={clsx(inter.className)}>
+    <html lang="en">
+      <body className={clsx(inter.className)}>
+        <AllProviders>
           <div className="container mx-auto">{children}</div>
-        </body>
-        <Navbar />
-      </html>
-    </AllProviders>
+          <Navbar />
+        </AllProviders>
+      </body>
+    </html>
   );
 }

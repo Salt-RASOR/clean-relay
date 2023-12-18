@@ -1,4 +1,4 @@
-import { IssuePost } from "../validation";
+import { IssuePost } from "../api/validation";
 
 const COORDINATE_ACCURACY_MULTIPLIER = 1000000;
 

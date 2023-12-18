@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/client";
 
 import { validateIssuePost } from "../validation";
-import { decodeCoordinates, encodeCoordinates } from "../utils/coordinates";
+import { decodeCoordinates, encodeCoordinates } from "../../utils/coordinates";
 
 export const GET = async (req: Request) => {
   try {
