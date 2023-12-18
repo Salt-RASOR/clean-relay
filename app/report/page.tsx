@@ -2,12 +2,16 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import Image from "next/image";
-import BG from "../assets/bg.svg";
 import { newReportPageSections } from "../common/contants";
 import FileInput from "../components/FileInput/FileInput";
+import Button from "../components/Button/Button";
 
 const page = () => {
+
+  const sendReport = () => {
+    // ToDo implement sending report 
+  }
+  
   return (
     <Tabs>
       <TabList className="grid grid-cols-2 gap-4 mb-8 text-primary_color">
@@ -24,7 +28,9 @@ const page = () => {
           <FileInput />
         </TabPanel>
 
-        <TabPanel>Provide the description</TabPanel>
+        <TabPanel>
+          <Button buttonText={"Send report"} clickHandler={sendReport} />
+        </TabPanel>
       </div>
     </Tabs>
   );
