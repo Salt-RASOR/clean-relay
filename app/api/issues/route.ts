@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/client";
+
 import { validateIssuePost } from "../validation";
+import { decodeCoordinates, encodeCoordinates } from "../utils/coordinates";
 
 export const GET = async (req: Request) => {
   try {
     const data = await prisma.issue.findMany();
+    data.forEach(decodeCoordinates);
+
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
@@ -20,9 +24,15 @@ export const POST = async (req: Request) => {
       return NextResponse.json(validate.error.issues, { status: 400 });
     }
 
-    body.imageUrl = "image url here";
+    encodeCoordinates(body);
+
+    body.imgUrl = "image url here";
+    body.statusId = 1;
 
     const data = await prisma.issue.create({ data: body });
+
+    decodeCoordinates(body);
+
     return NextResponse.json(body, { status: 201 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });

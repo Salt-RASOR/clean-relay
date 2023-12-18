@@ -12,8 +12,8 @@ const IssuePatchSchema = z.object({
   statusText: z.string(),
 });
 
-type IssuePost = z.infer<typeof IssuePostSchema>;
-type IssuePatch = z.infer<typeof IssuePatchSchema>;
+export type IssuePost = z.infer<typeof IssuePostSchema>;
+export type IssuePatch = z.infer<typeof IssuePatchSchema>;
 
 export const validateIssuePost = (data: IssuePost) => {
   return IssuePostSchema.safeParse(data);
