@@ -1,19 +1,20 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 type NavItemProps = {
   title: string;
   href: string;
-  active: boolean;
   icon: React.ReactNode;
 };
 
-const NavItem: React.FC<NavItemProps> = ({ title, href, icon, active }) => {
+const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
+  const pathname = usePathname();
   return (
     <Link
       href={href}
       className={clsx(
-        active ? "text-primary-color" : "text-primary_gray",
+        pathname === href ? "text-primary-color" : "text-primary_gray",
         "py-8 flex flex-col items-center"
       )}>
       <span>{icon}</span>

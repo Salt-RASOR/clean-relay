@@ -13,8 +13,6 @@ const Card: React.FC<CardProps> = ({
   category,
   status,
 }) => {
-  console.log(image_path);
-
   const isInProgress = status === "in progress";
   return (
     <div className="rounded-[21px] bg-card_bg p-8 relative my-6" style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)",}}>

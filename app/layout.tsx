@@ -20,12 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(inter.className)}>
-
         <AllProviders>
           <div className="container mx-auto mt-20 px-8">{children}</div>
           <Navbar />
         </AllProviders>
-  
       </body>
     </html>
   );
