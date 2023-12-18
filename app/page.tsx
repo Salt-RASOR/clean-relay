@@ -13,7 +13,9 @@ const page = () => {
       <Tabs>
         <TabList className="grid grid-cols-2 gap-4 mb-8 text-primary_color">
           {reportsPageSections.map((item, index) => (
-            <Tab key={index} className={"flex items-center justify-center"}>
+            <Tab
+              key={index}
+              className={"flex items-center justify-center cursor-pointer"}>
               <h2 className="font-bold pb-6">{item}</h2>
             </Tab>
           ))}

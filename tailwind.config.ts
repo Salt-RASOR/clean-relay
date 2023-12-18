@@ -19,6 +19,7 @@ const config: Config = {
         card_bg: "#F4F4F4",
         in_progress: "#5AC29E",
         untouched: "#E20074",
+        violet: "#F7ECFF",
       },
     },
   },
