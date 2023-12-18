@@ -7,9 +7,10 @@ const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "border border-solid border-stroke_color rounded-b-[20px]",
+        "border border-solid border-stroke_color rounded-b-[20px] bg-white",
         "flex justify-center ",
-        "fixed bottom-0 w-full"
+        "fixed bottom-0 w-full",
+        "z-10"
       )}>
       <div className={clsx("flex gap-4 md:gap-16")}>
         {MENU_LIST.map((menuItems, idx) => (

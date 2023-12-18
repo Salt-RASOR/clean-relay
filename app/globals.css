@@ -16,3 +16,6 @@
 .react-tabs__tab--selected {
   border-bottom: 2px solid #343758 !important;
 }
+.react-tabs__tab--selected:focus-visible{
+  outline: none;
+}
