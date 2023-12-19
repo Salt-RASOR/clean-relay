@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import prisma from "@/app/prismaClient";
-import supabase from "@/app/supabaseClient";
+import prisma from "@/app/api/prismaClient";
+import supabase from "@/app/api/supabaseClient";
 
 import { validateIssuePost, validateImageBuffer } from "../validation";
 import { decodeCoordinates, encodeCoordinates } from "../../utils/coordinates";

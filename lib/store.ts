@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import issuesReducer from "./features/issuesSlice";
 import profileReducer from "./features/profileSlice";
-import newIssueReducer from "./features/newIssueSlice";
+import newReportReducer from "./features/newReportSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       issues: issuesReducer,
-      newIssue: newIssueReducer,
+      newReport: newReportReducer,
       profile: profileReducer,
     },
   });

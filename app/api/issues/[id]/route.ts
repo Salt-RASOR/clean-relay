@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
-import prisma from "@/app/prismaClient";
+import prisma from "@/app/api/prismaClient";
 
 export const PATCH = async (
   req: Request,

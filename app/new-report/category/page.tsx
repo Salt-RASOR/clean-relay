@@ -1,31 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Select, { SelectInstance, SingleValue } from "react-select";
-import Button from "../components/Button/Button";
-import { useAppDispatch, useAppSelector } from "../../lib/hooks";
-import {
-  getCategoriesThunk,
-  selectCategories,
-} from "../../lib/features/issuesSlice";
-import { setNewCategory } from "../../lib/features/newIssueSlice";
-import { CategoryOption } from "../common/interfaces";
+
+import React from "react";
+import Select, { SingleValue } from "react-select";
+import Button from "@/app/components/Button/Button";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { selectCategories } from "@/lib/features/issuesSlice";
+import { setNewCategory, setProcessLink } from "@/lib/features/newReportSlice";
+import { CategoryOption } from "@/app/common/interfaces";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
-
-  const selectCategory = () => {
-    router.push("/report");
-  };
-
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getCategoriesThunk);
-  }, [dispatch]);
+  const options = useAppSelector(selectCategories);
+
+  const selectCategory = () => {
+    dispatch(setProcessLink(1));
+    router.push("/new-report/description");
+  };
+
+  const handleOption = (event: SingleValue<CategoryOption | null>) => {
+    dispatch(setNewCategory(Number(event?.id)));
+  };
 
   const customStyles = {
-    option: (defaultStyles, state) => ({
+    option: (defaultStyles: {}, state: { isSelected: boolean }) => ({
       ...defaultStyles,
       color: "primary_color",
       backgroundColor: state.isSelected ? "#eeeef7" : "#ffffff",
@@ -34,19 +34,13 @@ const Page = () => {
         cursor: "pointer",
       },
     }),
-    control: (defaultStyles) => ({
+    control: (defaultStyles: {}) => ({
       ...defaultStyles,
       padding: "10px",
       border: "none",
       boxShadow: "none",
     }),
   };
-
-  const handleOption = (event: SingleValue<CategoryOption | null>) => {
-    dispatch(setNewCategory(Number(event?.id)));
-  };
-
-  const options = useAppSelector(selectCategories);
 
   return (
     <>
@@ -61,7 +55,7 @@ const Page = () => {
           styles={customStyles}
         />
         <Button
-          buttonText={"Choose the category"}
+          buttonText={"Next"}
           clickHandler={selectCategory}
           additionalClasses="mt-12"
         />
