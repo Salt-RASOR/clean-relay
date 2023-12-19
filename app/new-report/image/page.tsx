@@ -39,7 +39,7 @@ const Page = () => {
     dispatch(setNewImage(blob));
   };
 
-  const sendReport = (event: React.FormEvent<HTMLFormElement>) => {
+  const sendReport = async (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
@@ -58,7 +58,7 @@ const Page = () => {
     data.append("imageFile", imageFile);
 
     dispatch(setProcessLink(0));
-    dispatch(createNewReportThunk(data));
+    await dispatch(createNewReportThunk(data));
     router.push("/new-report/done");
   };
 

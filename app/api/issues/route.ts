@@ -7,6 +7,7 @@ import { validateIssuePost, validateImageBuffer } from "../validation";
 import { decodeCoordinates, encodeCoordinates } from "../../utils/coordinates";
 import decodeForm from "@/app/utils/decodeForm";
 import { randomUUID } from "crypto";
+import getAddress from "../getAddress";
 
 export const GET = async (req: Request) => {
   try {
@@ -47,11 +48,34 @@ export const POST = async (req: Request) => {
       );
     }
 
+    let address = await getAddress(body.lat, body.lng);
+
+    // retry reverse geocode 5 times cause Google API is buggy
+    if (address.error) {
+      for (let i = 0; i < 5; i++) {
+        address = await getAddress(body.lat, body.lng);
+
+        if (!address.error) {
+          break;
+        }
+      }
+
+      if (address.error) {
+        console.log("Address Error: ", address.error);
+        throw address.error.toString();
+      }
+    }
+
     const fileName = `${randomUUID()}.${validateImage.ext}`;
 
     const upload = await supabase.upload(fileName, fileBuffer, {
       contentType: validateImage.mime,
     });
+
+    if (upload.error) {
+      console.log("Upload Error: ", upload.error);
+      throw new Error(upload.error.message);
+    }
 
     const imgUrl =
       (process.env.SUPABASE_IMG_URL as string) + (upload.data?.path as string);
@@ -61,7 +85,7 @@ export const POST = async (req: Request) => {
     const statusId = 1;
 
     const result = await prisma.issue.create({
-      data: { ...body, imgUrl, statusId },
+      data: { ...body, imgUrl, statusId, address: address.result },
     });
 
     prisma.$disconnect();
