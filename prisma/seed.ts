@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 config();
-import prisma from "@/app/client";
+import prisma from "@/app/prismaClient";
 
 const seed = async () => {
   await prisma.$queryRawUnsafe(`TRUNCATE "Issue" RESTART IDENTITY`);
