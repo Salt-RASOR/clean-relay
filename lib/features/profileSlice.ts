@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface profileState {}
 
-const initialState = {};
+const initialState: profileState = {};
 
 export const profileSlice = createSlice({
-  name: "funny",
+  name: "profile",
   initialState,
   reducers: {},
 });

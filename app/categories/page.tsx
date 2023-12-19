@@ -1,37 +1,29 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Select, { SelectInstance } from "react-select";
-import axios from "axios";
+import Select, { SelectInstance, SingleValue } from "react-select";
 import Button from "../components/Button/Button";
-import { Categori } from "../common/interfaces";
-
-interface CustomStyles {
-  option: (defaultStyles: any, state: any) => React.CSSProperties;
-  control: (defaultStyles: any) => React.CSSProperties;
-  // Add more style attributes as needed
-}
+import { useAppDispatch, useAppSelector } from "../../lib/hooks";
+import {
+  getCategoriesThunk,
+  selectCategories,
+} from "../../lib/features/issuesSlice";
+import { setNewCategory } from "../../lib/features/newIssueSlice";
+import { CategoryOption } from "../common/interfaces";
 
 const Page = () => {
-  const [categories, setCategories] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3000/api/categories`);
-        setCategories(res.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    getCategories();
-  }, []);
 
   const selectCategory = () => {
     // Todo: implement
   };
 
-  const customStyles: StylesConfig = {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCategoriesThunk);
+  }, [dispatch]);
+
+  const customStyles = {
     option: (defaultStyles, state) => ({
       ...defaultStyles,
       color: "primary_color",
@@ -49,15 +41,11 @@ const Page = () => {
     }),
   };
 
-  const options = categories.map((category: Categori) => ({
-    id: category.id,
-    value: category.name,
-    label: category.name,
-  }));
-
-  const handleOption = (selections: SelectInstance<(typeof options)[0], true>) => {
-    setSelectedOption(selections);
+  const handleOption = (event: SingleValue<CategoryOption | null>) => {
+    dispatch(setNewCategory(Number(event?.id)));
   };
+
+  const options = useAppSelector(selectCategories);
 
   return (
     <>

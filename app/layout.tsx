@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
 import Navbar from "./components/Navbar/Navbar";
-import AllProviders from "./AllProviders";
+import StoreProvider from "./components/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={clsx(inter.className)}>
-        <AllProviders>
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-[120px]"
-          >{children}</div>
+    <StoreProvider>
+      <html lang="en">
+        <body className={clsx(inter.className)}>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-[120px]">
+            {children}
+          </div>
           <Navbar />
-        </AllProviders>
-      </body>
-    </html>
+        </body>
+      </html>
+    </StoreProvider>
   );
 }
