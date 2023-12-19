@@ -20,7 +20,6 @@ const FileInput = () => {
       "image/jpeg": [],
       "image/png": [],
       "image/svg": [],
-      "image/giff": [],
     },
     maxFiles: 10,
     onDrop,
