@@ -8,3 +8,11 @@ export type CategoryOption = {
   value: string;
   label: string;
 };
+
+export type IssueOptions = {
+  userId: number;
+  lat: number;
+  lng: number;
+  categoryId: number;
+  userText: string;
+};
