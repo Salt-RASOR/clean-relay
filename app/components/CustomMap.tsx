@@ -19,7 +19,7 @@ const center = {
 };
 
 const CustomMap = () => {
-  const salties = useAppSelector(selectAllIssues);
+  const issues = useAppSelector(selectAllIssues);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
@@ -46,6 +46,8 @@ const CustomMap = () => {
     { lat: 59.33, lng: 18.07 },
   ];
 
+
+  
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
@@ -57,9 +59,9 @@ const CustomMap = () => {
         streetViewControl: false,
         mapTypeControlOptions: { mapTypeIds: [] },
       }}>
-      {initialCoordinates.map((coordinate, index) => (
+      {issues.map((coordinate) => (
         <Marker
-          key={index}
+          key={coordinate.id}
           position={{ lat: coordinate.lat, lng: coordinate.lng }}
         />
       ))}

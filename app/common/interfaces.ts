@@ -10,9 +10,12 @@ export type CategoryOption = {
 };
 
 export type IssueOptions = {
+  id: number;
   userId: number;
   lat: number;
   lng: number;
   categoryId: number;
+  statusId: number;
   userText: string;
+  imgUrl: string;
 };
