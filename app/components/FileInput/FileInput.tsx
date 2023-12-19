@@ -1,14 +1,14 @@
 import clsx from "clsx";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import TakeAPhoto from "../../assets/take_a_photo.svg";
 
-const FileInput = () => {
-  const onDrop = useCallback(() => {
-    // ToDo Implement photo upload to the backend
-  }, []);
+type FileInputProps = {
+  onChange: (event: React.ChangeEvent) => void;
+};
 
+const FileInput: FC<FileInputProps> = ({ onChange }) => {
   const {
     getRootProps,
     getInputProps,
@@ -19,24 +19,24 @@ const FileInput = () => {
     accept: {
       "image/jpeg": [],
       "image/png": [],
-      "image/svg": [],
+      "image/bmp": [],
+      "image/webp": [],
+      "image/avif": [],
     },
-    maxFiles: 10,
-    onDrop,
+    maxFiles: 1,
   });
 
   return (
     <div className="flex justify-center pt-20">
-      <form
+      <div
         {...getRootProps()}
         id="dropzone-wrapper"
-        method="post"
-        encType="multipart/form-data"
         className={clsx(
           isDragAccept && "bg-drag_accepted_files",
           isDragReject && "bg-drag_rejected_files"
-        )}>
-        <input type="file" {...getInputProps()} />
+        )}
+      >
+        <input type="file" {...getInputProps()} onChange={onChange} />
 
         <div
           className={clsx(
@@ -44,7 +44,8 @@ const FileInput = () => {
             "text-primary-color m-4 p-8",
             "border border-dashed border-gray-400",
             "text-sm text-primary-color"
-          )}>
+          )}
+        >
           <div className="h-[200px] min-w-[200px] font-semibold text-center">
             {isDragActive ? (
               <>
@@ -67,7 +68,7 @@ const FileInput = () => {
             )}
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

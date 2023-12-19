@@ -6,9 +6,12 @@ import "react-tabs/style/react-tabs.css";
 import FileInput from "@/app/components/FileInput/FileInput";
 import Button from "@/app/components/Button/Button";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   createNewReportThunk,
+  selectNewCategory,
+  selectNewDescription,
+  setNewImage,
   setProcessLink,
 } from "@/lib/features/newReportSlice";
 
@@ -16,21 +19,50 @@ const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const sendReport = () => {
+  const userText = useAppSelector(selectNewDescription);
+  const categoryId = useAppSelector(selectNewCategory);
+  const imageFile = useAppSelector(selectNewImage);
+
+  const setFile = (event: React.ChangeEvent) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+
+    if (!files) {
+      return;
+    }
+
+    dispatch(setNewImage(files[0]));
+  };
+
+  const sendReport = (event: React.FormEvent<HTMLFormElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!userText || !categoryId) {
+      return;
+    }
+
+    const target = event.target as HTMLFormElement;
+    const data = new FormData(target);
+
+    data.append("userText", userText);
+    data.append("categoryId", categoryId.toString());
+    data.append("lat", "1");
+    data.append("lng", "1");
+    data.append("userId", "1");
+    data.append("imageFile");
+
+    console.log(data);
     dispatch(setProcessLink(0));
-    dispatch(createNewReportThunk);
+    dispatch(createNewReportThunk(data));
     router.push("/new-report/done");
   };
 
   return (
-    <div className="background-container bg-violet px-2">
-      <FileInput />
-      <Button
-        clickHandler={sendReport}
-        buttonText={"Send Report"}
-        additionalClasses="mt-12"
-      />
-    </div>
+    <form onSubmit={sendReport} className="background-container bg-violet px-2">
+      <FileInput onChange={setFile} />
+      <Button buttonText={"Send Report"} additionalClasses="mt-12" />
+    </form>
   );
 };
 

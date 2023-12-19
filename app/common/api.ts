@@ -9,3 +9,8 @@ export const getIssues = async () => {
   const res = await axios.get("/api/issues");
   return res.data;
 };
+
+export const createNewReport = async (formData: FormData) => {
+  const res = await axios.post("/api/issues", formData);
+  return res.data;
+};

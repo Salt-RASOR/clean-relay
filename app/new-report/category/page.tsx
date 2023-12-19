@@ -5,7 +5,11 @@ import Select, { SingleValue } from "react-select";
 import Button from "@/app/components/Button/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { selectCategories } from "@/lib/features/issuesSlice";
-import { setNewCategory, setProcessLink } from "@/lib/features/newReportSlice";
+import {
+  selectNewCategory,
+  setNewCategory,
+  setProcessLink,
+} from "@/lib/features/newReportSlice";
 import { CategoryOption } from "@/app/common/interfaces";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +19,14 @@ const Page = () => {
 
   const options = useAppSelector(selectCategories);
 
+  const selectedOption = useAppSelector(selectNewCategory);
+
   const selectCategory = () => {
+    if (!selectedOption) {
+      // error toast for not having an option selected here
+      return;
+    }
+
     dispatch(setProcessLink(1));
     router.push("/new-report/description");
   };

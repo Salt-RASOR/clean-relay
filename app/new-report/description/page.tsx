@@ -21,8 +21,14 @@ const Page = () => {
     event.preventDefault();
     const target = event.target as HTMLFormElement;
     const data = new FormData(target);
+    const description = data.get("details") as string;
 
-    dispatch(setNewDescription(data.get("details") as string));
+    if (!description) {
+      // error toast for not having a description here
+      return;
+    }
+
+    dispatch(setNewDescription(description));
     dispatch(setProcessLink(2));
     router.push("/new-report/image");
   };
