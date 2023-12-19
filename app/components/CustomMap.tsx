@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import {
@@ -7,6 +6,7 @@ import {
   getIssuesThunk,
 } from "../../lib/features/issuesSlice";
 import { useAppSelector, useAppDispatch } from "../../lib/hooks";
+import IssuePin from "./IssuePin/IssuePin";
 
 const containerStyle = {
   width: "auto",
@@ -24,7 +24,7 @@ const CustomMap = () => {
 
   React.useEffect(() => {
     dispatch(getIssuesThunk());
-  }, []);
+  }, [dispatch]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-Custommap-script",
@@ -41,33 +41,39 @@ const CustomMap = () => {
     setMap(null);
   }, []);
 
-  const initialCoordinates = [
-    { lat: 59.3293, lng: 18.0686 },
-    { lat: 59.33, lng: 18.07 },
-  ];
-
-
-  
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={13}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={{
-        streetViewControl: false,
-        mapTypeControlOptions: { mapTypeIds: [] },
-      }}>
-      {issues.map((coordinate) => (
-        <Marker
-          key={coordinate.id}
-          position={{ lat: coordinate.lat, lng: coordinate.lng }}
-        />
-      ))}
-    </GoogleMap>
-  ) : (
-    <>Loading...</>
+  return (
+    <>
+      {isLoaded ? (
+        <>
+        <IssuePin category={3} status={2}/>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={13}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+            options={{
+              streetViewControl: false,
+              mapTypeControlOptions: { mapTypeIds: [] },
+            }}>
+            {issues.map((coordinate) => (
+              <Marker
+                key={coordinate.id}
+                position={{ lat: coordinate.lat, lng: coordinate.lng }}
+                icon={{
+                  url: <IssuePin
+                      category={coordinate.category.id}
+                      status={coordinate.status.id}
+                    />
+                }}
+              />
+            ))}
+          </GoogleMap>
+        </>
+      ) : (
+        <>Loading...</>
+      )}
+    </>
   );
 };
 

@@ -18,4 +18,12 @@ export type IssueOptions = {
   statusId: number;
   userText: string;
   imgUrl: string;
+  category: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    text: string;
+  };
 };
