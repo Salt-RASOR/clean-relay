@@ -20,8 +20,13 @@ export const PATCH = async (
     }
 
     const data = await prisma.issue.update({ where: { id }, data: body });
+
+    prisma.$disconnect();
+
     return NextResponse.json(data);
   } catch (error) {
+    prisma.$disconnect();
+
     return NextResponse.json(error, { status: 500 });
   }
 };
@@ -33,13 +38,18 @@ export const DELETE = async (
   try {
     const id = Number(params.id);
     const found = await prisma.issue.findFirst({ where: { id } });
+
     if (!found) {
       return NextResponse.json(found, { status: 404 });
     }
 
     const result = await prisma.issue.delete({ where: { id } });
+    prisma.$disconnect();
+
     return NextResponse.json(result);
   } catch (error) {
+    prisma.$disconnect();
+
     return NextResponse.json(error, { status: 500 });
   }
 };

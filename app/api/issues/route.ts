@@ -13,10 +13,14 @@ export const GET = async (req: Request) => {
     const data = await prisma.issue.findMany({
       include: { category: true, status: true },
     });
+    prisma.$disconnect();
+
     data.forEach(decodeCoordinates);
 
     return NextResponse.json(data);
   } catch (error) {
+    prisma.$disconnect();
+
     return NextResponse.json(error, { status: 500 });
   }
 };
@@ -60,9 +64,13 @@ export const POST = async (req: Request) => {
       data: { ...body, imgUrl, statusId },
     });
 
+    prisma.$disconnect();
+
     decodeCoordinates(result);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
+    prisma.$disconnect();
+
     return NextResponse.json(error, { status: 500 });
   }
 };

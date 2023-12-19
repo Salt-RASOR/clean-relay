@@ -55,7 +55,6 @@ const Page = () => {
     data.append("userId", "1");
     data.append("imageFile", imageFile);
 
-    console.log(data);
     dispatch(setProcessLink(0));
     dispatch(createNewReportThunk(data));
     router.push("/new-report/done");
