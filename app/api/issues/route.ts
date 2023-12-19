@@ -10,7 +10,9 @@ import { randomUUID } from "crypto";
 
 export const GET = async (req: Request) => {
   try {
-    const data = await prisma.issue.findMany();
+    const data = await prisma.issue.findMany({
+      include: { category: true, status: true },
+    });
     data.forEach(decodeCoordinates);
 
     return NextResponse.json(data);
