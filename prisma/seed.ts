@@ -3,7 +3,8 @@ config();
 import prisma from "@/app/api/prismaClient";
 
 const seed = async () => {
-  await prisma.$queryRawUnsafe(`TRUNCATE "Issue" RESTART IDENTITY`);
+  await prisma.$queryRawUnsafe(`TRUNCATE "Issue" RESTART IDENTITY CASCADE`);
+  await prisma.$queryRawUnsafe(`TRUNCATE "User" RESTART IDENTITY CASCADE`);
 
   const roles = ["User", "SuperUser"];
   const categories = [

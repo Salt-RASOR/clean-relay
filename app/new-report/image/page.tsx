@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import "react-tabs/style/react-tabs.css";
 
 import FileInput from "@/app/components/FileInput/FileInput";
@@ -15,6 +15,7 @@ import {
   setNewImage,
   setProcessLink,
 } from "@/lib/features/newReportSlice";
+import useLocation from "@/app/hooks/useLocation";
 
 const Page = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Page = () => {
   const userText = useAppSelector(selectNewDescription);
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
+  const { userLocation } = useLocation();
 
   const setFile = async (event: React.ChangeEvent) => {
     const target = event.target as HTMLInputElement;
@@ -41,7 +43,7 @@ const Page = () => {
     event.stopPropagation();
     event.preventDefault();
 
-    if (!userText || !categoryId || !imageFile) {
+    if (!userText || !categoryId || !imageFile || !userLocation) {
       return;
     }
 
@@ -50,8 +52,8 @@ const Page = () => {
 
     data.append("userText", userText);
     data.append("categoryId", categoryId.toString());
-    data.append("lat", "1");
-    data.append("lng", "1");
+    data.append("lat", userLocation.latitude.toString());
+    data.append("lng", userLocation.longitude.toString());
     data.append("userId", "1");
     data.append("imageFile", imageFile);
 
