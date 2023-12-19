@@ -7,7 +7,7 @@ const PROCESS_STEPS = ["/category", "/description", "/image"];
 export interface newReportState {
   newCategory: number | null;
   newDescription: string;
-  newImage: File | null;
+  newImage: Blob | null;
   processLink: string;
 }
 
@@ -51,7 +51,7 @@ export const newReportSlice = createSlice({
     setNewDescription: (state, action: PayloadAction<string>) => {
       state.newDescription = action.payload;
     },
-    setNewImage: (state, action: PayloadAction<File | null>) => {
+    setNewImage: (state, action: PayloadAction<Blob>) => {
       state.newImage = action.payload;
     },
     setProcessLink: (state, action: PayloadAction<number>) => {

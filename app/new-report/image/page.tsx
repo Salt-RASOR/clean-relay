@@ -11,6 +11,7 @@ import {
   createNewReportThunk,
   selectNewCategory,
   selectNewDescription,
+  selectNewImage,
   setNewImage,
   setProcessLink,
 } from "@/lib/features/newReportSlice";
@@ -23,7 +24,7 @@ const Page = () => {
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
 
-  const setFile = (event: React.ChangeEvent) => {
+  const setFile = async (event: React.ChangeEvent) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
 
@@ -31,14 +32,16 @@ const Page = () => {
       return;
     }
 
-    dispatch(setNewImage(files[0]));
+    const arrayBuffer = await files[0].arrayBuffer();
+    const blob = new Blob([arrayBuffer]);
+    dispatch(setNewImage(blob));
   };
 
   const sendReport = (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
-    if (!userText || !categoryId) {
+    if (!userText || !categoryId || !imageFile) {
       return;
     }
 
@@ -50,7 +53,7 @@ const Page = () => {
     data.append("lat", "1");
     data.append("lng", "1");
     data.append("userId", "1");
-    data.append("imageFile");
+    data.append("imageFile", imageFile);
 
     console.log(data);
     dispatch(setProcessLink(0));
