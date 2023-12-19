@@ -9,12 +9,13 @@ import {
 } from "../../lib/features/issuesSlice";
 import { setNewCategory } from "../../lib/features/newIssueSlice";
 import { CategoryOption } from "../common/interfaces";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
+  const router = useRouter();
 
   const selectCategory = () => {
-    // Todo: implement
+    router.push("/report");
   };
 
   const dispatch = useAppDispatch();
@@ -54,7 +55,7 @@ const Page = () => {
       </div>
       <div className="background-container bg-violet px-2 pt-20">
         <Select
-          defaultValue={selectedOption}
+          defaultValue={null}
           onChange={handleOption}
           options={options}
           styles={customStyles}

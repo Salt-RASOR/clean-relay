@@ -9,7 +9,7 @@ export const MENU_LIST = [
     href: "/",
     icon: <MdOutlineReadMore size={24} />,
   },
-  { title: "New Report", href: "/report", icon: <LuPlus size={24} /> },
+  { title: "New Report", href: "/categories", icon: <LuPlus size={24} /> },
   { title: "Points", href: "/points", icon: <LiaCoinsSolid size={24} /> },
   { title: "Profile", href: "/profile", icon: <FiUser size={24} /> },
 ];
