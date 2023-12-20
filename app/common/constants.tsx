@@ -8,6 +8,10 @@ import grass from "@/app/public/issues_icons/Grass.svg";
 import brokenLight from "@/app/public/issues_icons/Broken_light.svg";
 import misplacedVehicle from "@/app/public/issues_icons/No_Parking.svg";
 import puzzled from "@/app/public/issues_icons/Puzzled.svg";
+import { RiErrorWarningLine } from "react-icons/ri";
+import { MdTimelapse } from "react-icons/md";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { TiDeleteOutline } from "react-icons/ti";
 
 enum ReportsPageSections {
   LISTINGS = "Listings",
@@ -56,4 +60,23 @@ export const issuesIcons = [
 export const issuesStatusColors = [
   { id: 1, color: "rgb(248 113 113)" },
   { id: 2, color: "rgb(132 204 22)" },
+];
+
+export const shangeStatusOptions = [
+  {
+    title: "Not started",
+    icon: <RiErrorWarningLine size={20}/>,
+  },
+  {
+    title: "In progress",
+    icon: <MdTimelapse size={20}/>,
+  },
+  {
+    title: "Completed",
+    icon: <FaRegCheckCircle size={16}/>,
+  },
+  {
+    title: "Delete",
+    icon: <TiDeleteOutline size={20} />,
+  },
 ];

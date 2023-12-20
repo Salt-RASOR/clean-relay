@@ -21,9 +21,10 @@ const config: Config = {
         untouched: "#E20074",
         violet: "#F7ECFF",
         violet_light: "#FCF8FF",
+        violet_hover: "#eeeef7",
         drag_accepted_files: "#00800063",
         drag_rejected_files: "#ff00005e",
-        
+        bg_overlay: '#00000096',
       },
     },
   },
