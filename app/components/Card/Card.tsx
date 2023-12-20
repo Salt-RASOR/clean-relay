@@ -25,7 +25,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-12 md:px-8 relative my-2"
+      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
     >
       <div className="font-bold mb-2 truncate">{address}</div>
@@ -38,7 +38,7 @@ const Card: React.FC<CardProps> = ({
         />
         <p className="font-bold ml-6">{categoryName}</p>
       </div>
-      <div className="flex flex-col md:flex-row justify-around md:justify-between mb-4 md:h-[100px] h-[240px]">
+      <div className="flex flex-col md:flex-row justify-around md:justify-between mb-2 md:h-[100px] h-[240px]">
         <Image
           src={imgUrl}
           alt={""}
@@ -47,7 +47,7 @@ const Card: React.FC<CardProps> = ({
           height={100}
           className="object-cover w-full md:w-1/2 max-h-36"
         />
-        <p className="w-full md:w-1/2 text-left text-sm mt-4 md:mt-0 md:ml-4 overflow-hidden text-ellipsis">
+        <p className="w-full md:w-1/2 text-left text-sm mt-4 md:mt-0 pb-4 md:pb-0 md:ml-4 overflow-hidden text-ellipsis">
           {userText}
         </p>
       </div>
