@@ -58,10 +58,15 @@ const Page = () => {
     data.append("userId", "1");
     data.append("imageFile", imageFile);
 
-    dispatch(setProcessLink(0));
-    dispatch(getIssuesThunk());
-    await dispatch(createNewReportThunk(data));
-    router.push("/new-report/done");
+    dispatch(createNewReportThunk(data))
+      .then(() => {
+        dispatch(setProcessLink(0));
+        dispatch(getIssuesThunk());
+        router.push("/new-report/done");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
