@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 interface Coordinates {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
 }
 
 const useLocation = () => {
@@ -13,7 +13,7 @@ const useLocation = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setUserLocation({ latitude, longitude });
+          setUserLocation({ lat: latitude, lng: longitude });
         },
         (error) => {
           console.error("Error getting user location:", error);

@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const getAddress = async (latitude: number, longitude: number) => {
+const getAddress = async (lat: number, lng: number) => {
   const apiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 
   try {
     const response = await axios.get(apiUrl, {
       params: {
-        latlng: `${latitude},${longitude}`,
+        latlng: `${lat},${lng}`,
         key: process.env.GOOGLE_GEOCODING_API_KEY,
       },
     });

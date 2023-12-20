@@ -52,8 +52,8 @@ const Page = () => {
 
     data.append("userText", userText);
     data.append("categoryId", categoryId.toString());
-    data.append("lat", userLocation.latitude.toString());
-    data.append("lng", userLocation.longitude.toString());
+    data.append("lat", userLocation.lat.toString());
+    data.append("lng", userLocation.lng.toString());
     data.append("userId", "1");
     data.append("imageFile", imageFile);
 

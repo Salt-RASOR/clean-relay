@@ -5,6 +5,7 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { selectAllIssues, selectIconImages } from "@/lib/features/issuesSlice";
 import { useAppSelector } from "@/lib/hooks";
 import { issuesStatusColors } from "@/app/common/constants";
+import useLocation from "@/app/hooks/useLocation";
 
 const containerStyle = {
   width: "auto",
@@ -12,11 +13,13 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 59.3996,
-  lng: 17.9484,
+  lat: 59.334591,
+  lng: 18.06324,
 };
 
 const CustomMap = () => {
+  const { userLocation } = useLocation();
+
   const issues = useAppSelector(selectAllIssues);
   const iconImages = useAppSelector(selectIconImages);
 
@@ -58,31 +61,9 @@ const CustomMap = () => {
       </svg>
     `;
 
-    console.log(svgString);
     const pinUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(svgString)}`;
     return pinUrl;
   };
-
-  const mock = [
-    {
-      id: 1,
-      userId: 1,
-      lat: 59.3996,
-      lng: 17.9484,
-      categoryId: 2,
-      statusId: 34,
-      userText: "string",
-      imgUrl: "string",
-      category: {
-        id: 1,
-        name: "snow",
-      },
-      status: {
-        id: 1,
-        text: "untouched",
-      },
-    },
-  ];
 
   return (
     <>
@@ -90,7 +71,7 @@ const CustomMap = () => {
         <>
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
+            center={userLocation || center}
             zoom={13}
             onLoad={onLoad}
             onUnmount={onUnmount}
@@ -99,7 +80,7 @@ const CustomMap = () => {
               mapTypeControlOptions: { mapTypeIds: [] },
             }}
           >
-            {mock.map((coordinate) => {
+            {issues.map((coordinate) => {
               const categoryIcon = coordinate.category.id;
               const bgColor = coordinate.status.id;
 
