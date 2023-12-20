@@ -4,7 +4,11 @@ import prisma from "@/app/api/prismaClient";
 import supabase from "@/app/api/supabaseClient";
 
 import { validateIssuePost, validateImageBuffer } from "../validation";
-import { decodeCoordinates, encodeCoordinates } from "../../utils/coordinates";
+import {
+  decodeGetCoordinates,
+  decodePostCoordinates,
+  encodeCoordinates,
+} from "../../utils/coordinates";
 import decodeForm from "@/app/utils/decodeForm";
 import { randomUUID } from "crypto";
 import getAddress from "../getAddress";
@@ -16,9 +20,9 @@ export const GET = async (req: Request) => {
     });
     prisma.$disconnect();
 
-    data.forEach(decodeCoordinates);
+    const decdodedData = data.map(decodeGetCoordinates);
 
-    return NextResponse.json(data);
+    return NextResponse.json(decdodedData);
   } catch (error) {
     prisma.$disconnect();
 
@@ -90,7 +94,7 @@ export const POST = async (req: Request) => {
 
     prisma.$disconnect();
 
-    decodeCoordinates(result);
+    decodePostCoordinates(result);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
     prisma.$disconnect();

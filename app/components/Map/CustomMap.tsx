@@ -4,8 +4,8 @@ import React from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { selectAllIssues, selectIconImages } from "@/lib/features/issuesSlice";
 import { useAppSelector } from "@/lib/hooks";
-import { issuesStatusColors } from "@/app/common/constants";
 import useLocation from "@/app/hooks/useLocation";
+import getIssueIcon from "@/app/utils/getIssueIcon";
 
 const containerStyle = {
   width: "auto",
@@ -13,6 +13,7 @@ const containerStyle = {
 };
 
 const center = {
+  // central Stockholm
   lat: 59.334591,
   lng: 18.06324,
 };
@@ -38,33 +39,6 @@ const CustomMap = () => {
     setMap(null);
   }, []);
 
-  const getCategoryIcon = (categoryId: number) => {
-    const foundCategory = iconImages.find((icon) => icon.id === categoryId);
-    return foundCategory ? foundCategory.svgString : "";
-  };
-
-  const getStatusColor = (statusId: number) => {
-    const foundStatus = issuesStatusColors.find(
-      (status) => status.id === statusId
-    );
-    return foundStatus ? foundStatus.color : "";
-  };
-
-  const getPinImage = (iconId: number, statusId: number) => {
-    const bgColor = getStatusColor(statusId);
-    const iconString = getCategoryIcon(iconId);
-
-    const svgString = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-        <rect x="0" y="0" width="30" height="30" rx="6" ry="6" fill="${bgColor}" />
-        ${iconString}
-      </svg>
-    `;
-
-    const pinUrl = `data:image/svg+xml;utf-8,${encodeURIComponent(svgString)}`;
-    return pinUrl;
-  };
-
   return (
     <>
       {isLoaded ? (
@@ -72,7 +46,7 @@ const CustomMap = () => {
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={userLocation || center}
-            zoom={13}
+            zoom={12}
             onLoad={onLoad}
             onUnmount={onUnmount}
             options={{
@@ -80,16 +54,16 @@ const CustomMap = () => {
               mapTypeControlOptions: { mapTypeIds: [] },
             }}
           >
-            {issues.map((coordinate) => {
-              const categoryIcon = coordinate.category.id;
-              const bgColor = coordinate.status.id;
+            {issues.map((issue) => {
+              const iconId = issue.categoryId;
+              const statusId = issue.statusId;
 
-              const url = getPinImage(categoryIcon, bgColor);
+              const url = getIssueIcon(iconImages, iconId, statusId);
 
               return (
                 <Marker
-                  key={coordinate.id}
-                  position={{ lat: coordinate.lat, lng: coordinate.lng }}
+                  key={issue.id}
+                  position={{ lat: issue.lat, lng: issue.lng }}
                   icon={{
                     url: url,
                   }}

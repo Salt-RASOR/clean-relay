@@ -3,7 +3,7 @@ import {
   Category,
   CategoryOption,
   IconData,
-  IssueOptions,
+  IssueGetResponse,
 } from "../../app/common/interfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getCategories, getIconImage, getIssues } from "@/app/common/api";
@@ -13,7 +13,7 @@ import { issuesIcons } from "@/app/common/constants";
 export interface issuesState {
   categories: CategoryOption[];
   categoriesLoaded: boolean;
-  allIssues: IssueOptions[];
+  allIssues: IssueGetResponse[];
   iconImages: IconData[];
 }
 

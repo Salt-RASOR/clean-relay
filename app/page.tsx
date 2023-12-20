@@ -1,13 +1,16 @@
 "use client";
+
 import React, { useEffect } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import CustomMap from "./components/Map/CustomMap";
 import Card from "./components/Card/Card";
-import { MOCK_DATA } from "./mockData";
 import { reportsPageSections } from "./common/constants";
+import { useAppSelector } from "@/lib/hooks";
+import { selectAllIssues } from "@/lib/features/issuesSlice";
 
-const page = () => {
+const Page = () => {
+  const issues = useAppSelector(selectAllIssues);
   return (
     <>
       <Tabs>
@@ -26,7 +29,7 @@ const page = () => {
           <div
             className={"flex flex-wrap gap-4 justify-center md:justify-start"}
           >
-            {MOCK_DATA.map((item, index) => (
+            {issues.map((item, index) => (
               <Card key={index} {...item} />
             ))}
           </div>
@@ -39,4 +42,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
