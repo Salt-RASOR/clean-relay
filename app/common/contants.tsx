@@ -40,3 +40,16 @@ export const issuesIcons = [
   { id: 9, value: "Misplaced vehicle", icon: misplaced_vehicle },
   { id: 10, value: "Misc", icon: puzzled },
 ];
+
+export const issuesIcons2 = [
+  { id: 1, value: "Snow", icon: "https://svgshare.com/i/113A.svg" },
+  { id: 2, value: "Slippery", icon: slippery },
+  { id: 3, value: "Danger", icon: danger },
+  { id: 4, value: "Trash", icon: disposal },
+  { id: 5, value: "Graffiti", icon: graffity },
+  { id: 6, value: "Broken infrastructure", icon: broken_infrastructure },
+  { id: 7, value: "Overgrowth", icon: grass },
+  { id: 8, value: "Broken light", icon: broken_light },
+  { id: 9, value: "Misplaced vehicle", icon: misplaced_vehicle },
+  { id: 10, value: "Misc", icon: puzzled },
+];
