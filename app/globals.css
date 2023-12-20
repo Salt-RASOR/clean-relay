@@ -20,8 +20,8 @@
   outline: none;
 }
 
-.background-container  {
-  background-image: url("./assets/bg.svg");
+.background-container {
+  background-image: url("./public/bg.svg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

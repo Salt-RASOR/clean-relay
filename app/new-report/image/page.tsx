@@ -3,8 +3,8 @@
 import React, { useEffect } from "react";
 import "react-tabs/style/react-tabs.css";
 
-import FileInput from "@/app/components/FileInput/FileInput";
-import Button from "@/app/components/Button/Button";
+import FileInput from "@/app/components/Input/FileInput";
+import Button from "@/app/components/Buttons/Button";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {

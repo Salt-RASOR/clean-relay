@@ -2,22 +2,26 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   Category,
   CategoryOption,
+  IconData,
   IssueOptions,
 } from "../../app/common/interfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCategories, getIssues } from "@/app/common/api";
+import { getCategories, getIconImage, getIssues } from "@/app/common/api";
 import { RootState } from "../store";
+import { issuesIcons } from "@/app/common/constants";
 
 export interface issuesState {
   categories: CategoryOption[];
   categoriesLoaded: boolean;
   allIssues: IssueOptions[];
+  iconImages: IconData[];
 }
 
 const initialState: issuesState = {
   categories: [],
   categoriesLoaded: false,
   allIssues: [],
+  iconImages: [],
 };
 
 export const getCategoriesThunk = createAsyncThunk(
@@ -41,10 +45,40 @@ export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {
   }
 });
 
+export const getIconImagesThunk = createAsyncThunk(
+  "issues/getIconImages",
+  async () => {
+    try {
+      const icons = issuesIcons.map((icon) => {
+        return {
+          id: icon.id,
+          value: icon.value,
+          url: icon.icon.src,
+        } as IconData;
+      });
+
+      (
+        await Promise.all(
+          icons.map((icon) => {
+            return getIconImage(icon.url);
+          })
+        )
+      ).forEach((text, index) => {
+        icons[index].svgString = text;
+      });
+
+      return icons;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 export const selectCategories = (state: RootState) => state.issues.categories;
 export const selectCategoriesLoaded = (state: RootState) =>
   state.issues.categoriesLoaded;
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
+export const selectIconImages = (state: RootState) => state.issues.iconImages;
 
 export const issuesSlice = createSlice({
   name: "issues",
@@ -67,6 +101,9 @@ export const issuesSlice = createSlice({
       })
       .addCase(getIssuesThunk.fulfilled, (state, action) => {
         state.allIssues = action.payload;
+      })
+      .addCase(getIconImagesThunk.fulfilled, (state, action) => {
+        state.iconImages = action.payload;
       });
   },
 });

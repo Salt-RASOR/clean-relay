@@ -2,7 +2,7 @@
 
 import React from "react";
 import Select, { SingleValue } from "react-select";
-import Button from "@/app/components/Button/Button";
+import Button from "@/app/components/Buttons/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { selectCategories } from "@/lib/features/issuesSlice";
 import {

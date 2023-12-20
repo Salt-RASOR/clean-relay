@@ -14,3 +14,8 @@ export const createNewReport = async (formData: FormData) => {
   const res = await axios.post("/api/issues", formData);
   return res.data;
 };
+
+export const getIconImage = async (url: string) => {
+  const res = await fetch(url);
+  return res.text();
+};

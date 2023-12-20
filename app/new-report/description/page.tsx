@@ -3,8 +3,8 @@
 import React from "react";
 import "react-tabs/style/react-tabs.css";
 
-import Button from "@/app/components/Button/Button";
-import TextArea from "@/app/components/TextArea";
+import Button from "@/app/components/Buttons/Button";
+import TextArea from "@/app/components/Input/TextArea";
 import { useRouter } from "next/navigation";
 import {
   setNewDescription,

@@ -27,3 +27,10 @@ export type IssueOptions = {
     text: string;
   };
 };
+
+export type IconData = {
+  id: number;
+  svgString: string;
+  url: string;
+  value: string;
+};

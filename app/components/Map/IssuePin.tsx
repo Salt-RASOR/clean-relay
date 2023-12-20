@@ -1,4 +1,4 @@
-import { issuesIcons } from "../../common/contants";
+import { issuesIcons } from "../../common/constants";
 import Image from "next/image";
 
 type IssuePinProps = {

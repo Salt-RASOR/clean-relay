@@ -2,11 +2,10 @@
 import React, { useEffect } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import CustomMap from "./components/CustomMap";
+import CustomMap from "./components/Map/CustomMap";
 import Card from "./components/Card/Card";
 import { MOCK_DATA } from "./mockData";
-import { reportsPageSections } from "./common/contants";
-
+import { reportsPageSections } from "./common/constants";
 
 const page = () => {
   return (
@@ -16,7 +15,8 @@ const page = () => {
           {reportsPageSections.map((item, index) => (
             <Tab
               key={index}
-              className={"flex items-center justify-center cursor-pointer"}>
+              className={"flex items-center justify-center cursor-pointer"}
+            >
               <h2 className="font-bold pb-6">{item}</h2>
             </Tab>
           ))}
@@ -24,7 +24,8 @@ const page = () => {
 
         <TabPanel>
           <div
-            className={"flex flex-wrap gap-4 justify-center md:justify-start"}>
+            className={"flex flex-wrap gap-4 justify-center md:justify-start"}
+          >
             {MOCK_DATA.map((item, index) => (
               <Card key={index} {...item} />
             ))}

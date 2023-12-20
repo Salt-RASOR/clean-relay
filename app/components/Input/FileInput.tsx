@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { FC, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import TakeAPhoto from "../../assets/take_a_photo.svg";
+import TakeAPhoto from "@/app/public/take_a_photo.svg";
 
 type FileInputProps = {
   onChange: (event: React.ChangeEvent) => void;
