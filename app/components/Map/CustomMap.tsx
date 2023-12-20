@@ -7,13 +7,6 @@ import { useAppSelector } from "@/lib/hooks";
 import useLocation from "@/app/hooks/useLocation";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 
-const containerStyle = {
-  width: "auto",
-  // wont autoadjust until a reload, but fits nicely
-  // 300 is a guesstimate of top and bottom bars' height
-  height: (window.innerHeight - 300).toString() + "px",
-};
-
 const center = {
   // central Stockholm
   lat: 59.334591,
@@ -40,6 +33,13 @@ const CustomMap = () => {
   const onUnmount = React.useCallback(() => {
     setMap(null);
   }, []);
+
+  const containerStyle = {
+    width: "auto",
+    // wont autoadjust until a reload, but fits nicely
+    // 300 is a guesstimate of top and bottom bars' height
+    height: (window.innerHeight - 300).toString() + "px",
+  };
 
   return (
     <>
@@ -82,3 +82,5 @@ const CustomMap = () => {
 };
 
 export default React.memo(CustomMap);
+
+export const dynamic = "force-dynamic";
