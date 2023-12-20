@@ -9,7 +9,9 @@ import getIssueIcon from "@/app/utils/getIssueIcon";
 
 const containerStyle = {
   width: "auto",
-  height: "100vh",
+  // wont autoadjust until a reload, but fits nicely
+  // 300 is a guesstimate of top and bottom bars' height
+  height: (window.innerHeight - 300).toString() + "px",
 };
 
 const center = {

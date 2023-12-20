@@ -27,7 +27,7 @@ const Page = () => {
 
         <TabPanel>
           <div
-            className={"flex flex-wrap gap-4 justify-center md:justify-start"}
+            className={"grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2"}
           >
             {issues.map((item, index) => (
               <Card key={index} {...item} />

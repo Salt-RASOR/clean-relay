@@ -3,6 +3,9 @@
 import React from "react";
 import Image from "next/image";
 import { IssueGetResponse } from "@/app/common/interfaces";
+import getIssueIcon from "@/app/utils/getIssueIcon";
+import { useAppSelector } from "@/lib/hooks";
+import { selectIconImages } from "@/lib/features/issuesSlice";
 
 export interface CardProps extends IssueGetResponse {}
 
@@ -15,18 +18,39 @@ const Card: React.FC<CardProps> = ({
   statusId,
   userText,
 }) => {
+  const iconList = useAppSelector(selectIconImages);
+  const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
+
   const isBeingFixed = statusId === 2;
+
   return (
     <div
-      className="rounded-[21px] bg-card_bg py-4 px-8 relative my-6 w-1/3 min-w-[300px]"
+      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-12 md:px-8 relative my-2"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
     >
-      <div className="font-bold mb-2">{address}</div>
-      <p className="mb-4">{categoryName}</p>
-      <div className="flex justify-center">
-        <Image src={imgUrl} alt={categoryName} width={200} height={150} />
+      <div className="font-bold mb-2 truncate">{address}</div>
+      <div className="flex justify-left items-center mb-4">
+        <Image
+          src={categoryIconUrl}
+          alt={categoryName}
+          width={50}
+          height={50}
+        />
+        <p className="font-bold ml-6">{categoryName}</p>
       </div>
-      <p className="text-sm mt-4">{userText}</p>
+      <div className="flex flex-col md:flex-row justify-around md:justify-between mb-4 md:h-[100px] h-[240px]">
+        <Image
+          src={imgUrl}
+          alt={""}
+          quality={50}
+          width={200}
+          height={100}
+          className="object-cover w-full md:w-1/2 max-h-36"
+        />
+        <p className="w-full md:w-1/2 text-left text-sm mt-4 md:mt-0 md:ml-4 overflow-hidden text-ellipsis">
+          {userText}
+        </p>
+      </div>
       <div
         className="w-[46px] h-[46px] bg-red-500 bottom-0 right-0 absolute rounded-br-lg"
         style={{
