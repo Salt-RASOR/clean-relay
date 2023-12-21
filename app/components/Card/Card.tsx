@@ -22,13 +22,14 @@ const Card: React.FC<CardProps> = ({
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
 
   const isBeingFixed = statusId === 2;
+  console.log(address);
 
   return (
     <div
       className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
     >
-      <div className="font-bold mb-2 truncate">{address}</div>
+      <p className="font-bold mb-2 truncate">{address}</p>
       <div className="flex justify-left items-center mb-4">
         <Image
           src={categoryIconUrl}
