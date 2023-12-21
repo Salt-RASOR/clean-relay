@@ -13,7 +13,6 @@ import {
   selectNewDescription,
   selectNewImage,
   setNewImage,
-  setProcessLink,
 } from "@/lib/features/newReportSlice";
 import useLocation from "@/app/hooks/useLocation";
 import { getIssuesThunk } from "@/lib/features/issuesSlice";
@@ -55,7 +54,6 @@ const Page = () => {
 
     dispatch(createNewReportThunk(data))
       .then(() => {
-        dispatch(setProcessLink(0));
         dispatch(getIssuesThunk());
         router.push("/new-report/done");
       })

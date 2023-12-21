@@ -11,7 +11,8 @@ const Navbar = () => {
         "flex justify-center ",
         "fixed bottom-0 w-full",
         "z-10"
-      )}>
+      )}
+    >
       <div className={clsx("flex gap-4 md:gap-16")}>
         {MENU_LIST.map((menuItems, idx) => (
           <NavItem {...menuItems} key={idx} />

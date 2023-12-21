@@ -19,9 +19,9 @@ export const GET = async (
       return NextResponse.json(data, { status: 404 });
     }
 
-    const decdodedData = transformIssueGetData(data);
+    const decodedData = transformIssueGetData(data);
 
-    return NextResponse.json(decdodedData);
+    return NextResponse.json(decodedData);
   } catch (error) {
     prisma.$disconnect();
 
@@ -48,11 +48,17 @@ export const PATCH = async (
       return NextResponse.json(found, { status: 404 });
     }
 
-    const data = await prisma.issue.update({ where: { id }, data: body });
+    const data = await prisma.issue.update({
+      where: { id },
+      data: body,
+      include: { category: true, status: true },
+    });
 
     prisma.$disconnect();
 
-    return NextResponse.json(data);
+    const decodedData = transformIssueGetData(data);
+
+    return NextResponse.json(decodedData);
   } catch (error) {
     prisma.$disconnect();
 
@@ -73,10 +79,15 @@ export const DELETE = async (
       return NextResponse.json(found, { status: 404 });
     }
 
-    const result = await prisma.issue.delete({ where: { id } });
+    const result = await prisma.issue.delete({
+      where: { id },
+      include: { category: true, status: true },
+    });
     prisma.$disconnect();
 
-    return NextResponse.json(result);
+    const decodedData = transformIssueGetData(result);
+
+    return NextResponse.json(decodedData);
   } catch (error) {
     prisma.$disconnect();
 

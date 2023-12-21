@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { createNewReport } from "@/app/common/api";
 import { IssuePostResponse } from "@/app/common/interfaces";
 
-const PROCESS_STEPS = ["/category", "/description", "/image"];
+const PROCESS_STEPS = ["/information", "/image"];
 
 export interface newReportState {
   newCategory: number | null;
@@ -11,7 +11,6 @@ export interface newReportState {
   newImage: File | null;
   newImageURL: string;
   newData: IssuePostResponse | null;
-  processLink: string;
 }
 
 const initialState: newReportState = {
@@ -20,7 +19,6 @@ const initialState: newReportState = {
   newImage: null,
   newImageURL: "",
   newData: null,
-  processLink: PROCESS_STEPS[0],
 };
 
 export const selectNewCategory = (state: RootState) =>
@@ -36,9 +34,6 @@ export const selectNewImageURL = (state: RootState) =>
 
 export const selectNewReportData = (state: RootState) =>
   state.newReport.newData;
-
-export const selectProcessLink = (state: RootState) =>
-  state.newReport.processLink;
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
@@ -68,9 +63,6 @@ export const newReportSlice = createSlice({
     setNewImageURL: (state, action: PayloadAction<string>) => {
       state.newImageURL = action.payload;
     },
-    setProcessLink: (state, action: PayloadAction<number>) => {
-      state.processLink = PROCESS_STEPS[action.payload];
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -88,6 +80,5 @@ export const {
   setNewDescription,
   setNewImage,
   setNewImageURL,
-  setProcessLink,
 } = newReportSlice.actions;
 export default newReportSlice.reducer;

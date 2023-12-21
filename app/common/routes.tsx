@@ -7,25 +7,21 @@ export const MENU_LIST = [
   {
     title: "View Reports",
     href: "/",
-    isDynamic: false,
     icon: <MdOutlineReadMore size={24} />,
   },
   {
     title: "New Report",
-    href: "/new-report",
-    isDynamic: true,
+    href: "/new-report/information",
     icon: <LuPlus size={24} />,
   },
   {
     title: "Points",
     href: "/points",
-    isDynamic: false,
     icon: <LiaCoinsSolid size={24} />,
   },
   {
     title: "Profile",
     href: "/profile",
-    isDynamic: false,
     icon: <FiUser size={24} />,
   },
 ];

@@ -21,9 +21,9 @@ export const GET = async (req: Request) => {
     });
     prisma.$disconnect();
 
-    const decdodedData = data.map(transformIssueGetData);
+    const decodedData = data.map(transformIssueGetData);
 
-    return NextResponse.json(decdodedData);
+    return NextResponse.json(decodedData);
   } catch (error) {
     prisma.$disconnect();
 

@@ -1,24 +1,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { useAppSelector } from "@/lib/hooks";
-import { selectProcessLink } from "@/lib/features/newReportSlice";
 
 type NavItemProps = {
   title: string;
   href: string;
   icon: React.ReactNode;
-  isDynamic: boolean;
 };
 
-const NavItem: React.FC<NavItemProps> = ({ title, href, icon, isDynamic }) => {
+const NavItem: React.FC<NavItemProps> = ({ title, href, icon }) => {
   const pathname = usePathname();
-
-  const processLink = useAppSelector(selectProcessLink);
-
-  if (isDynamic) {
-    href += processLink;
-  }
 
   return (
     <Link
