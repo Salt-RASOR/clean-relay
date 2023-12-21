@@ -66,7 +66,6 @@ const Page = () => {
 
   return (
     <>
-      {" "}
       {status === Status.Loading && <Loader />}
       <form onSubmit={sendReport}>
         <FileInput saveFile={setFile} />
