@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   Category,
   CategoryOption,
@@ -20,6 +20,8 @@ export interface issuesState {
   categoriesLoaded: boolean;
   allIssues: IssueGetResponse[];
   issueById: Partial<IssueGetResponse>;
+  selectedIssueId: number | null;
+  viewMode: 0 | 1 | 2;
   iconImages: IconData[];
 }
 
@@ -28,6 +30,8 @@ const initialState: issuesState = {
   categoriesLoaded: false,
   allIssues: [],
   issueById: {},
+  selectedIssueId: null,
+  viewMode: 0,
   iconImages: [],
 };
 
@@ -99,11 +103,21 @@ export const selectCategoriesLoaded = (state: RootState) =>
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
 export const selectIssueById = (state: RootState) => state.issues.issueById;
+export const selectSelectedIssue = (state: RootState) =>
+  state.issues.selectedIssueId;
+export const selectViewMode = (state: RootState) => state.issues.viewMode;
 
 export const issuesSlice = createSlice({
   name: "issues",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedIssue: (state, action: PayloadAction<number>) => {
+      state.selectedIssueId = action.payload;
+    },
+    setViewMode: (state, action: PayloadAction<0 | 1 | 2>) => {
+      state.viewMode = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCategoriesThunk.pending, (state) => {
@@ -131,4 +145,5 @@ export const issuesSlice = createSlice({
   },
 });
 
+export const { setSelectedIssue, setViewMode } = issuesSlice.actions;
 export default issuesSlice.reducer;

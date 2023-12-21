@@ -16,20 +16,12 @@ import { TiDeleteOutline } from "react-icons/ti";
 enum ReportsPageSections {
   LISTINGS = "Listings",
   MAP = "Map",
+  DETAILS = "Details",
 }
 export const reportsPageSections = [
   ReportsPageSections.LISTINGS,
   ReportsPageSections.MAP,
-];
-
-enum NewReportPageSections {
-  TAKE_PHOTO = "Take a photo",
-  DESCRIPTION = "Description",
-}
-
-export const newReportPageSections = [
-  NewReportPageSections.TAKE_PHOTO,
-  NewReportPageSections.DESCRIPTION,
+  ReportsPageSections.DETAILS,
 ];
 
 export const issuesIcons = [
@@ -65,15 +57,15 @@ export const issuesStatusColors = [
 export const shangeStatusOptions = [
   {
     title: "Not started",
-    icon: <RiErrorWarningLine size={20}/>,
+    icon: <RiErrorWarningLine size={20} />,
   },
   {
     title: "In progress",
-    icon: <MdTimelapse size={20}/>,
+    icon: <MdTimelapse size={20} />,
   },
   {
     title: "Completed",
-    icon: <FaRegCheckCircle size={16}/>,
+    icon: <FaRegCheckCircle size={16} />,
   },
   {
     title: "Delete",

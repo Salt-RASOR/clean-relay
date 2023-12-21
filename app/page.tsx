@@ -6,16 +6,27 @@ import "react-tabs/style/react-tabs.css";
 import CustomMap from "./components/Map/CustomMap";
 import Card from "./components/Card/Card";
 import { reportsPageSections } from "./common/constants";
-import { useAppSelector } from "@/lib/hooks";
-import { selectAllIssues } from "@/lib/features/issuesSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  selectAllIssues,
+  selectViewMode,
+  setViewMode,
+} from "@/lib/features/issuesSlice";
+import SelectedCard from "./components/Card/SelectedCard";
 
 const Page = () => {
   const issues = useAppSelector(selectAllIssues);
+  const viewMode = useAppSelector(selectViewMode);
+  const dispatch = useAppDispatch();
+
+  const handleTabClick = (index: number) => {
+    dispatch(setViewMode(index as 0 | 1 | 2));
+  };
 
   return (
     <>
       <div className="mt-20 mb-[120px]">
-        <Tabs>
+        <Tabs defaultIndex={viewMode} onSelect={handleTabClick}>
           <TabList className="grid grid-cols-2 gap-4 mb-8 text-primary_color">
             {reportsPageSections.map((item, index) => (
               <Tab
@@ -39,6 +50,7 @@ const Page = () => {
           <TabPanel>
             <CustomMap />
           </TabPanel>
+          <TabPanel>{/* <SelectedCard /> */}</TabPanel>
         </Tabs>
       </div>
     </>
