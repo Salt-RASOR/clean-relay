@@ -2,6 +2,27 @@ import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
 
+export const GET = async (
+  req: Request,
+  { params }: { params: { id: string } }
+) => {
+  try {
+    const id = Number(params.id);
+    const data = await prisma.issue.findUnique({ where: { id } });
+    prisma.$disconnect();
+
+    if (!data) {
+      return NextResponse.json(data, { status: 404 });
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    prisma.$disconnect();
+
+    return NextResponse.json(error, { status: 500 });
+  }
+};
+
 export const PATCH = async (
   req: Request,
   { params }: { params: { id: string } }
@@ -16,6 +37,8 @@ export const PATCH = async (
     const id = Number(params.id);
     const found = await prisma.issue.findUnique({ where: { id } });
     if (!found) {
+      prisma.$disconnect();
+
       return NextResponse.json(found, { status: 404 });
     }
 
@@ -40,6 +63,7 @@ export const DELETE = async (
     const found = await prisma.issue.findFirst({ where: { id } });
 
     if (!found) {
+      prisma.$disconnect();
       return NextResponse.json(found, { status: 404 });
     }
 
