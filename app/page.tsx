@@ -27,7 +27,7 @@ const Page = () => {
     <>
       <div className="mt-20 mb-[120px]">
         <Tabs defaultIndex={viewMode} onSelect={handleTabClick}>
-          <TabList className="grid grid-cols-2 gap-4 mb-8 text-primary_color">
+          <TabList className="grid grid-cols-3 gap-4 mb-8 text-primary_color">
             {reportsPageSections.map((item, index) => (
               <Tab
                 key={index}
