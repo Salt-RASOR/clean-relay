@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Select, { SingleValue } from "react-select";
 import Button from "@/app/components/Buttons/Button";
@@ -13,6 +12,7 @@ import {
 import { CategoryOption } from "@/app/common/interfaces";
 import { useRouter } from "next/navigation";
 import TextArea from "@/app/components/Input/TextArea";
+import Loader from "@/app/components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();
@@ -67,20 +67,22 @@ const Page = () => {
   };
 
   return (
-    <form onSubmit={saveDescription}>
-      <h2 className="font-bold mb-10 text-primary_color text-center">
-        Please provide some information
-      </h2>
+    <>
+      <form onSubmit={saveDescription}>
+        <h2 className="font-bold mb-10 text-primary_color text-center">
+          Please provide some information
+        </h2>
 
-      <Select
-        defaultValue={null}
-        onChange={handleOption}
-        options={options}
-        styles={customStyles}
-      />
-      <TextArea />
-      <Button buttonText={"Next"} additionalClasses="mt-10" />
-    </form>
+        <Select
+          defaultValue={null}
+          onChange={handleOption}
+          options={options}
+          styles={customStyles}
+        />
+        <TextArea />
+        <Button buttonText={"Next"} additionalClasses="mt-10" />
+      </form>
+    </>
   );
 };
 
