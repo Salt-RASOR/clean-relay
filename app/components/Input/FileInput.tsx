@@ -5,10 +5,12 @@ import Image from "next/image";
 import TakeAPhoto from "@/app/public/take_a_photo.svg";
 
 type FileInputProps = {
-  onChange: (event: React.ChangeEvent) => void;
+  saveFile: (files: File[]) => void;
 };
 
-const FileInput: FC<FileInputProps> = ({ onChange }) => {
+const FileInput: FC<FileInputProps> = ({ saveFile }) => {
+  const onDrop = saveFile;
+
   const {
     getRootProps,
     getInputProps,
@@ -16,6 +18,7 @@ const FileInput: FC<FileInputProps> = ({ onChange }) => {
     isDragAccept,
     isDragReject,
   } = useDropzone({
+    onDrop,
     accept: {
       "image/jpeg": [],
       "image/png": [],
@@ -36,7 +39,7 @@ const FileInput: FC<FileInputProps> = ({ onChange }) => {
           isDragReject && "bg-drag_rejected_files"
         )}
       >
-        <input type="file" {...getInputProps()} onChange={onChange} />
+        <input type="file" {...getInputProps()} />
 
         <div
           className={clsx(

@@ -23,7 +23,6 @@ const Card: React.FC<CardProps> = ({
 
   const isBeingFixed = statusId === 2;
 
-
   return (
     <div
       className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2"

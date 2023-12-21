@@ -27,17 +27,12 @@ const Page = () => {
   const imageFile = useAppSelector(selectNewImage);
   const { userLocation } = useLocation();
 
-  const setFile = async (event: React.ChangeEvent) => {
-    const target = event.target as HTMLInputElement;
-    const files = target.files;
-
-    if (!files) {
+  const setFile = async (files: File[]) => {
+    if (!files || files.length === 0) {
       return;
     }
 
-    const arrayBuffer = await files[0].arrayBuffer();
-    const blob = new Blob([arrayBuffer]);
-    dispatch(setNewImage(blob));
+    dispatch(setNewImage(files[0]));
   };
 
   const sendReport = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +66,7 @@ const Page = () => {
 
   return (
     <form onSubmit={sendReport} className="background-container bg-violet px-2">
-      <FileInput onChange={setFile} />
+      <FileInput saveFile={setFile} />
       <Button buttonText={"Send Report"} additionalClasses="mt-12" />
     </form>
   );
