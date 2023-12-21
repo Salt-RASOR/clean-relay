@@ -10,6 +10,7 @@ export interface CategoryOption {
 }
 
 export interface IssueResponse {
+  userId: number | null;
   id: number;
   categoryId: number;
   statusId: number;
@@ -20,7 +21,7 @@ export interface IssueResponse {
   address: string;
 }
 
-export interface IssuePostResponse extends IssueResponse {
+export interface IssuePostResponse extends IssueGetResponse {
   userId: number;
 }
 
@@ -31,7 +32,6 @@ export interface IssueGetResponse extends IssueResponse {
 
 export interface IssueDBData extends IssueResponse {
   // Optional keys because they must be deleted to transform a DBdata object into a Get response object
-  userId?: number;
 
   status?: {
     id: number;

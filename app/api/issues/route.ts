@@ -5,8 +5,8 @@ import supabase from "@/app/api/supabaseClient";
 
 import { validateIssuePost, validateImageBuffer } from "../validation";
 import {
-  decodeGetCoordinates,
-  decodePostCoordinates,
+  transformIssueGetData,
+  transformIssuePostData,
   encodeCoordinates,
 } from "../../utils/coordinates";
 import decodeForm from "@/app/utils/decodeForm";
@@ -21,7 +21,7 @@ export const GET = async (req: Request) => {
     });
     prisma.$disconnect();
 
-    const decdodedData = data.map(decodeGetCoordinates);
+    const decdodedData = data.map(transformIssueGetData);
 
     return NextResponse.json(decdodedData);
   } catch (error) {
@@ -99,12 +99,13 @@ export const POST = async (req: Request) => {
 
     const result = await prisma.issue.create({
       data: { ...body, imgUrl, statusId, address: address.result },
+      include: { status: true, category: true },
     });
 
     prisma.$disconnect();
 
-    decodePostCoordinates(result);
-    return NextResponse.json(result, { status: 201 });
+    const transformedResult = transformIssuePostData(result);
+    return NextResponse.json(transformedResult, { status: 201 });
   } catch (error) {
     console.log(error);
     prisma.$disconnect();

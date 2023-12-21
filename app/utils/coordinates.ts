@@ -7,11 +7,17 @@ import {
 
 const COORDINATE_ACCURACY_MULTIPLIER = 1000000;
 
-const decodeCoordinate = (coordinate: number) => {
-  return (coordinate /= COORDINATE_ACCURACY_MULTIPLIER);
+const decodeCoordinates = (issue: IssueDBData) => {
+  issue.lat /= COORDINATE_ACCURACY_MULTIPLIER;
+  issue.lng /= COORDINATE_ACCURACY_MULTIPLIER;
 };
 
-const transformDBDataToResponse = (issue: IssueDBData) => {
+export const encodeCoordinates = (issue: IssuePost) => {
+  issue.lat = Math.round(issue.lat * COORDINATE_ACCURACY_MULTIPLIER);
+  issue.lng = Math.round(issue.lng * COORDINATE_ACCURACY_MULTIPLIER);
+};
+
+const transformDBDataToResponse = (issue: IssueDBData, isPost: boolean) => {
   const result = {
     ...issue,
     categoryName: issue.category!.name,
@@ -20,26 +26,20 @@ const transformDBDataToResponse = (issue: IssueDBData) => {
 
   delete result.category;
   delete result.status;
-  delete result.userId;
 
-  return result as IssueGetResponse;
+  if (!isPost) {
+    result.userId = null;
+  }
+
+  return result;
 };
 
-export const decodeGetCoordinates = (issue: IssueDBData) => {
-  issue.lat = decodeCoordinate(issue.lat);
-  issue.lng = decodeCoordinate(issue.lng);
-
-  return transformDBDataToResponse(issue);
+export const transformIssueGetData = (issue: IssueDBData) => {
+  decodeCoordinates(issue);
+  return transformDBDataToResponse(issue, false) as IssueGetResponse;
 };
 
-export const decodePostCoordinates = (issue: IssuePostResponse) => {
-  issue.lat /= COORDINATE_ACCURACY_MULTIPLIER;
-  issue.lng /= COORDINATE_ACCURACY_MULTIPLIER;
-
-  return issue;
-};
-
-export const encodeCoordinates = (issue: IssuePost) => {
-  issue.lat = Math.round(issue.lat * COORDINATE_ACCURACY_MULTIPLIER);
-  issue.lng = Math.round(issue.lng * COORDINATE_ACCURACY_MULTIPLIER);
+export const transformIssuePostData = (issue: IssueDBData) => {
+  decodeCoordinates(issue);
+  return transformDBDataToResponse(issue, true) as IssuePostResponse;
 };

@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createNewReport } from "@/app/common/api";
+import { IssuePostResponse } from "@/app/common/interfaces";
 
 const PROCESS_STEPS = ["/category", "/description", "/image"];
 
@@ -9,6 +10,7 @@ export interface newReportState {
   newDescription: string;
   newImage: File | null;
   newImageURL: string;
+  newData: IssuePostResponse | null;
   processLink: string;
 }
 
@@ -17,6 +19,7 @@ const initialState: newReportState = {
   newDescription: "",
   newImage: null,
   newImageURL: "",
+  newData: null,
   processLink: PROCESS_STEPS[0],
 };
 
@@ -30,6 +33,9 @@ export const selectNewImage = (state: RootState) => state.newReport.newImage;
 
 export const selectNewImageURL = (state: RootState) =>
   state.newReport.newImageURL;
+
+export const selectNewReportData = (state: RootState) =>
+  state.newReport.newData;
 
 export const selectProcessLink = (state: RootState) =>
   state.newReport.processLink;
@@ -65,6 +71,15 @@ export const newReportSlice = createSlice({
     setProcessLink: (state, action: PayloadAction<number>) => {
       state.processLink = PROCESS_STEPS[action.payload];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createNewReportThunk.fulfilled, (state, action) => {
+        state.newData = action.payload;
+      })
+      .addCase(createNewReportThunk.rejected, (state) => {
+        state.newData = null;
+      });
   },
 });
 
