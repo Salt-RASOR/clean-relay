@@ -21,7 +21,7 @@ export default function RootLayout({
     <StoreProvider>
       <html lang="en">
         <body className={clsx(inter.className)}>
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-[120px] w-full sm:w-5/6 max-w-[1400px]">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-[120px] w-full sm:w-5/6 max-w-[1400px]">
             {children}
           </div>
           <Navbar />

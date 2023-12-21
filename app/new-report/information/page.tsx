@@ -67,24 +67,20 @@ const Page = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-col justify-center background-container bg-violet">
-        <form onSubmit={saveDescription} className="px-2 md:px-10 lg:px-20">
-          <h2 className="font-bold mb-12 text-primary_color text-center">
-            Please provide some information
-          </h2>
+    <form onSubmit={saveDescription}>
+      <h2 className="font-bold mb-12 text-primary_color text-center">
+        Please provide some information
+      </h2>
 
-          <Select
-            defaultValue={null}
-            onChange={handleOption}
-            options={options}
-            styles={customStyles}
-          />
-          <TextArea />
-          <Button buttonText={"Next"} additionalClasses="mt-12" />
-        </form>
-      </div>
-    </>
+      <Select
+        defaultValue={null}
+        onChange={handleOption}
+        options={options}
+        styles={customStyles}
+      />
+      <TextArea />
+      <Button buttonText={"Next"} additionalClasses="mt-12" />
+    </form>
   );
 };
 

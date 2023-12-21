@@ -63,7 +63,7 @@ const Page = () => {
   };
 
   return (
-    <form onSubmit={sendReport} className="background-container bg-violet px-2">
+    <form onSubmit={sendReport}>
       <FileInput saveFile={setFile} />
       <Button buttonText={"Send Report"} additionalClasses="mt-12" />
     </form>
