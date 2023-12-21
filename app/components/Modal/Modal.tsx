@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({ showModal, handleModalClose,  children })
         )}
       >
         <button
-          className='text-bg_navbar  font-bold py-2 px-4  z-10 absolute right-1 top-1'
+          className='text-bg_navbar  font-bold py-2 px-4 z-10 absolute right-1 top-1'
           id='close-button'
           onClick={handleModalClose}
         >

@@ -11,6 +11,8 @@ import { selectAllIssues } from "@/lib/features/issuesSlice";
 
 const Page = () => {
   const issues = useAppSelector(selectAllIssues);
+ 
+
   return (
     <>
       <Tabs>
@@ -18,8 +20,7 @@ const Page = () => {
           {reportsPageSections.map((item, index) => (
             <Tab
               key={index}
-              className={"flex items-center justify-center cursor-pointer"}
-            >
+              className={"flex items-center justify-center cursor-pointer"}>
               <h2 className="font-bold pb-6">{item}</h2>
             </Tab>
           ))}
@@ -27,8 +28,7 @@ const Page = () => {
 
         <TabPanel>
           <div
-            className={"grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2"}
-          >
+            className={"grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2"}>
             {issues.map((item, index) => (
               <Card key={index} {...item} />
             ))}

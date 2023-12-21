@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = ({
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
 
   const isBeingFixed = statusId === 2;
-  console.log(address);
+
 
   return (
     <div

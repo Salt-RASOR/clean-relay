@@ -7,7 +7,7 @@ import Modal from "@/app/components/Modal/Modal";
 import useHandleModal from "@/app/hooks/useHandleModal";
 import { shangeStatusOptions } from "@/app/common/constants";
 
-const page = () => {
+const Page = () => {
   const statusId = 2;
   const isBeingFixed = statusId === 2;
   const { handleModalShow, showModal, handleModalClose } = useHandleModal();
@@ -17,7 +17,7 @@ const page = () => {
  }
  
   return (
-    <>
+    <div className="flex items-center justify-center gap-4"> 
       <div
         className={clsx(
           "max-w-[400px]",
@@ -57,7 +57,7 @@ const page = () => {
             <BsThreeDotsVertical />
           </button>
           <Modal showModal={showModal} handleModalClose={handleModalClose}>
-            <div className="p-4 flex flex-col min-w-[200px] text-primary_color">
+            <div className="p-4 mt-4 flex flex-col min-w-[200px] text-primary_color">
               {shangeStatusOptions.map((option, idx) => (
                 <button
                 onClick={handleOptionsClick}
@@ -99,8 +99,8 @@ const page = () => {
           </p>
         </main>
       </div>
-    </>
+    </div>
   );
 };
 
-export default page;
+export default Page;
