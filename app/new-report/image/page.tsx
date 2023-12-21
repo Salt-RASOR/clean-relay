@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import "react-tabs/style/react-tabs.css";
 
 import FileInput from "@/app/components/Input/FileInput";

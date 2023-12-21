@@ -12,6 +12,7 @@ import {
 import decodeForm from "@/app/utils/decodeForm";
 import { randomUUID } from "crypto";
 import getAddress from "../getAddress";
+import sharp from "sharp";
 
 export const GET = async (req: Request) => {
   try {
@@ -52,6 +53,14 @@ export const POST = async (req: Request) => {
       );
     }
 
+    const compressedBuffer = await sharp(fileBuffer)
+      .png({ quality: 64 })
+      .resize(320, 320, {
+        fit: "inside",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .toBuffer();
+
     let address = await getAddress(body.lat, body.lng);
 
     // retry reverse geocode 5 times cause Google API is buggy
@@ -70,10 +79,10 @@ export const POST = async (req: Request) => {
       }
     }
 
-    const fileName = `${randomUUID()}.${validateImage.ext}`;
+    const fileName = `${randomUUID()}.png`;
 
-    const upload = await supabase.upload(fileName, fileBuffer, {
-      contentType: validateImage.mime,
+    const upload = await supabase.upload(fileName, compressedBuffer, {
+      contentType: "image/png",
     });
 
     if (upload.error) {
@@ -97,6 +106,7 @@ export const POST = async (req: Request) => {
     decodePostCoordinates(result);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
+    console.log(error);
     prisma.$disconnect();
 
     return NextResponse.json(error, { status: 500 });

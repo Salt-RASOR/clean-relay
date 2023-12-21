@@ -46,7 +46,6 @@ const FileInput: FC<FileInputProps> = ({ saveFile }) => {
     accept: {
       "image/jpeg": [],
       "image/png": [],
-      "image/bmp": [],
       "image/webp": [],
       "image/avif": [],
     },

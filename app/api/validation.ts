@@ -31,7 +31,6 @@ export const validateImageBuffer = async (buffer: Buffer | ArrayBuffer) => {
     case "image/jpeg":
     case "image/png":
     case "image/webp":
-    case "image/bmp":
     case "image/avif":
       return { success: true, mime: fileType.mime, ext: fileType.ext };
     default:
