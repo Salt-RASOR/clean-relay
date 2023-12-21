@@ -33,8 +33,8 @@ const Card: React.FC<CardProps> = ({
         <Image
           src={categoryIconUrl}
           alt={categoryName}
-          width={50}
-          height={50}
+          width={30}
+          height={30}
         />
         <p className="font-bold ml-6">{categoryName}</p>
       </div>
