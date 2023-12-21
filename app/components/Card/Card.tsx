@@ -38,16 +38,16 @@ const Card: React.FC<CardProps> = ({
         />
         <p className="font-bold ml-6">{categoryName}</p>
       </div>
-      <div className="flex flex-col md:flex-row justify-around md:justify-between mb-2 md:h-[100px] h-[240px]">
+      <div className="flex flex-col sm:flex-row justify-around sm:justify-between mb-2 sm:h-[100px] h-[240px]">
         <Image
           src={imgUrl}
           alt={""}
           quality={50}
           width={200}
           height={100}
-          className="object-cover w-full md:w-1/2 max-h-36"
+          className="object-cover w-full sm:w-1/2 max-h-36"
         />
-        <p className="w-full md:w-1/2 text-left text-sm mt-4 md:mt-0 pb-4 md:pb-0 md:ml-4 overflow-hidden text-ellipsis">
+        <p className="w-full sm:w-1/2 text-left text-sm mt-4 sm:mt-0 pb-4 sm:pb-0 sm:ml-4 overflow-hidden text-ellipsis">
           {userText}
         </p>
       </div>
