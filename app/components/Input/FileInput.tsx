@@ -3,13 +3,37 @@ import { FC, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import TakeAPhoto from "@/app/public/take_a_photo.svg";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  selectNewImage,
+  selectNewImageURL,
+  setNewImageURL,
+} from "@/lib/features/newReportSlice";
 
 type FileInputProps = {
   saveFile: (files: File[]) => void;
 };
 
 const FileInput: FC<FileInputProps> = ({ saveFile }) => {
-  const onDrop = saveFile;
+  const imageFile = useAppSelector(selectNewImage);
+  const imageURL = useAppSelector(selectNewImageURL);
+  const dispatch = useAppDispatch();
+
+  const onDrop = useCallback(
+    (files: File[]) => {
+      saveFile(files);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target) {
+          dispatch(setNewImageURL(event.target.result as string));
+        }
+      };
+      reader.readAsDataURL(files[0]);
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [saveFile]
+  );
 
   const {
     getRootProps,
@@ -44,7 +68,7 @@ const FileInput: FC<FileInputProps> = ({ saveFile }) => {
         <div
           className={clsx(
             "flex flex-col items-center justify-center",
-            "text-primary-color m-4 p-8",
+            "text-primary-color m-4 p-8 pb-16",
             "border border-dashed border-gray-400",
             "text-sm text-primary-color"
           )}
@@ -58,12 +82,18 @@ const FileInput: FC<FileInputProps> = ({ saveFile }) => {
             ) : (
               <>
                 <Image
-                  width={200}
+                  width={220}
                   height={200}
-                  src={TakeAPhoto}
+                  src={imageFile && imageURL ? imageURL : TakeAPhoto}
                   alt="insert your photo here"
+                  style={{
+                    width: "220px",
+                    height: "200px",
+                    objectFit: "cover",
+                  }}
                 />
-                <p className="mb-2 ">
+
+                <p className="mt-2 mb-1">
                   <span>Click to upload</span> or drag and drop
                 </p>
                 <p className="font-normal text-xs">SVG, PNG, JPG or GIF</p>

@@ -10,6 +10,10 @@ export const makeStore = () => {
       newReport: newReportReducer,
       profile: profileReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
   });
 };
 

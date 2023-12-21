@@ -8,6 +8,7 @@ export interface newReportState {
   newCategory: number | null;
   newDescription: string;
   newImage: File | null;
+  newImageURL: string;
   processLink: string;
 }
 
@@ -15,6 +16,7 @@ const initialState: newReportState = {
   newCategory: null,
   newDescription: "",
   newImage: null,
+  newImageURL: "",
   processLink: PROCESS_STEPS[0],
 };
 
@@ -25,6 +27,9 @@ export const selectNewDescription = (state: RootState) =>
   state.newReport.newDescription;
 
 export const selectNewImage = (state: RootState) => state.newReport.newImage;
+
+export const selectNewImageURL = (state: RootState) =>
+  state.newReport.newImageURL;
 
 export const selectProcessLink = (state: RootState) =>
   state.newReport.processLink;
@@ -54,6 +59,9 @@ export const newReportSlice = createSlice({
     setNewImage: (state, action: PayloadAction<File>) => {
       state.newImage = action.payload;
     },
+    setNewImageURL: (state, action: PayloadAction<string>) => {
+      state.newImageURL = action.payload;
+    },
     setProcessLink: (state, action: PayloadAction<number>) => {
       state.processLink = PROCESS_STEPS[action.payload];
     },
@@ -64,6 +72,7 @@ export const {
   setNewCategory,
   setNewDescription,
   setNewImage,
+  setNewImageURL,
   setProcessLink,
 } = newReportSlice.actions;
 export default newReportSlice.reducer;
