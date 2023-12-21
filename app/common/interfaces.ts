@@ -52,3 +52,5 @@ export interface IconData {
   url: string;
   value: string;
 }
+
+export type viewModes = 0 | 1 | 2;

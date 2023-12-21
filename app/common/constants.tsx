@@ -14,14 +14,14 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { TiDeleteOutline } from "react-icons/ti";
 
 enum ReportsPageSections {
-  LISTINGS = "Listings",
+  LISTINGS = "List",
   MAP = "Map",
-  DETAILS = "Details",
+  MY_REPORTS = "My Reports",
 }
 export const reportsPageSections = [
   ReportsPageSections.LISTINGS,
   ReportsPageSections.MAP,
-  ReportsPageSections.DETAILS,
+  ReportsPageSections.MY_REPORTS,
 ];
 
 export const issuesIcons = [

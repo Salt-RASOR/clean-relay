@@ -32,7 +32,7 @@ export const changeTheStatus = async (id: string, statusId: number) => {
   return res.data;
 };
 
-export const deleteIssue= async (id: number) => {
+export const deleteIssue = async (id: number) => {
   const res = await axios.delete(`/api/issues/${id}`);
   return res;
 };

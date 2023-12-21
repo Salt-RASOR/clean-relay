@@ -2,8 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createNewReport } from "@/app/common/api";
 import { IssuePostResponse } from "@/app/common/interfaces";
-
-const PROCESS_STEPS = ["/information", "/image"];
+import { Status } from "@/app/common/constants";
 
 export interface newReportState {
   newCategory: number | null;
@@ -11,6 +10,7 @@ export interface newReportState {
   newImage: File | null;
   newImageURL: string;
   newData: IssuePostResponse | null;
+  status: Status.Idle | Status.Loading | Status.Error;
 }
 
 const initialState: newReportState = {
@@ -19,6 +19,7 @@ const initialState: newReportState = {
   newImage: null,
   newImageURL: "",
   newData: null,
+  status: Status.Idle,
 };
 
 export const selectNewCategory = (state: RootState) =>
@@ -34,6 +35,8 @@ export const selectNewImageURL = (state: RootState) =>
 
 export const selectNewReportData = (state: RootState) =>
   state.newReport.newData;
+
+export const selectNewStatus = (state: RootState) => state.newReport.status;
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
@@ -68,9 +71,14 @@ export const newReportSlice = createSlice({
     builder
       .addCase(createNewReportThunk.fulfilled, (state, action) => {
         state.newData = action.payload;
+        state.status = Status.Idle;
       })
       .addCase(createNewReportThunk.rejected, (state) => {
         state.newData = null;
+        state.status = Status.Error;
+      })
+      .addCase(createNewReportThunk.pending, (state) => {
+        state.status = Status.Loading;
       });
   },
 });

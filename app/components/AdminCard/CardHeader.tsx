@@ -1,4 +1,4 @@
-import { StatusOptions, shangeStatusOptions } from "@/app/common/constants";
+import { shangeStatusOptions } from "@/app/common/constants";
 import clsx from "clsx";
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -18,9 +18,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
   const { handleModalShow, showModal, handleModalClose } = useHandleModal();
 
   const optionClick = (optionName: string) => {
-   
     handleOptionsClick && handleOptionsClick(optionName);
-    handleModalClose()
+    handleModalClose();
   };
   return (
     <header
@@ -28,7 +27,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
         "border-b border-stroke_color",
         "relative  p-4",
         "flex items-center justify-between"
-      )}>
+      )}
+    >
       <p>
         <span className="font-bold pl-2">Status: </span>
         {statusText}
@@ -40,7 +40,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
           "px-3 py-2",
           "rounded-lg",
           "focus:ring-4 focus:outline-none focus:ring-violet_hover"
-        )}>
+        )}
+      >
         <BsThreeDotsVertical />
       </button>
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
@@ -54,7 +55,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
                 "flex items-center  gap-4",
                 "focus:ring-4 focus:outline-none focus:ring-violet_hover hover:bg-violet_hover"
               )}
-              key={idx}>
+              key={idx}
+            >
               <span>{option.icon}</span> <span>{option.title}</span>
             </button>
           ))}

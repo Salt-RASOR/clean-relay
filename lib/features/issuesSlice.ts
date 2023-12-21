@@ -5,7 +5,8 @@ import {
   CategoryOption,
   IconData,
   IssueGetResponse,
-} from "../../app/common/interfaces"
+  viewModes,
+} from "../../app/common/interfaces";
 import {
   getCategories,
   getIconImage,
@@ -20,9 +21,9 @@ import { Status, issuesIcons } from "@/app/common/constants";
 export interface issuesState {
   categories: CategoryOption[];
   allIssues: IssueGetResponse[];
-  issueById: Partial<IssueGetResponse>;
+  issueById: IssueGetResponse | null;
   selectedIssueId: number | null;
-  viewMode: 0 | 1 | 2;
+  viewMode: viewModes;
   iconImages: IconData[];
   status: Status.Idle | Status.Loading | Status.Error;
   errorMessage: string;
@@ -31,7 +32,7 @@ export interface issuesState {
 const initialState: issuesState = {
   categories: [],
   allIssues: [],
-  issueById: {},
+  issueById: null,
   selectedIssueId: null,
   viewMode: 0,
   iconImages: [],
@@ -62,9 +63,9 @@ export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {
 
 export const getIssueByIdThunk = createAsyncThunk(
   "issues/getIssueById",
-  async (id: string) => {
+  async (id: number) => {
     try {
-      const response = await getIssueById(id);
+      const response = await getIssueById(id.toString());
       return response;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -75,7 +76,6 @@ export const getIssueByIdThunk = createAsyncThunk(
 export const changeStatusThunk = createAsyncThunk(
   "issues/changeStatus",
   async ({ id, statusId }: { id: number; statusId: number }) => {
-
     try {
       const response = await changeTheStatus(id.toString(), statusId);
       return response;
@@ -87,17 +87,18 @@ export const changeStatusThunk = createAsyncThunk(
 
 export const deleteIssueThunk = createAsyncThunk(
   "issues/deleteIssue",
-  async (id: number) => {
+  async (id: number, { dispatch }) => {
     try {
       const response = await deleteIssue(id);
       if (response.status === 200) {
-        return {};
+        return dispatch(getIssuesThunk());
       }
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 );
+
 export const getIconImagesThunk = createAsyncThunk(
   "issues/getIconImages",
   async () => {
@@ -131,7 +132,7 @@ export const selectCategories = (state: RootState) => state.issues.categories;
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
 export const selectIssueById = (state: RootState) => state.issues.issueById;
-export const selectSelectedIssue = (state: RootState) =>
+export const selectSelectedIssueId = (state: RootState) =>
   state.issues.selectedIssueId;
 export const selectViewMode = (state: RootState) => state.issues.viewMode;
 
@@ -146,17 +147,16 @@ export const issuesSlice = createSlice({
   name: "issues",
   initialState,
   reducers: {
-    setSelectedIssue: (state, action: PayloadAction<number>) => {
+    setSelectedIssueId: (state, action: PayloadAction<number | null>) => {
       state.selectedIssueId = action.payload;
     },
-    setViewMode: (state, action: PayloadAction<0 | 1 | 2>) => {
+    setViewMode: (state, action: PayloadAction<viewModes>) => {
       state.viewMode = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getCategoriesThunk.fulfilled, (state, action) => {
-        state.status = Status.Idle;
         state.categories = action.payload.map((category: Category) => {
           return {
             id: category.id,
@@ -171,7 +171,6 @@ export const issuesSlice = createSlice({
       })
       .addCase(getIconImagesThunk.fulfilled, (state, action) => {
         state.iconImages = action.payload;
-        state.status = Status.Idle;
       })
       .addCase(getIssueByIdThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
@@ -181,13 +180,11 @@ export const issuesSlice = createSlice({
         state.issueById = action.payload;
         state.status = Status.Idle;
       })
-      .addCase(getCategoriesThunk.pending, handleLoading)
       .addCase(getIssuesThunk.pending, handleLoading)
-      .addCase(getIconImagesThunk.pending, handleLoading)
       .addCase(getIssueByIdThunk.pending, handleLoading)
-      .addCase(changeStatusThunk.pending, handleLoading)
+      .addCase(changeStatusThunk.pending, handleLoading);
   },
 });
 
-export const { setSelectedIssue, setViewMode } = issuesSlice.actions;
+export const { setSelectedIssueId, setViewMode } = issuesSlice.actions;
 export default issuesSlice.reducer;

@@ -7,16 +7,19 @@ import getIssueIcon from "@/app/utils/getIssueIcon";
 import { useAppSelector } from "@/lib/hooks";
 import { selectIconImages } from "@/lib/features/issuesSlice";
 
-export interface CardProps extends IssueGetResponse {}
+export interface CardProps extends IssueGetResponse {
+  onClick?: (event: React.MouseEvent) => void;
+}
 
 const Card: React.FC<CardProps> = ({
+  id,
   address,
   imgUrl,
   categoryId,
   categoryName,
-  statusText,
   statusId,
   userText,
+  onClick,
 }) => {
   const iconList = useAppSelector(selectIconImages);
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
@@ -25,8 +28,10 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2"
+      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2 cursor-pointer"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
+      onClick={onClick}
+      id={id.toString()}
     >
       <p className="font-bold mb-2 truncate">{address}</p>
       <div className="flex justify-left items-center mb-4">
