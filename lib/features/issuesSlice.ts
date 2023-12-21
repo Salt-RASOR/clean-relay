@@ -6,7 +6,12 @@ import {
   IssueGetResponse,
 } from "../../app/common/interfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCategories, getIconImage, getIssues } from "@/app/common/api";
+import {
+  getCategories,
+  getIconImage,
+  getIssues,
+  getIssueById,
+} from "@/app/common/api";
 import { RootState } from "../store";
 import { issuesIcons } from "@/app/common/constants";
 
@@ -14,6 +19,7 @@ export interface issuesState {
   categories: CategoryOption[];
   categoriesLoaded: boolean;
   allIssues: IssueGetResponse[];
+  issueById: Partial<IssueGetResponse>;
   iconImages: IconData[];
 }
 
@@ -21,6 +27,7 @@ const initialState: issuesState = {
   categories: [],
   categoriesLoaded: false,
   allIssues: [],
+  issueById: {},
   iconImages: [],
 };
 
@@ -44,6 +51,20 @@ export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {
     throw new Error((error as Error).message);
   }
 });
+
+export const getIssueByIdThunk = createAsyncThunk(
+  "issues/getIssueById",
+  async (id: string) => { 
+    try {
+      const response = await getIssueById(id);
+      console.log("response from chank", response);
+      
+      return response;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
 
 export const getIconImagesThunk = createAsyncThunk(
   "issues/getIconImages",
@@ -79,6 +100,7 @@ export const selectCategoriesLoaded = (state: RootState) =>
   state.issues.categoriesLoaded;
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
+export const selectIssueById = (state: RootState) => state.issues.issueById;
 
 export const issuesSlice = createSlice({
   name: "issues",
@@ -104,6 +126,9 @@ export const issuesSlice = createSlice({
       })
       .addCase(getIconImagesThunk.fulfilled, (state, action) => {
         state.iconImages = action.payload;
+      })
+      .addCase(getIssueByIdThunk.fulfilled, (state, action) => { 
+        state.issueById = action.payload;
       });
   },
 });

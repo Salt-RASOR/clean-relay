@@ -19,3 +19,8 @@ export const getIconImage = async (url: string) => {
   const res = await fetch(url);
   return res.text();
 };
+
+export const getIssueById = async (id: string) => {
+  const res = await axios.get(`/api/issues/${id}`);
+  return res.data;
+};

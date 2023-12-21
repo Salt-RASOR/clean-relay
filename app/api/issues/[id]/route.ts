@@ -8,7 +8,7 @@ export const GET = async (
 ) => {
   try {
     const id = Number(params.id);
-    const data = await prisma.issue.findUnique({ where: { id } });
+    const data = await prisma.issue.findUnique({ where: { id }, include: { category: true, status: true } });
     prisma.$disconnect();
 
     if (!data) {

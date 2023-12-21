@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { selectAllIssues, selectIconImages } from "@/lib/features/issuesSlice";
 import { useAppSelector } from "@/lib/hooks";
@@ -14,6 +15,7 @@ const center = {
 };
 
 const CustomMap = () => {
+  const router = useRouter();
   const { userLocation } = useLocation();
 
   const issues = useAppSelector(selectAllIssues);
@@ -41,6 +43,9 @@ const CustomMap = () => {
     height: (window.innerHeight - 300).toString() + "px",
   };
 
+  const handleMarkerClick = (id: string) => {
+    router.push(`/admin-issue/${id}`);
+  };
   return (
     <>
       {isLoaded ? (
@@ -54,8 +59,7 @@ const CustomMap = () => {
             options={{
               streetViewControl: false,
               mapTypeControlOptions: { mapTypeIds: [] },
-            }}
-          >
+            }}>
             {issues.map((issue) => {
               const iconId = issue.categoryId;
               const statusId = issue.statusId;
@@ -64,6 +68,7 @@ const CustomMap = () => {
 
               return (
                 <Marker
+                  onClick={() => handleMarkerClick(issue.id.toString())}
                   key={issue.id}
                   position={{ lat: issue.lat, lng: issue.lng }}
                   icon={{
