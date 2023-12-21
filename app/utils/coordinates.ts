@@ -26,6 +26,7 @@ const transformDBDataToResponse = (issue: IssueDBData, isPost: boolean) => {
 
   delete result.category;
   delete result.status;
+  delete result.filePath;
 
   if (!isPost) {
     result.userId = null;

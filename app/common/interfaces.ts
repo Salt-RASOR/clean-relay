@@ -33,6 +33,8 @@ export interface IssueGetResponse extends IssueResponse {
 export interface IssueDBData extends IssueResponse {
   // Optional keys because they must be deleted to transform a DBdata object into a Get response object
 
+  filePath?: string;
+
   status?: {
     id: number;
     text: string;

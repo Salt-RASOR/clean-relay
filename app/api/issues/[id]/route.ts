@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
 import { transformIssueGetData } from "@/app/utils/coordinates";
+import supabase from "@/app/api/supabaseClient";
 
 export const GET = async (
   req: Request,
@@ -35,7 +36,7 @@ export const PATCH = async (
 ) => {
   try {
     const body = await req.json();
-    
+
     const validate = validateIssuePatch(body);
     if (!validate.success) {
       return NextResponse.json(validate.error.issues, { status: 400 });
@@ -79,6 +80,10 @@ export const DELETE = async (
       prisma.$disconnect();
       return NextResponse.json(found, { status: 404 });
     }
+
+    const filePath = found.filePath;
+
+    await supabase.remove([filePath]);
 
     const result = await prisma.issue.delete({
       where: { id },

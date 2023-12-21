@@ -90,6 +90,8 @@ export const POST = async (req: Request) => {
       throw new Error(upload.error.message);
     }
 
+    const filePath = upload.data.path;
+
     const imgUrl =
       (process.env.SUPABASE_IMG_URL as string) + (upload.data?.path as string);
 
@@ -98,7 +100,7 @@ export const POST = async (req: Request) => {
     const statusId = 1;
 
     const result = await prisma.issue.create({
-      data: { ...body, imgUrl, statusId, address: address.result },
+      data: { ...body, imgUrl, statusId, address: address.result, filePath },
       include: { status: true, category: true },
     });
 

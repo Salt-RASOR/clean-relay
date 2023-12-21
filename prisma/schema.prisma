@@ -50,4 +50,5 @@ model Issue {
   userText   String
   imgUrl     String
   address    String
+  filePath   String
 }
