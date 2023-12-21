@@ -1,11 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   Category,
   CategoryOption,
   IconData,
   IssueGetResponse,
-} from "../../app/common/interfaces";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+} from "../../app/common/interfaces"
 import {
   getCategories,
   getIconImage,
@@ -15,26 +15,28 @@ import {
   deleteIssue,
 } from "@/app/common/api";
 import { RootState } from "../store";
-import { issuesIcons } from "@/app/common/constants";
+import { Status, issuesIcons } from "@/app/common/constants";
 
 export interface issuesState {
   categories: CategoryOption[];
-  categoriesLoaded: boolean;
   allIssues: IssueGetResponse[];
   issueById: Partial<IssueGetResponse>;
   selectedIssueId: number | null;
   viewMode: 0 | 1 | 2;
   iconImages: IconData[];
+  status: Status.Idle | Status.Loading | Status.Error;
+  errorMessage: string;
 }
 
 const initialState: issuesState = {
   categories: [],
-  categoriesLoaded: false,
   allIssues: [],
   issueById: {},
   selectedIssueId: null,
   viewMode: 0,
   iconImages: [],
+  status: Status.Idle,
+  errorMessage: "",
 };
 
 export const getCategoriesThunk = createAsyncThunk(
@@ -126,14 +128,19 @@ export const getIconImagesThunk = createAsyncThunk(
 );
 
 export const selectCategories = (state: RootState) => state.issues.categories;
-export const selectCategoriesLoaded = (state: RootState) =>
-  state.issues.categoriesLoaded;
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
 export const selectIssueById = (state: RootState) => state.issues.issueById;
 export const selectSelectedIssue = (state: RootState) =>
   state.issues.selectedIssueId;
 export const selectViewMode = (state: RootState) => state.issues.viewMode;
+
+export const selectStatus = (state: RootState) => {
+  return state.issues.status;
+};
+const handleLoading = (state: issuesState) => {
+  state.status = Status.Loading;
+};
 
 export const issuesSlice = createSlice({
   name: "issues",
@@ -148,11 +155,8 @@ export const issuesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCategoriesThunk.pending, (state) => {
-        state.categoriesLoaded = false;
-      })
       .addCase(getCategoriesThunk.fulfilled, (state, action) => {
-        state.categoriesLoaded = true;
+        state.status = Status.Idle;
         state.categories = action.payload.map((category: Category) => {
           return {
             id: category.id,
@@ -163,16 +167,25 @@ export const issuesSlice = createSlice({
       })
       .addCase(getIssuesThunk.fulfilled, (state, action) => {
         state.allIssues = action.payload;
+        state.status = Status.Idle;
       })
       .addCase(getIconImagesThunk.fulfilled, (state, action) => {
         state.iconImages = action.payload;
+        state.status = Status.Idle;
       })
       .addCase(getIssueByIdThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
+        state.status = Status.Idle;
       })
       .addCase(changeStatusThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
-      });
+        state.status = Status.Idle;
+      })
+      .addCase(getCategoriesThunk.pending, handleLoading)
+      .addCase(getIssuesThunk.pending, handleLoading)
+      .addCase(getIconImagesThunk.pending, handleLoading)
+      .addCase(getIssueByIdThunk.pending, handleLoading)
+      .addCase(changeStatusThunk.pending, handleLoading)
   },
 });
 

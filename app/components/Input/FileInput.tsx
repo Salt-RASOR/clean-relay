@@ -69,7 +69,8 @@ const FileInput: FC<FileInputProps> = ({ saveFile }) => {
             "flex flex-col items-center justify-center",
             "text-primary-color m-4 p-8 pb-16",
             "border border-dashed border-gray-400",
-            "text-sm text-primary-color"
+            "text-sm text-primary-color",
+            "cursor-pointer"
           )}
         >
           <div className="h-[200px] min-w-[200px] font-semibold text-center">

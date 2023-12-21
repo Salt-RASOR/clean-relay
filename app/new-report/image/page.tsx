@@ -1,11 +1,7 @@
 "use client";
-
-import React from "react";
-import "react-tabs/style/react-tabs.css";
-
-import FileInput from "@/app/components/Input/FileInput";
-import Button from "@/app/components/Buttons/Button";
+// import "react-tabs/style/react-tabs.css";
 import { useRouter } from "next/navigation";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   createNewReportThunk,
@@ -14,13 +10,19 @@ import {
   selectNewImage,
   setNewImage,
 } from "@/lib/features/newReportSlice";
+import { getIssuesThunk, selectStatus } from "@/lib/features/issuesSlice";
 import useLocation from "@/app/hooks/useLocation";
-import { getIssuesThunk } from "@/lib/features/issuesSlice";
+import { Status } from "@/app/common/constants";
+import FileInput from "@/app/components/Input/FileInput";
+import Button from "@/app/components/Buttons/Button";
+import Loader from "@/app/components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();
+
   const dispatch = useAppDispatch();
 
+  const status = useAppSelector(selectStatus);
   const userText = useAppSelector(selectNewDescription);
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
@@ -63,10 +65,14 @@ const Page = () => {
   };
 
   return (
-    <form onSubmit={sendReport}>
-      <FileInput saveFile={setFile} />
-      <Button buttonText={"Send Report"} additionalClasses="mt-12" />
-    </form>
+    <>
+      {" "}
+      {status === Status.Loading && <Loader />}
+      <form onSubmit={sendReport}>
+        <FileInput saveFile={setFile} />
+        <Button buttonText={"Send Report"} additionalClasses="mt-12" />
+      </form>
+    </>
   );
 };
 

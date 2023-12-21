@@ -79,3 +79,9 @@ export enum StatusOptions {
   Completed = "Completed",
   Delete = "Delete",
 }
+
+export enum Status {
+  Idle = "idle",
+  Loading = "loading",
+  Error = "error",
+}

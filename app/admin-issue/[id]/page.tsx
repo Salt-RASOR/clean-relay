@@ -54,7 +54,7 @@ const Page = () => {
   };
 
   if (Object.keys(issueById).length === 0)
-    return <Confirmation text={"This issue has been solved"}/>;
+    return <Confirmation text={"This issue has been solved"} additionalClass={"background-container bg-violet"}/>;
 
   const isBeingFixed = issueById.statusId === 2;
 
