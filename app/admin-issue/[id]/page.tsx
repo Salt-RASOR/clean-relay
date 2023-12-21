@@ -13,6 +13,7 @@ import {
 } from "@/lib/features/issuesSlice";
 import CardHeader from "@/app/components/AdminCard/CardHeader";
 import CardMain from "@/app/components/AdminCard/CardMain";
+import Confirmation from "@/app/components/Confirmation/Confirmation";
 
 const Page = () => {
   const params = useParams();
@@ -20,8 +21,8 @@ const Page = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    params.id &&
-      typeof params.id === "string" &&
+    (params.id &&
+      typeof params.id === "string") &&
       dispatch(getIssueByIdThunk(params.id));
   }, [params.id, dispatch]);
 
@@ -53,13 +54,13 @@ const Page = () => {
   };
 
   if (Object.keys(issueById).length === 0)
-    return <p>Thank you for handling the issue...</p>;
+    return <Confirmation text={"This issue has been solved"}/>;
 
   const isBeingFixed = issueById.statusId === 2;
 
   return (
     <>
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-4 pt-20">
         <div
           className={clsx(
             "max-w-[400px]",
