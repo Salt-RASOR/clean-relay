@@ -72,3 +72,10 @@ export const shangeStatusOptions = [
     icon: <TiDeleteOutline size={20} />,
   },
 ];
+
+export enum StatusOptions {
+  NotStarted = "Not started",
+  InProgress = "In progress",
+  Completed = "Completed",
+  Delete = "Delete",
+}

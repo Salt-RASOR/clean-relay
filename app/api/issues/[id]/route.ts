@@ -35,6 +35,7 @@ export const PATCH = async (
 ) => {
   try {
     const body = await req.json();
+    
     const validate = validateIssuePatch(body);
     if (!validate.success) {
       return NextResponse.json(validate.error.issues, { status: 400 });

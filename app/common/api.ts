@@ -24,3 +24,15 @@ export const getIssueById = async (id: string) => {
   const res = await axios.get(`/api/issues/${id}`);
   return res.data;
 };
+
+export const changeTheStatus = async (id: string, statusId: number) => {
+  const res = await axios.patch(`/api/issues/${id}`, {
+    statusId,
+  });
+  return res.data;
+};
+
+export const deleteIssue= async (id: number) => {
+  const res = await axios.delete(`/api/issues/${id}`);
+  return res;
+};

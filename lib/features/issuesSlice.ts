@@ -11,6 +11,8 @@ import {
   getIconImage,
   getIssues,
   getIssueById,
+  changeTheStatus,
+  deleteIssue,
 } from "@/app/common/api";
 import { RootState } from "../store";
 import { issuesIcons } from "@/app/common/constants";
@@ -68,6 +70,32 @@ export const getIssueByIdThunk = createAsyncThunk(
   }
 );
 
+export const changeStatusThunk = createAsyncThunk(
+  "issues/changeStatus",
+  async ({ id, statusId }: { id: number; statusId: number }) => {
+
+    try {
+      const response = await changeTheStatus(id.toString(), statusId);
+      return response;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
+export const deleteIssueThunk = createAsyncThunk(
+  "issues/deleteIssue",
+  async (id: number) => {
+    try {
+      const response = await deleteIssue(id);
+      if (response.status === 200) {
+        return {};
+      }
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
 export const getIconImagesThunk = createAsyncThunk(
   "issues/getIconImages",
   async () => {
@@ -140,6 +168,9 @@ export const issuesSlice = createSlice({
         state.iconImages = action.payload;
       })
       .addCase(getIssueByIdThunk.fulfilled, (state, action) => {
+        state.issueById = action.payload;
+      })
+      .addCase(changeStatusThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
       });
   },

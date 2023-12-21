@@ -1,12 +1,16 @@
 "use client";
 import React, { useEffect } from "react";
 import clsx from "clsx";
-
-import Image from "next/image";
+import { StatusOptions } from "@/app/common/constants";
 
 import { useParams } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
-import { getIssueByIdThunk, selectIssueById } from "@/lib/features/issuesSlice";
+import {
+  changeStatusThunk,
+  getIssueByIdThunk,
+  selectIssueById,
+  deleteIssueThunk,
+} from "@/lib/features/issuesSlice";
 import CardHeader from "@/app/components/AdminCard/CardHeader";
 import CardMain from "@/app/components/AdminCard/CardMain";
 
@@ -16,16 +20,40 @@ const Page = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (typeof params.id === "string") {
+    params.id &&
+      typeof params.id === "string" &&
       dispatch(getIssueByIdThunk(params.id));
-    }
-  }, []);
+  }, [params.id, dispatch]);
 
-  const handleOptionsClick = () => {
-    // ToDo implement the  status changing
+  const handleOptionsClick = (statusText: string) => {
+    const id = Number(params.id);
+    let newStatus: number | undefined;
+
+    switch (statusText) {
+      case StatusOptions.NotStarted:
+        newStatus = 1;
+        break;
+      case StatusOptions.InProgress:
+        newStatus = 2;
+        break;
+      case StatusOptions.Completed:
+      case StatusOptions.Delete:
+        dispatch(deleteIssueThunk(id));
+        return;
+      default:
+        console.log("Invalid status option");
+        return;
+    }
+
+    if (newStatus !== undefined && newStatus !== issueById.statusId) {
+      dispatch(changeStatusThunk({ id, statusId: newStatus }));
+    } else {
+      console.log("Nothing to change");
+    }
   };
 
-  if (Object.keys(issueById).length === 0) return <p>Loading...</p>;
+  if (Object.keys(issueById).length === 0)
+    return <p>Thank you for handling the issue...</p>;
 
   const isBeingFixed = issueById.statusId === 2;
 
@@ -54,6 +82,8 @@ const Page = () => {
 
           <CardHeader
             statusText={issueById.statusText}
+            id={issueById.id}
+            statusId={issueById.statusId}
             handleOptionsClick={handleOptionsClick}
           />
           <CardMain
