@@ -68,7 +68,7 @@ const Page = () => {
 
   return (
     <form onSubmit={saveDescription}>
-      <h2 className="font-bold mb-12 text-primary_color text-center">
+      <h2 className="font-bold mb-10 text-primary_color text-center">
         Please provide some information
       </h2>
 
@@ -79,7 +79,7 @@ const Page = () => {
         styles={customStyles}
       />
       <TextArea />
-      <Button buttonText={"Next"} additionalClasses="mt-12" />
+      <Button buttonText={"Next"} additionalClasses="mt-10" />
     </form>
   );
 };

@@ -14,7 +14,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="mt-20">
+      <div className="mt-20 mb-[120px]">
         <Tabs>
           <TabList className="grid grid-cols-2 gap-4 mb-8 text-primary_color">
             {reportsPageSections.map((item, index) => (
