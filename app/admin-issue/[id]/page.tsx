@@ -29,7 +29,7 @@ const Page = () => {
 
   if (Object.keys(issueById).length === 0) return <p>Loading...</p>;
 
-  const isBeingFixed = issueById.status.id === 2;
+  const isBeingFixed = issueById.statusId === 2;
 
   return (
     <>
@@ -61,7 +61,7 @@ const Page = () => {
             )}>
             <p>
               <span className="font-bold pl-2">Status: </span>
-              {issueById.status.text}
+              {issueById.statusText}
             </p>
             <button
               onClick={handleModalShow}
@@ -95,10 +95,10 @@ const Page = () => {
           <main className="p-4 flex flex-col gap-4 items-center mb-6">
             <p className="text-left w-full">
               <span className="font-bold pl-2">Category: </span>
-              {issueById.category.name}
+              {issueById.categoryName}
             </p>
             <Image
-              src={issueById.imgUrl ? issueById.imgUrl : ''}
+              src={issueById.imgUrl ? issueById.imgUrl : ""}
               alt={(issueById.categoryName ?? "") + issueById.userText}
               width={200}
               height={200}

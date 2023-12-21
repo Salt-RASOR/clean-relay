@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
+import { transformIssueGetData } from "@/app/utils/coordinates";
 
 export const GET = async (
   req: Request,
@@ -8,14 +9,19 @@ export const GET = async (
 ) => {
   try {
     const id = Number(params.id);
-    const data = await prisma.issue.findUnique({ where: { id }, include: { category: true, status: true } });
+    const data = await prisma.issue.findUnique({
+      where: { id },
+      include: { category: true, status: true },
+    });
     prisma.$disconnect();
 
     if (!data) {
       return NextResponse.json(data, { status: 404 });
     }
 
-    return NextResponse.json(data);
+    const decdodedData = transformIssueGetData(data);
+
+    return NextResponse.json(decdodedData);
   } catch (error) {
     prisma.$disconnect();
 

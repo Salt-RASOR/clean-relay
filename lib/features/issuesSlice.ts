@@ -54,11 +54,9 @@ export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {
 
 export const getIssueByIdThunk = createAsyncThunk(
   "issues/getIssueById",
-  async (id: string) => { 
+  async (id: string) => {
     try {
       const response = await getIssueById(id);
-      console.log("response from chank", response);
-      
       return response;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -127,7 +125,7 @@ export const issuesSlice = createSlice({
       .addCase(getIconImagesThunk.fulfilled, (state, action) => {
         state.iconImages = action.payload;
       })
-      .addCase(getIssueByIdThunk.fulfilled, (state, action) => { 
+      .addCase(getIssueByIdThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
       });
   },
