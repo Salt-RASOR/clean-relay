@@ -7,12 +7,15 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { selectCategories } from "@/lib/features/issuesSlice";
 import {
   selectNewCategory,
+  selectNewStatus,
   setNewCategory,
   setNewDescription,
 } from "@/lib/features/newReportSlice";
 import { CategoryOption } from "@/app/common/interfaces";
 import Button from "@/app/components/Buttons/Button";
 import TextArea from "@/app/components/Input/TextArea";
+import { FadeLoader } from "react-spinners";
+import { Status } from "@/app/common/constants";
 
 const Page = () => {
   const router = useRouter();
@@ -20,6 +23,7 @@ const Page = () => {
 
   const options = useAppSelector(selectCategories);
   const selectedOption = useAppSelector(selectNewCategory);
+  const status = useAppSelector(selectNewStatus);
 
   const handleOption = (event: SingleValue<CategoryOption | null>) => {
     dispatch(setNewCategory(Number(event?.id)));
@@ -65,6 +69,8 @@ const Page = () => {
     }),
   };
 
+  const isLoading = status === Status.Loading;
+  const loaderElement = <FadeLoader color="#f7ecff" />;
   return (
     <>
       <form onSubmit={saveDescription}>
@@ -75,7 +81,10 @@ const Page = () => {
         <Select
           defaultValue={null}
           onChange={handleOption}
-          options={options}
+          options={ options}
+          isLoading={isLoading}
+          loadingMessage={() => 'Loading...'} 
+          noOptionsMessage={() => 'Loading...'}
           styles={customStyles}
         />
         <TextArea />
