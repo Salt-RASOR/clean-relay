@@ -41,7 +41,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="mt-20 mb-6">
+      <div className="mt-20 mb-6 px-4">
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
           <TabList className="grid grid-cols-3 gap-4 mb-8 text-primary_color">
             {status === Status.Loading && <Loader />}

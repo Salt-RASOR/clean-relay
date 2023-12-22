@@ -7,6 +7,9 @@ import getIssueIcon from "@/app/utils/getIssueIcon";
 import { useAppSelector } from "@/lib/hooks";
 import { selectIconImages } from "@/lib/features/issuesSlice";
 
+import { RiPinDistanceLine } from "react-icons/ri";
+import { GiMatterStates } from "react-icons/gi";
+
 export interface CardProps extends IssueGetResponse {
   onClick?: (event: React.MouseEvent) => void;
 }
@@ -28,12 +31,10 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className="col-span-1 max-w-[400px] rounded-[21px] bg-card_bg py-4 px-6 relative my-2 cursor-pointer"
+      className=" max-w-[400px] rounded-[10px] bg-card_bg py-6 px-4 my-2 cursor-pointer"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
       onClick={onClick}
-      id={id.toString()}
-    >
-      <p className="font-bold mb-2 truncate">{address}</p>
+      id={id.toString()}>
       <div className="flex justify-left items-center mb-4">
         <Image
           src={categoryIconUrl}
@@ -43,29 +44,30 @@ const Card: React.FC<CardProps> = ({
         />
         <p className="font-bold ml-6">{categoryName}</p>
       </div>
-      <div className="flex flex-col sm:flex-row justify-around sm:justify-between mb-2 sm:h-[100px] h-[240px]">
+
+      <div className="flex justify-between text-slate-600 italic">
+
+        <p className="flex items-center gap-2">
+          <GiMatterStates /> <span>In progress</span>
+        </p>
+        <p className="flex items-center gap-2">
+          <RiPinDistanceLine /> <span> 60 km</span>
+        </p>
+      </div>
+     
         <Image
           src={imgUrl}
           alt={""}
           quality={50}
-          width={200}
-          height={100}
-          className="object-cover w-full sm:w-1/2 max-h-36"
+          width={300}
+          height={200}
+          className="object-cover w-full my-4"
         />
-        <p className="w-full sm:w-1/2 text-left text-sm mt-4 sm:mt-0 pb-4 sm:pb-0 sm:ml-4 overflow-hidden text-ellipsis">
+        <p className="font-semibold my-4 truncate">{address}</p>
+        <p className="overflow-hidden text-ellipsis mt-4">
           {userText}
         </p>
-      </div>
-      <div
-        className="w-[46px] h-[46px] bg-red-500 bottom-0 right-0 absolute rounded-br-lg"
-        style={{
-          background: `linear-gradient(to bottom right, #f4f4f4 0%, #f4f4f4 ${
-            isBeingFixed
-              ? "50%, #5AC29E 50%, #5AC29E 100%"
-              : "50%, #E20074 50%, #E20074 100%"
-          })`,
-        }}
-      ></div>
+     
     </div>
   );
 };
