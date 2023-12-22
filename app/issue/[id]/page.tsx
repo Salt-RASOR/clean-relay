@@ -20,6 +20,7 @@ import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
 import SelectedCard from "../../components/Card/SelectedCard";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const { id } = useParams();
@@ -62,6 +63,14 @@ const Page = () => {
             dispatch(getIssuesThunk());
             router.push("/");
           });
+          const toastType =
+            statusText === StatusOptions.Completed
+              ? toast("Issue Completed!", {
+                  type: "success",
+                })
+              : toast("Issue Deleted", {
+                  type: "info",
+                });
           return;
         default:
           console.log("Invalid status option");
