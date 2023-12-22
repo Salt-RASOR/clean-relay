@@ -84,24 +84,25 @@ const Page = () => {
   const customStyles = {
     option: (defaultStyles: {}, state: { isSelected: boolean }) => ({
       ...defaultStyles,
-      color: "primary_color",
+      color: "#343758",
+     
       backgroundColor: state.isSelected ? "#eeeef7" : "#ffffff",
       "&:hover": {
         backgroundColor: "#eeeef7",
         cursor: "pointer",
       },
     }),
-    control: (defaultStyles: {}) => ({
+    control: (defaultStyles: {},  state:{isFocused: boolean}) => ({
       ...defaultStyles,
       padding: "10px",
       border: "none",
       boxShadow: "none",
-      outline: errors.categoryError ? "2px solid red" : "",
+      outline: errors.categoryError ? "1px solid red" : "2px solid #e4d9eb",
     }),
   };
 
   const isLoading = status === Status.Loading;
-  const loaderElement = <FadeLoader color="#f7ecff" />;
+ 
 
   return (
     <div className="px-4 w-full md:w-7/12">

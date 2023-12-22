@@ -69,8 +69,8 @@ const FileInput: FC<FileInputProps> = ({ saveFile, hasError }) => {
           className={clsx(
             "flex flex-col items-center justify-center",
             "text-primary-color m-4 p-8 pb-16",
-            "border border-dashed-2 border-gray-400",
-            hasError && "outline outline-2 outline-red-500",
+            "",
+            hasError ? "outline outline-1 outline-red-500" : "border border-dashed-2 border-gray-400",
             "text-sm text-primary-color",
             "cursor-pointer"
           )}

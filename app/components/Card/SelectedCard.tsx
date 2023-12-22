@@ -24,7 +24,7 @@ const SelectedCard: React.FC<SelectedCardProps> = ({
   handleOptionsClick,
 }) => {
   return (
-    <div className="flex items-center justify-center p-4">
+    <div className="flex items-center justify-center p-4 mt-20">
       <div
         className={clsx(
           " py-6 px-4 my-2",

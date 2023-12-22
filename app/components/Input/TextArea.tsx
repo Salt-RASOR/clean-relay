@@ -13,8 +13,8 @@ const TextArea: FC<TextAreaProps> = ({ hasError, onChange, defaultValue }) => {
       defaultValue={defaultValue}
       onChange={onChange}
       className={clsx(
-        "bg-violet_light rounded-md w-full p-8 mt-10",
-        hasError && "outline outline-2 outline-red-500"
+        "bg-violet_light rounded-md w-full p-8 mt-10 focus:outline-none focus:ring focus:ring-[#e4d9eb]",
+        hasError && "outline outline-1 outline-red-500"
       )}
       name="details"
       id="details"

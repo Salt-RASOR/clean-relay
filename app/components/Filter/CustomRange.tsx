@@ -21,7 +21,7 @@ const CustomRange = () => {
               ...props.style,
               height: "3px",
               width: "100%",
-              backgroundColor: "#ccc",
+              backgroundColor: "#bdc1c8",
             }}>
             {children}
           </div>
@@ -34,7 +34,7 @@ const CustomRange = () => {
               height: "20px",
               width: "20px",
               borderRadius: "50%",
-              backgroundColor: "#999",
+              backgroundColor: "#a4a4ea",
             }}
           />
         )}
