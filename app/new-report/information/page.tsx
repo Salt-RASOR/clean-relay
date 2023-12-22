@@ -72,7 +72,7 @@ const Page = () => {
   const isLoading = status === Status.Loading;
   const loaderElement = <FadeLoader color="#f7ecff" />;
   return (
-    <>
+    <div className="px-4 w-full md:w-7/12">
       <form onSubmit={saveDescription}>
         <h2 className="font-bold mb-10 text-primary_color text-center">
           Please provide some information
@@ -90,7 +90,7 @@ const Page = () => {
         <TextArea />
         <Button buttonText={"Next"} additionalClasses="mt-10" />
       </form>
-    </>
+    </div>
   );
 };
 

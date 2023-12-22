@@ -72,13 +72,13 @@ const Page = () => {
   };
 
   return (
-    <>
+    <div className="px-4">
       {status === Status.Loading && <Loader />}
       <form onSubmit={sendReport}>
         <FileInput saveFile={setFile} />
         <Button buttonText={"Send Report"} additionalClasses="mt-12" />
       </form>
-    </>
+    </div>
   );
 };
 

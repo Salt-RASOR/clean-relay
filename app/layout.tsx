@@ -28,7 +28,7 @@ export default function RootLayout({
           />
           <body className={clsx(inter.className)}>
             <LocationPrompter />
-            <div className="container mx-auto w-full pb-[110px] sm:w-5/6 max-w-[1400px]">
+            <div className="container mx-auto w-full pb-[110px] sm:w-5/6">
               {children}
             </div>
             <Navbar />
