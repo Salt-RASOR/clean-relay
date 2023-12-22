@@ -9,13 +9,16 @@ export interface CategoryOption {
   label: string;
 }
 
-export interface IssueResponse {
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+export interface IssueResponse extends Coordinates {
   userId: number | null;
   id: number;
   categoryId: number;
   statusId: number;
-  lat: number;
-  lng: number;
   userText: string;
   imgUrl: string;
   address: string;

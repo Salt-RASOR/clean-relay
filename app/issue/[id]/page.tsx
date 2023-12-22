@@ -17,13 +17,15 @@ import {
 } from "@/lib/features/issuesSlice";
 import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
-import SelectedCard from "../components/Card/SelectedCard";
+import SelectedCard from "../../components/Card/SelectedCard";
+import { useParams } from "next/navigation";
 
 const Page = () => {
+  const { id } = useParams();
   const status = useAppSelector(selectStatus);
   const issueById = useAppSelector(selectIssueById);
   const issues = useAppSelector(selectAllIssues);
-  const selectedIssueId = useAppSelector(selectSelectedIssueId);
+  const selectedIssueId = useAppSelector(selectSelectedIssueId) || Number(id);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

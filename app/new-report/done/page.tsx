@@ -16,7 +16,7 @@ const Page = () => {
   const moveToIssue = (event: React.MouseEvent) => {
     event.stopPropagation();
     dispatch(setSelectedIssueId(newReport!.id));
-    router.push("/issue");
+    router.push(`/issue/${newReport!.id}`);
   };
 
   return (

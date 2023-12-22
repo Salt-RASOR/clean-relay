@@ -12,11 +12,11 @@ import {
   setNewImage,
 } from "@/lib/features/newReportSlice";
 import { getIssuesThunk } from "@/lib/features/issuesSlice";
-import useLocation from "@/app/hooks/useLocation";
 import { Status } from "@/app/common/constants";
 import FileInput from "@/app/components/Input/FileInput";
 import Button from "@/app/components/Buttons/Button";
 import Loader from "@/app/components/Loader/Loader";
+import { selectMyLocation } from "@/lib/features/profileSlice";
 
 const Page = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Page = () => {
   const userText = useAppSelector(selectNewDescription);
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
-  const { userLocation } = useLocation();
+  const myLocation = useAppSelector(selectMyLocation);
 
   const setFile = async (files: File[]) => {
     if (!files || files.length === 0) {
@@ -45,7 +45,7 @@ const Page = () => {
       !userText ||
       !categoryId ||
       !imageFile ||
-      !userLocation ||
+      !myLocation ||
       status === Status.Loading
     ) {
       return;
@@ -56,8 +56,8 @@ const Page = () => {
 
     data.append("userText", userText);
     data.append("categoryId", categoryId.toString());
-    data.append("lat", userLocation.lat.toString());
-    data.append("lng", userLocation.lng.toString());
+    data.append("lat", myLocation.lat.toString());
+    data.append("lng", myLocation.lng.toString());
     data.append("userId", "1");
     data.append("imageFile", imageFile);
 

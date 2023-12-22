@@ -9,9 +9,9 @@ import {
   setSelectedIssueId,
 } from "@/lib/features/issuesSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import useLocation from "@/app/hooks/useLocation";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 import Loader from "../Loader/Loader";
+import { selectMyLocation } from "@/lib/features/profileSlice";
 
 const center = {
   // central Stockholm
@@ -26,10 +26,10 @@ const containerStyle = {
 
 const CustomMap = () => {
   const router = useRouter();
-  const { userLocation } = useLocation();
 
   const issues = useAppSelector(selectAllIssues);
   const iconImages = useAppSelector(selectIconImages);
+  const myLocation = useAppSelector(selectMyLocation);
 
   const dispatch = useAppDispatch();
 
@@ -50,7 +50,7 @@ const CustomMap = () => {
 
   const handleMarkerClick = (id: string) => {
     dispatch(setSelectedIssueId(Number(id)));
-    router.push(`/issue`);
+    router.push(`/issue/${id}`);
   };
   return (
     <>
@@ -58,7 +58,7 @@ const CustomMap = () => {
         <>
           <GoogleMap
             mapContainerStyle={containerStyle}
-            center={userLocation || center}
+            center={myLocation || center}
             zoom={12}
             onLoad={onLoad}
             onUnmount={onUnmount}

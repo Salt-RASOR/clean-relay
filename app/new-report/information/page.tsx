@@ -83,8 +83,8 @@ const Page = () => {
           onChange={handleOption}
           options={options}
           isLoading={isLoading}
-          loadingMessage={() => 'Loading...'} 
-          noOptionsMessage={() => 'Loading...'}
+          loadingMessage={() => "Loading..."}
+          noOptionsMessage={() => "Loading..."}
           styles={customStyles}
         />
         <TextArea />

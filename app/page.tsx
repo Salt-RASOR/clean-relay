@@ -36,7 +36,7 @@ const Page = () => {
     const currentTarget = event.currentTarget as HTMLElement;
 
     dispatch(setSelectedIssueId(Number(currentTarget.id)));
-    router.push(`/issue`);
+    router.push(`/issue/${currentTarget.id}`);
   };
 
   return (

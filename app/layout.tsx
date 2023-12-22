@@ -4,6 +4,7 @@ import "./globals.css";
 import clsx from "clsx";
 import Navbar from "./components/Navbar/Navbar";
 import StoreProvider from "./components/Providers/StoreProvider";
+import LocationPrompter from "./components/Location/LocationPrompter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             content="telephone=no, date=no, email=no, address=no"
           />
           <body className={clsx(inter.className)}>
+            <LocationPrompter />
             <div className="container mx-auto w-full pb-[110px] sm:w-5/6 max-w-[1400px]">
               {children}
             </div>
