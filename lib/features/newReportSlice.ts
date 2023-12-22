@@ -90,7 +90,7 @@ export const newReportSlice = createSlice({
   name: "newReport",
   initialState,
   reducers: {
-    setNewCategory: (state, action: PayloadAction<number>) => {
+    setNewCategory: (state, action: PayloadAction<number | null>) => {
       state.newCategory = action.payload;
     },
     setNewDescription: (state, action: PayloadAction<string>) => {

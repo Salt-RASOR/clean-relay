@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   selectCategories,
+  selectNewDescription,
   selectNewReportErrors,
   setNewReportErrors,
 } from "@/lib/features/newReportSlice";
@@ -29,6 +30,7 @@ const Page = () => {
   const options = useAppSelector(selectCategories);
   const selectedOption = useAppSelector(selectNewCategory);
   const status = useAppSelector(selectNewStatus);
+  const newDescription = useAppSelector(selectNewDescription);
 
   const errors = useAppSelector(selectNewReportErrors);
 
@@ -72,6 +74,10 @@ const Page = () => {
     }
 
     dispatch(setNewDescription(description));
+
+    localStorage.setItem("newDescription", description);
+    localStorage.setItem("newCategory", selectedOption.toString());
+
     router.push("/new-report/image");
   };
 
@@ -96,6 +102,7 @@ const Page = () => {
 
   const isLoading = status === Status.Loading;
   const loaderElement = <FadeLoader color="#f7ecff" />;
+
   return (
     <div className="px-4 w-full md:w-7/12">
       <form onSubmit={saveInformation}>
@@ -104,7 +111,7 @@ const Page = () => {
         </h2>
 
         <Select
-          defaultValue={null}
+          value={selectedOption ? options[selectedOption - 1] : null}
           onChange={handleOption}
           options={options}
           isLoading={isLoading}
@@ -113,6 +120,7 @@ const Page = () => {
           styles={customStyles}
         />
         <TextArea
+          defaultValue={newDescription}
           hasError={errors.descriptionError}
           onChange={updateDescriptionInput}
         />

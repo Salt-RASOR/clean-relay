@@ -21,10 +21,10 @@ const Distance: FC<DistanceProps> = ({
   const dist = calculateDistance(myLocation, otherLocation);
 
   return (
-    <p className="flex items-center gap-2">
+    <div className="flex items-center gap-2">
       <RiPinDistanceLine />
       <p className={className}>{dist.toFixed(1) + " km"}</p>
-    </p>
+    </div>
   );
 };
 

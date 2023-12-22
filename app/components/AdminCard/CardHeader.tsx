@@ -4,7 +4,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Modal from "../Modal/Modal";
 import useHandleModal from "@/app/hooks/useHandleModal";
-import Image from 'next/image'
+import Image from "next/image";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 import { selectIconImages } from "@/lib/features/issuesSlice";
 import { useAppSelector } from "@/lib/hooks";
@@ -14,12 +14,12 @@ type CardHeaderProps = {
   id: number | undefined;
   statusId: number;
   categoryId: number;
-  categoryName: string
+  categoryName: string;
   handleOptionsClick: (statusText: string) => void;
 };
 const CardHeader: React.FC<CardHeaderProps> = ({
   handleOptionsClick,
-  categoryId, 
+  categoryId,
   categoryName,
   statusId,
 }) => {
@@ -33,11 +33,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
 
   return (
-    <header
-    className="flex justify-between items-center mb-4 relative"
-    >
-   
-      <div className="flex justify-left items-center mb-4">
+    <header className="flex justify-between items-center mb-4 relative mx-4">
+      <div className="flex justify-left items-center">
         <Image
           src={categoryIconUrl}
           alt={categoryName}
@@ -57,7 +54,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
       >
         <BsThreeDotsVertical />
       </button>
-   
+
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
         <div className="p-4 mt-4 flex flex-col min-w-[200px] text-primary_color">
           {shangeStatusOptions.map((option, idx) => (

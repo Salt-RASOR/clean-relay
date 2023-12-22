@@ -10,10 +10,12 @@ import {
   selectNewImage,
   selectNewReportErrors,
   selectNewStatus,
+  setNewCategory,
+  setNewDescription,
   setNewImage,
   setNewReportErrors,
 } from "@/lib/features/newReportSlice";
-import { getIssuesThunk } from "@/lib/features/issuesSlice";
+import { getIssuesThunk, selectStatus } from "@/lib/features/issuesSlice";
 import { Status } from "@/app/common/constants";
 import FileInput from "@/app/components/Input/FileInput";
 import Button from "@/app/components/Buttons/Button";
@@ -27,6 +29,8 @@ const Page = () => {
   const dispatch = useAppDispatch();
 
   const status = useAppSelector(selectNewStatus);
+  const statusIssues = useAppSelector(selectStatus);
+
   const userText = useAppSelector(selectNewDescription);
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
@@ -54,6 +58,13 @@ const Page = () => {
       toast("Missing Image", { type: "error", toastId: "imageError" });
     }
 
+    if (!myLocation) {
+      toast("Please Allow Access to Your Location", {
+        type: "error",
+        toastId: "locationError",
+      });
+    }
+
     if (
       !userText ||
       !categoryId ||
@@ -76,10 +87,19 @@ const Page = () => {
 
     dispatch(createNewReportThunk(data))
       .then(() => {
+        toast("New Report Created", { type: "success" });
+
+        dispatch(setNewDescription(""));
+        dispatch(setNewCategory(null));
+
+        localStorage.removeItem("newDescription");
+        localStorage.removeItem("newCategory");
+
         dispatch(getIssuesThunk());
         router.push("/new-report/done");
       })
       .catch((error) => {
+        toast("Failed to Create New Report", { type: "error" });
         console.log(error.message);
       });
   };
@@ -89,7 +109,16 @@ const Page = () => {
       {status === Status.Loading && <Loader />}
       <form onSubmit={sendReport}>
         <FileInput saveFile={setFile} hasError={errors.imageError} />
-        <Button buttonText={"Send Report"} additionalClasses="mt-12" />
+        <Button
+          buttonText={"Send Report"}
+          additionalClasses={
+            status === Status.Loading ||
+            statusIssues === Status.Loading ||
+            categoryId === null
+              ? "disabled bg-slate-300 "
+              : "" + "mt-12"
+          }
+        />
       </form>
     </div>
   );

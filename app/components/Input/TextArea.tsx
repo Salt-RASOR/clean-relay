@@ -4,11 +4,13 @@ import React, { FC } from "react";
 type TextAreaProps = {
   hasError: boolean;
   onChange: () => void;
+  defaultValue: string;
 };
 
-const TextArea: FC<TextAreaProps> = ({ hasError, onChange }) => {
+const TextArea: FC<TextAreaProps> = ({ hasError, onChange, defaultValue }) => {
   return (
     <textarea
+      defaultValue={defaultValue}
       onChange={onChange}
       className={clsx(
         "bg-violet_light rounded-md w-full p-8 mt-10",

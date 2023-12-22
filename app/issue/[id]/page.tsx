@@ -63,14 +63,14 @@ const Page = () => {
             dispatch(getIssuesThunk());
             router.push("/");
           });
-          const toastType =
-            statusText === StatusOptions.Completed
-              ? toast("Issue Completed!", {
-                  type: "success",
-                })
-              : toast("Issue Deleted", {
-                  type: "info",
-                });
+
+          statusText === StatusOptions.Completed
+            ? toast("Issue Completed!", {
+                type: "success",
+              })
+            : toast("Issue Deleted", {
+                type: "info",
+              });
           return;
         default:
           console.log("Invalid status option");
@@ -81,6 +81,7 @@ const Page = () => {
         dispatch(
           changeStatusThunk({ id: selectedIssueId, statusId: newStatus })
         );
+        toast("Status Changed", { type: "success" });
       } else {
         console.log("Nothing to change");
       }

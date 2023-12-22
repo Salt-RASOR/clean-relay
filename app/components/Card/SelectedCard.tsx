@@ -19,17 +19,19 @@ const SelectedCard: React.FC<SelectedCardProps> = ({
   statusId,
   userText,
   categoryId,
+  lat,
+  lng,
   handleOptionsClick,
 }) => {
   return (
-    <div className="flex h-[80vh] items-center justify-center p-4">
+    <div className="flex items-center justify-center p-4">
       <div
         className={clsx(
           " py-6 px-4 my-2",
-          "rounded-[10px] bg-card_bg max-w-[600px]",
-          "cursor-pointer"
+          "rounded-[10px] bg-card_bg max-w-[600px]"
         )}
-        style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}>
+        style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
+      >
         <CardHeader
           statusText={statusText}
           id={id}
@@ -39,6 +41,9 @@ const SelectedCard: React.FC<SelectedCardProps> = ({
           categoryName={categoryName}
         />
         <CardMain
+          statusText={statusText}
+          lat={lat}
+          lng={lng}
           categoryName={categoryName}
           userText={userText}
           imgUrl={imgUrl}

@@ -42,6 +42,8 @@ export default function RootLayout({
               hideProgressBar
               closeOnClick={false}
               draggable={false}
+              pauseOnHover={false}
+              pauseOnFocusLoss={false}
               theme="colored"
             />
           </body>
