@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className="col-span-1 rounded-[21px] bg-card_bg py-4 px-6 relative my-2 cursor-pointer"
+      className="col-span-1 max-w-[400px] rounded-[21px] bg-card_bg py-4 px-6 relative my-2 cursor-pointer"
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
       onClick={onClick}
       id={id.toString()}
