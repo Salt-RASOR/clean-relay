@@ -6,7 +6,7 @@ import "react-tabs/style/react-tabs.css";
 import CustomMap from "./components/Map/CustomMap";
 import Card from "./components/Card/Card";
 import { Status, reportsPageSections } from "./common/constants";
-import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   selectAllIssues,
   selectStatus,
