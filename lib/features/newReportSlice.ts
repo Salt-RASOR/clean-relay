@@ -102,6 +102,7 @@ export const newReportSlice = createSlice({
             label: category.name,
           };
         });
+        state.status = Status.Idle;
       })
       .addCase(createNewReportThunk.fulfilled, (state, action) => {
         state.newData = action.payload;
