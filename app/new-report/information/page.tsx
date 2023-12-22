@@ -4,7 +4,7 @@ import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { selectCategories } from "@/lib/features/issuesSlice";
+import { selectCategories } from "@/lib/features/newReportSlice";
 import {
   selectNewCategory,
   selectNewStatus,
@@ -81,7 +81,7 @@ const Page = () => {
         <Select
           defaultValue={null}
           onChange={handleOption}
-          options={ options}
+          options={options}
           isLoading={isLoading}
           loadingMessage={() => 'Loading...'} 
           noOptionsMessage={() => 'Loading...'}
