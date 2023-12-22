@@ -153,6 +153,9 @@ export const issuesSlice = createSlice({
     setViewMode: (state, action: PayloadAction<viewModes>) => {
       state.viewMode = action.payload;
     },
+    setIssueById: (state, action: PayloadAction<IssueGetResponse | null>) => {
+      state.issueById = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -181,10 +184,10 @@ export const issuesSlice = createSlice({
         state.status = Status.Idle;
       })
       .addCase(getIssuesThunk.pending, handleLoading)
-      .addCase(getIssueByIdThunk.pending, handleLoading)
       .addCase(changeStatusThunk.pending, handleLoading);
   },
 });
 
-export const { setSelectedIssueId, setViewMode } = issuesSlice.actions;
+export const { setSelectedIssueId, setViewMode, setIssueById } =
+  issuesSlice.actions;
 export default issuesSlice.reducer;

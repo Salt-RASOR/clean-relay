@@ -8,9 +8,10 @@ import {
   selectNewCategory,
   selectNewDescription,
   selectNewImage,
+  selectNewStatus,
   setNewImage,
 } from "@/lib/features/newReportSlice";
-import { getIssuesThunk, selectStatus } from "@/lib/features/issuesSlice";
+import { getIssuesThunk } from "@/lib/features/issuesSlice";
 import useLocation from "@/app/hooks/useLocation";
 import { Status } from "@/app/common/constants";
 import FileInput from "@/app/components/Input/FileInput";
@@ -22,7 +23,7 @@ const Page = () => {
 
   const dispatch = useAppDispatch();
 
-  const status = useAppSelector(selectStatus);
+  const status = useAppSelector(selectNewStatus);
   const userText = useAppSelector(selectNewDescription);
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
@@ -40,7 +41,13 @@ const Page = () => {
     event.stopPropagation();
     event.preventDefault();
 
-    if (!userText || !categoryId || !imageFile || !userLocation) {
+    if (
+      !userText ||
+      !categoryId ||
+      !imageFile ||
+      !userLocation ||
+      status === Status.Loading
+    ) {
       return;
     }
 

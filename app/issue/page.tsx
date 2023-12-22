@@ -11,6 +11,8 @@ import {
   selectStatus,
   selectSelectedIssueId,
   setSelectedIssueId,
+  selectAllIssues,
+  setIssueById,
 } from "@/lib/features/issuesSlice";
 import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
@@ -19,13 +21,20 @@ import SelectedCard from "../components/Card/SelectedCard";
 const Page = () => {
   const status = useAppSelector(selectStatus);
   const issueById = useAppSelector(selectIssueById);
+  const issues = useAppSelector(selectAllIssues);
   const selectedIssueId = useAppSelector(selectSelectedIssueId);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (selectedIssueId) {
+      const issue = issues.find((issue) => issue.id === selectedIssueId);
+      if (issue) {
+        dispatch(setIssueById(issue));
+      }
+
       dispatch(getIssueByIdThunk(selectedIssueId));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIssueId, dispatch]);
 
   const handleOptionsClick = (statusText: string) => {

@@ -4,6 +4,7 @@ import "./globals.css";
 import clsx from "clsx";
 import Navbar from "./components/Navbar/Navbar";
 import StoreProvider from "./components/Providers/StoreProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body className={clsx(inter.className)}>
-          <div className="container mx-auto  w-full sm:w-5/6 max-w-[1400px]">
-            {children}
-          </div>
-          <Navbar />
-        </body>
-      </html>
-    </StoreProvider>
+    <>
+      <SpeedInsights />
+      <StoreProvider>
+        <html lang="en">
+          <body className={clsx(inter.className)}>
+            <div className="container mx-auto  w-full sm:w-5/6 max-w-[1400px]">
+              {children}
+            </div>
+            <Navbar />
+          </body>
+        </html>
+      </StoreProvider>
+    </>
   );
 }
