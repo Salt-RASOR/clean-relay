@@ -17,6 +17,7 @@ import {
 import { viewModes } from "./common/interfaces";
 import { useRouter } from "next/navigation";
 import Loader from "./components/Loader/Loader";
+import Filter from "@/app/components/Filter/Filter";
 
 const Page = () => {
   const router = useRouter();
@@ -41,27 +42,26 @@ const Page = () => {
 
   return (
     <>
-      <div className="mt-20 mb-6 px-4">
+      <div className="mt-10 mb-6 px-4">
+        <Filter />
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
           <TabList className="grid grid-cols-3 gap-4 mb-8 text-primary_color">
             {status === Status.Loading && <Loader />}
             {reportsPageSections.map((item, index) => (
               <Tab
                 key={index}
-                className={"flex items-center justify-center cursor-pointer"}
-              >
+                className={"flex items-center justify-center cursor-pointer"}>
                 <h2 className="font-bold pb-6">{item}</h2>
               </Tab>
             ))}
           </TabList>
 
           <TabPanel>
-            <div className="flex justify-center">
+            <div className="flex justify-center lg:justify-start">
               <div
                 className={
-                  "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mx-auto"
-                }
-              >
+                  "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4"
+                }>
                 {issues.map((item, index) => (
                   <Card key={index} {...item} onClick={handleIssueClick} />
                 ))}
