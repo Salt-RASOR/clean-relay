@@ -4,16 +4,24 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Modal from "../Modal/Modal";
 import useHandleModal from "@/app/hooks/useHandleModal";
+import Image from 'next/image'
+import getIssueIcon from "@/app/utils/getIssueIcon";
+import { selectIconImages } from "@/lib/features/issuesSlice";
+import { useAppSelector } from "@/lib/hooks";
 
 type CardHeaderProps = {
   statusText: string | undefined;
   id: number | undefined;
-  statusId: number | undefined;
+  statusId: number;
+  categoryId: number;
+  categoryName: string
   handleOptionsClick: (statusText: string) => void;
 };
 const CardHeader: React.FC<CardHeaderProps> = ({
-  statusText,
   handleOptionsClick,
+  categoryId, 
+  categoryName,
+  statusId,
 }) => {
   const { handleModalShow, showModal, handleModalClose } = useHandleModal();
 
@@ -21,18 +29,23 @@ const CardHeader: React.FC<CardHeaderProps> = ({
     handleOptionsClick && handleOptionsClick(optionName);
     handleModalClose();
   };
+  const iconList = useAppSelector(selectIconImages);
+  const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
+
   return (
     <header
-      className={clsx(
-        "border-b border-stroke_color",
-        "relative  p-4",
-        "flex items-center justify-between"
-      )}
+    className="flex justify-between items-center mb-4 relative"
     >
-      <p>
-        <span className="font-bold pl-2">Status: </span>
-        {statusText}
-      </p>
+   
+      <div className="flex justify-left items-center mb-4">
+        <Image
+          src={categoryIconUrl}
+          alt={categoryName}
+          width={30}
+          height={30}
+        />
+        <p className="font-bold ml-6">{categoryName}</p>
+      </div>
       <button
         onClick={handleModalShow}
         type="button"
@@ -44,6 +57,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
       >
         <BsThreeDotsVertical />
       </button>
+   
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
         <div className="p-4 mt-4 flex flex-col min-w-[200px] text-primary_color">
           {shangeStatusOptions.map((option, idx) => (

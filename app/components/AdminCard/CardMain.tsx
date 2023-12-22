@@ -13,7 +13,7 @@ const CardMain: React.FC<CardMainProps> = ({
   address,
 }) => {
   return (
-    <main className="p-4 flex flex-col gap-4 items-center mb-6">
+    <main className="px-4 flex flex-col gap-4 items-center my-6">
       <p className="text-left w-full">
         <span className="font-bold pl-2">Category: </span>
         {categoryName}
@@ -21,8 +21,9 @@ const CardMain: React.FC<CardMainProps> = ({
       <Image
         src={imgUrl ? imgUrl : ""}
         alt={(categoryName ?? "") + userText}
-        width={200}
+        width={600}
         height={200}
+        sizes="(max-width: 768px) 100vw, 33vw"
       />
       <p className="text-left w-full">
         <span className="font-bold">{address}</span>
