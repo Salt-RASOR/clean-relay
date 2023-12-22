@@ -56,14 +56,16 @@ const Page = () => {
           </TabList>
 
           <TabPanel>
-            <div className="flex justify-center lg:justify-start"  >
-            <div
-              className={"grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4"}
-            >
-              {issues.map((item, index) => (
-                <Card key={index} {...item} onClick={handleIssueClick} />
-              ))}
-            </div>
+            <div className="flex justify-center">
+              <div
+                className={
+                  "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mx-auto"
+                }
+              >
+                {issues.map((item, index) => (
+                  <Card key={index} {...item} onClick={handleIssueClick} />
+                ))}
+              </div>
             </div>
           </TabPanel>
           <TabPanel>
