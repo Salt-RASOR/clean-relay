@@ -14,19 +14,23 @@ import {
   setSelectedIssueId,
   selectAllIssues,
   setIssueById,
+  getIssuesThunk,
 } from "@/lib/features/issuesSlice";
 import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
 import SelectedCard from "../../components/Card/SelectedCard";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const Page = () => {
   const { id } = useParams();
+
   const status = useAppSelector(selectStatus);
   const issueById = useAppSelector(selectIssueById);
   const issues = useAppSelector(selectAllIssues);
   const selectedIssueId = useAppSelector(selectSelectedIssueId) || Number(id);
+
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (selectedIssueId) {
@@ -54,7 +58,10 @@ const Page = () => {
         case StatusOptions.Completed:
         case StatusOptions.Delete:
           dispatch(setSelectedIssueId(null));
-          dispatch(deleteIssueThunk(selectedIssueId));
+          dispatch(deleteIssueThunk(selectedIssueId)).then(() => {
+            dispatch(getIssuesThunk());
+            router.push("/");
+          });
           return;
         default:
           console.log("Invalid status option");

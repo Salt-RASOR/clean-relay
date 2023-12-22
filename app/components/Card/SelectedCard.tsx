@@ -25,9 +25,9 @@ const SelectedCard: React.FC<SelectedCardProps> = ({
   return (
     <div className="flex items-center justify-center gap-4 pt-20">
       <div
-      style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
+        style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
         className={clsx(
-          "max-w-[400px] bg-card_bg z-[-1]",
+          "max-w-[400px] bg-card_bg",
           "relative",
           "border border-solid border-stroke_color rounded-[20px]"
         )}
@@ -35,7 +35,7 @@ const SelectedCard: React.FC<SelectedCardProps> = ({
         <div
           className={clsx(
             "w-[46px] h-[46px]",
-            "top-0 left-0 absolute z-[-1]",
+            "top-0 left-0 absolute",
             "rounded-tl-[20px]"
           )}
           style={{

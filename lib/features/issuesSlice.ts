@@ -74,8 +74,10 @@ export const deleteIssueThunk = createAsyncThunk(
     try {
       const response = await deleteIssue(id);
       if (response.status === 200) {
-        return dispatch(getIssuesThunk());
+        return {};
       }
+
+      throw new Error("Couldnt delete issue");
     } catch (error) {
       throw new Error((error as Error).message);
     }
