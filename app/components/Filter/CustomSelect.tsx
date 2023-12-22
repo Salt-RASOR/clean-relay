@@ -1,4 +1,4 @@
-import Select, { MultiValue, StylesConfig } from "react-select";
+import Select, { MultiValue } from "react-select";
 import { Status } from "@/app/common/constants";
 
 import {
@@ -17,7 +17,7 @@ const CustomSelect = () => {
   const customStyles = {
     option: (
       defaultStyles: {},
-      state: { isSelected: boolean; isFocused: boolean }
+      state: { isSelected: boolean }
     ) => ({
       ...defaultStyles,
       color: "#343758",
@@ -30,7 +30,7 @@ const CustomSelect = () => {
     }),
     control: (
       defaultStyles: {},
-      state: { isSelected: boolean; isFocused: boolean }
+      state: { isFocused: boolean }
     ) => ({
       ...defaultStyles,
       padding: "6px",
@@ -43,8 +43,8 @@ const CustomSelect = () => {
         boxShadow: "0px 0px 6px #eeeef7",
       },
     }),
-    multiValue: (styles: StylesConfig) => ({
-      ...styles,
+    multiValue: (provided: object) => ({
+      ...provided,
       backgroundColor: "#eeeef7",
     }),
   };
