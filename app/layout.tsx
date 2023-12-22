@@ -4,7 +4,6 @@ import "./globals.css";
 import clsx from "clsx";
 import Navbar from "./components/Navbar/Navbar";
 import StoreProvider from "./components/Providers/StoreProvider";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +17,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const env = process.env.NODE_ENV;
-  const speedChecker = env === "development" ? "" : "<SpeedInsights />";
-
   return (
     <>
-      {speedChecker}
       <StoreProvider>
         <html lang="en">
           <meta
