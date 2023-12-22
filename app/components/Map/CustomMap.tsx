@@ -21,9 +21,7 @@ const center = {
 
 const containerStyle = {
   width: "auto",
-  // wont autoadjust until a reload, but fits nicely
-  // 300 is a guesstimate of top and bottom bars' height
-  height: (window.innerHeight - 300).toString() + "px",
+  height: "calc(100vh - 300px)",
 };
 
 const CustomMap = () => {
@@ -96,5 +94,3 @@ const CustomMap = () => {
 };
 
 export default React.memo(CustomMap);
-
-export const dynamic = "force-dynamic";

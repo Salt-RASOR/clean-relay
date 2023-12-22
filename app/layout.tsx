@@ -18,13 +18,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const env = process.env.NODE_ENV;
+  const speedChecker = env === "development" ? "" : "<SpeedInsights />";
+
   return (
     <>
-      <SpeedInsights />
+      {speedChecker}
       <StoreProvider>
         <html lang="en">
+          <meta
+            name="format-detection"
+            content="telephone=no, date=no, email=no, address=no"
+          />
           <body className={clsx(inter.className)}>
-            <div className="container mx-auto  w-full sm:w-5/6 max-w-[1400px]">
+            <div className="container mx-auto w-full pb-[110px] sm:w-5/6 max-w-[1400px]">
               {children}
             </div>
             <Navbar />
