@@ -19,6 +19,13 @@ const center = {
   lng: 18.06324,
 };
 
+const containerStyle = {
+  width: "auto",
+  // wont autoadjust until a reload, but fits nicely
+  // 300 is a guesstimate of top and bottom bars' height
+  height: (window.innerHeight - 300).toString() + "px",
+};
+
 const CustomMap = () => {
   const router = useRouter();
   const { userLocation } = useLocation();
@@ -42,13 +49,6 @@ const CustomMap = () => {
   const onUnmount = React.useCallback(() => {
     setMap(null);
   }, []);
-
-  const containerStyle = {
-    width: "auto",
-    // wont autoadjust until a reload, but fits nicely
-    // 300 is a guesstimate of top and bottom bars' height
-    height: (window.innerHeight - 300).toString() + "px",
-  };
 
   const handleMarkerClick = (id: string) => {
     dispatch(setSelectedIssueId(Number(id)));

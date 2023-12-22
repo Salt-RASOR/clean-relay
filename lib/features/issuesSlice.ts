@@ -181,6 +181,15 @@ export const issuesSlice = createSlice({
       })
       .addCase(changeStatusThunk.fulfilled, (state, action) => {
         state.issueById = action.payload;
+
+        const issue = state.allIssues.find(
+          (issue) => issue.id === action.payload.id
+        );
+
+        if (issue) {
+          issue.statusId = action.payload.statusId;
+        }
+
         state.status = Status.Idle;
       })
       .addCase(getIssuesThunk.pending, handleLoading)

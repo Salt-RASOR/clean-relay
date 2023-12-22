@@ -3,9 +3,8 @@ import React from "react";
 import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
-
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { selectCategories, selectStatus } from "@/lib/features/issuesSlice";
+import { selectCategories } from "@/lib/features/issuesSlice";
 import {
   selectNewCategory,
   setNewCategory,
@@ -13,16 +12,13 @@ import {
 } from "@/lib/features/newReportSlice";
 import { CategoryOption } from "@/app/common/interfaces";
 import Button from "@/app/components/Buttons/Button";
-import { Status } from "@/app/common/constants";
 import TextArea from "@/app/components/Input/TextArea";
-import Loader from "@/app/components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const options = useAppSelector(selectCategories);
-  const status = useAppSelector(selectStatus);
   const selectedOption = useAppSelector(selectNewCategory);
 
   const handleOption = (event: SingleValue<CategoryOption | null>) => {
@@ -71,7 +67,6 @@ const Page = () => {
 
   return (
     <>
-      {status === Status.Loading && <Loader />}
       <form onSubmit={saveDescription}>
         <h2 className="font-bold mb-10 text-primary_color text-center">
           Please provide some information
