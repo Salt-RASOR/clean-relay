@@ -8,7 +8,13 @@ import {
 } from "@/app/common/interfaces";
 import { Status } from "@/app/common/constants";
 
-export interface newReportState {
+export interface NewReportErrors {
+  categoryError: boolean;
+  descriptionError: boolean;
+  imageError: boolean;
+}
+
+export interface NewReportState {
   categories: CategoryOption[];
   newCategory: number | null;
   newDescription: string;
@@ -16,9 +22,10 @@ export interface newReportState {
   newImageURL: string;
   newData: IssuePostResponse | null;
   status: Status.Idle | Status.Loading | Status.Error;
+  errors: NewReportErrors;
 }
 
-const initialState: newReportState = {
+const initialState: NewReportState = {
   categories: [],
   newCategory: null,
   newDescription: "",
@@ -26,6 +33,7 @@ const initialState: newReportState = {
   newImageURL: "",
   newData: null,
   status: Status.Idle,
+  errors: { categoryError: false, descriptionError: false, imageError: false },
 };
 
 export const selectCategories = (state: RootState) =>
@@ -46,6 +54,9 @@ export const selectNewReportData = (state: RootState) =>
   state.newReport.newData;
 
 export const selectNewStatus = (state: RootState) => state.newReport.status;
+
+export const selectNewReportErrors = (state: RootState) =>
+  state.newReport.errors;
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
@@ -71,7 +82,7 @@ export const getCategoriesThunk = createAsyncThunk(
   }
 );
 
-const handleLoading = (state: newReportState) => {
+const handleLoading = (state: NewReportState) => {
   state.status = Status.Loading;
 };
 
@@ -90,6 +101,12 @@ export const newReportSlice = createSlice({
     },
     setNewImageURL: (state, action: PayloadAction<string>) => {
       state.newImageURL = action.payload;
+    },
+    setNewReportErrors: (
+      state,
+      action: PayloadAction<{ key: keyof NewReportErrors; value: boolean }>
+    ) => {
+      state.errors[action.payload.key] = action.payload.value;
     },
   },
   extraReducers: (builder) => {
@@ -122,5 +139,6 @@ export const {
   setNewDescription,
   setNewImage,
   setNewImageURL,
+  setNewReportErrors,
 } = newReportSlice.actions;
 export default newReportSlice.reducer;

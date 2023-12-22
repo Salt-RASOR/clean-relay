@@ -16,7 +16,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 enum ReportsPageSections {
   LISTINGS = "List",
   MAP = "Map",
-  MY_REPORTS = "My",
+  MY_REPORTS = "My List",
 }
 export const reportsPageSections = [
   ReportsPageSections.LISTINGS,

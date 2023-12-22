@@ -4,7 +4,11 @@ import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { selectCategories } from "@/lib/features/newReportSlice";
+import {
+  selectCategories,
+  selectNewReportErrors,
+  setNewReportErrors,
+} from "@/lib/features/newReportSlice";
 import {
   selectNewCategory,
   selectNewStatus,
@@ -16,6 +20,7 @@ import Button from "@/app/components/Buttons/Button";
 import TextArea from "@/app/components/Input/TextArea";
 import { FadeLoader } from "react-spinners";
 import { Status } from "@/app/common/constants";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const router = useRouter();
@@ -25,17 +30,29 @@ const Page = () => {
   const selectedOption = useAppSelector(selectNewCategory);
   const status = useAppSelector(selectNewStatus);
 
+  const errors = useAppSelector(selectNewReportErrors);
+
   const handleOption = (event: SingleValue<CategoryOption | null>) => {
     dispatch(setNewCategory(Number(event?.id)));
+
+    if (errors.categoryError) {
+      dispatch(setNewReportErrors({ key: "categoryError", value: false }));
+    }
   };
 
-  const saveDescription = (event: React.FormEvent<HTMLFormElement>) => {
+  const updateDescriptionInput = () => {
+    if (errors.descriptionError) {
+      dispatch(setNewReportErrors({ key: "descriptionError", value: false }));
+    }
+  };
+
+  const saveInformation = (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
     if (!selectedOption) {
-      // error toast for not having an option here
-      return;
+      dispatch(setNewReportErrors({ key: "categoryError", value: true }));
+      toast("Missing Category", { type: "error", toastId: "categoryError" });
     }
 
     const target = event.target as HTMLFormElement;
@@ -43,7 +60,14 @@ const Page = () => {
     const description = data.get("details") as string;
 
     if (!description) {
-      // error toast for not having a description here
+      dispatch(setNewReportErrors({ key: "descriptionError", value: true }));
+      toast("Missing Description", {
+        type: "error",
+        toastId: "descriptionError",
+      });
+    }
+
+    if (!description || !selectedOption) {
       return;
     }
 
@@ -66,6 +90,7 @@ const Page = () => {
       padding: "10px",
       border: "none",
       boxShadow: "none",
+      outline: errors.categoryError ? "2px solid red" : "",
     }),
   };
 
@@ -73,7 +98,7 @@ const Page = () => {
   const loaderElement = <FadeLoader color="#f7ecff" />;
   return (
     <div className="px-4 w-full md:w-7/12">
-      <form onSubmit={saveDescription}>
+      <form onSubmit={saveInformation}>
         <h2 className="font-bold mb-10 text-primary_color text-center">
           Please provide some information
         </h2>
@@ -87,7 +112,10 @@ const Page = () => {
           noOptionsMessage={() => "Loading..."}
           styles={customStyles}
         />
-        <TextArea />
+        <TextArea
+          hasError={errors.descriptionError}
+          onChange={updateDescriptionInput}
+        />
         <Button buttonText={"Next"} additionalClasses="mt-10" />
       </form>
     </div>

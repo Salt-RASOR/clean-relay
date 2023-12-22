@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
 import Navbar from "./components/Navbar/Navbar";
 import StoreProvider from "./components/Providers/StoreProvider";
 import LocationPrompter from "./components/Location/LocationPrompter";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +35,15 @@ export default function RootLayout({
               {children}
             </div>
             <Navbar />
+            <ToastContainer
+              position="top-center"
+              autoClose={2500}
+              limit={3}
+              hideProgressBar
+              closeOnClick={false}
+              draggable={false}
+              theme="colored"
+            />
           </body>
         </html>
       </StoreProvider>

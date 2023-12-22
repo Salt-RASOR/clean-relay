@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient({ log: ["info", "warn", "error"] });
+const prisma = new PrismaClient();
 
 export default prisma;
+
+prisma.$disconnect();

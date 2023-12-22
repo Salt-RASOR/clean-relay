@@ -12,9 +12,10 @@ import {
 
 type FileInputProps = {
   saveFile: (files: File[]) => void;
+  hasError: boolean;
 };
 
-const FileInput: FC<FileInputProps> = ({ saveFile }) => {
+const FileInput: FC<FileInputProps> = ({ saveFile, hasError }) => {
   const imageFile = useAppSelector(selectNewImage);
   const imageURL = useAppSelector(selectNewImageURL);
   const dispatch = useAppDispatch();
@@ -68,7 +69,8 @@ const FileInput: FC<FileInputProps> = ({ saveFile }) => {
           className={clsx(
             "flex flex-col items-center justify-center",
             "text-primary-color m-4 p-8 pb-16",
-            "border border-dashed border-gray-400",
+            "border border-dashed-2 border-gray-400",
+            hasError && "outline outline-2 outline-red-500",
             "text-sm text-primary-color",
             "cursor-pointer"
           )}

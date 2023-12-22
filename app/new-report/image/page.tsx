@@ -8,8 +8,10 @@ import {
   selectNewCategory,
   selectNewDescription,
   selectNewImage,
+  selectNewReportErrors,
   selectNewStatus,
   setNewImage,
+  setNewReportErrors,
 } from "@/lib/features/newReportSlice";
 import { getIssuesThunk } from "@/lib/features/issuesSlice";
 import { Status } from "@/app/common/constants";
@@ -17,6 +19,7 @@ import FileInput from "@/app/components/Input/FileInput";
 import Button from "@/app/components/Buttons/Button";
 import Loader from "@/app/components/Loader/Loader";
 import { selectMyLocation } from "@/lib/features/profileSlice";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const router = useRouter();
@@ -28,10 +31,15 @@ const Page = () => {
   const categoryId = useAppSelector(selectNewCategory);
   const imageFile = useAppSelector(selectNewImage);
   const myLocation = useAppSelector(selectMyLocation);
+  const errors = useAppSelector(selectNewReportErrors);
 
   const setFile = async (files: File[]) => {
     if (!files || files.length === 0) {
       return;
+    }
+
+    if (errors.imageError) {
+      dispatch(setNewReportErrors({ key: "imageError", value: false }));
     }
 
     dispatch(setNewImage(files[0]));
@@ -40,6 +48,11 @@ const Page = () => {
   const sendReport = async (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
+
+    if (!imageFile) {
+      dispatch(setNewReportErrors({ key: "imageError", value: true }));
+      toast("Missing Image", { type: "error", toastId: "imageError" });
+    }
 
     if (
       !userText ||
@@ -75,7 +88,7 @@ const Page = () => {
     <div className="px-4">
       {status === Status.Loading && <Loader />}
       <form onSubmit={sendReport}>
-        <FileInput saveFile={setFile} />
+        <FileInput saveFile={setFile} hasError={errors.imageError} />
         <Button buttonText={"Send Report"} additionalClasses="mt-12" />
       </form>
     </div>
