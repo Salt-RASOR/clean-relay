@@ -118,6 +118,7 @@ const Page = () => {
           loadingMessage={() => "Loading..."}
           noOptionsMessage={() => "Loading..."}
           styles={customStyles}
+          placeholder="Select Category"
         />
         <TextArea
           defaultValue={newDescription}
