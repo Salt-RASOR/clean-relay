@@ -55,7 +55,7 @@ export const POST = async (req: Request) => {
 
     const compressedBuffer = await sharp(fileBuffer)
       .png({ quality: 64 })
-      .resize(320, 320, {
+      .resize(400, 300, {
         fit: "inside",
         background: { r: 0, g: 0, b: 0, alpha: 0 },
       })

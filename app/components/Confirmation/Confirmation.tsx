@@ -20,16 +20,18 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   };
 
   return (
-    <div
-      className={`${additionalClass} px-2 cursor-pointer`}
-      onClick={moveToHome}
-    >
-      <div className="flex flex-col justify-center items-center pt-20">
-        <Image width={200} height={200} src={submittedReport} alt="" />
-        <p className="font-bold text-center text-primary_color text-2xl max-w-80">
-          Thank you! <br />
-          {text}
-        </p>
+    <div className={`${additionalClass} px-2`}>
+      <div className="flex flex-col justify-center items-center py-10">
+        <div
+          onClick={moveToHome}
+          className="flex flex-col justify-center items-center cursor-pointer"
+        >
+          <Image width={100} height={100} src={submittedReport} alt="" />
+          <p className="font-bold text-center text-primary_color text-2xl max-w-80">
+            Thank you! <br />
+            {text}
+          </p>
+        </div>
         {children}
       </div>
     </div>

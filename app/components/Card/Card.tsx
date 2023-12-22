@@ -62,7 +62,7 @@ const Card: React.FC<CardProps> = ({
         quality={50}
         width={300}
         height={200}
-        className="object-cover w-full my-4"
+        className="object-cover w-full my-4 h-[200px]"
       />
       <p className="font-semibold my-4 truncate">{address}</p>
       <p className="mt-4 truncate">{userText}</p>

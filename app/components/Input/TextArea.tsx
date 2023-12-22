@@ -7,7 +7,9 @@ const TextArea = () => {
       name="details"
       id="details"
       rows={5}
-      placeholder="Please, provide more information"
+      placeholder={
+        "Describe the problem you see. \n\nWhat is the problem? \nWhere is it located?\n Is there anything noteworthy?\n Any other information you can think of?"
+      }
     ></textarea>
   );
 };
