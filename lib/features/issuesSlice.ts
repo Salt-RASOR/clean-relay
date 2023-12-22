@@ -1,14 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  Category,
-  CategoryOption,
   IconData,
   IssueGetResponse,
   viewModes,
 } from "../../app/common/interfaces";
 import {
-  getCategories,
   getIconImage,
   getIssues,
   getIssueById,
@@ -19,7 +16,6 @@ import { RootState } from "../store";
 import { Status, issuesIcons } from "@/app/common/constants";
 
 export interface issuesState {
-  categories: CategoryOption[];
   allIssues: IssueGetResponse[];
   issueById: IssueGetResponse | null;
   selectedIssueId: number | null;
@@ -30,7 +26,6 @@ export interface issuesState {
 }
 
 const initialState: issuesState = {
-  categories: [],
   allIssues: [],
   issueById: null,
   selectedIssueId: null,
@@ -39,18 +34,6 @@ const initialState: issuesState = {
   status: Status.Idle,
   errorMessage: "",
 };
-
-export const getCategoriesThunk = createAsyncThunk(
-  "issues/getCategories",
-  async () => {
-    try {
-      const response = await getCategories();
-      return response;
-    } catch (error) {
-      throw new Error((error as Error).message);
-    }
-  }
-);
 
 export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {
   try {
@@ -128,7 +111,6 @@ export const getIconImagesThunk = createAsyncThunk(
   }
 );
 
-export const selectCategories = (state: RootState) => state.issues.categories;
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
 export const selectIssueById = (state: RootState) => state.issues.issueById;
@@ -139,6 +121,7 @@ export const selectViewMode = (state: RootState) => state.issues.viewMode;
 export const selectStatus = (state: RootState) => {
   return state.issues.status;
 };
+
 const handleLoading = (state: issuesState) => {
   state.status = Status.Loading;
 };
@@ -159,15 +142,6 @@ export const issuesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCategoriesThunk.fulfilled, (state, action) => {
-        state.categories = action.payload.map((category: Category) => {
-          return {
-            id: category.id,
-            value: category.name,
-            label: category.name,
-          };
-        });
-      })
       .addCase(getIssuesThunk.fulfilled, (state, action) => {
         state.allIssues = action.payload;
         state.status = Status.Idle;

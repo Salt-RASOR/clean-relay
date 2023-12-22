@@ -1,10 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { createNewReport } from "@/app/common/api";
-import { IssuePostResponse } from "@/app/common/interfaces";
+import { createNewReport, getCategories } from "@/app/common/api";
+import {
+  Category,
+  CategoryOption,
+  IssuePostResponse,
+} from "@/app/common/interfaces";
 import { Status } from "@/app/common/constants";
 
 export interface newReportState {
+  categories: CategoryOption[];
   newCategory: number | null;
   newDescription: string;
   newImage: File | null;
@@ -14,6 +19,7 @@ export interface newReportState {
 }
 
 const initialState: newReportState = {
+  categories: [],
   newCategory: null,
   newDescription: "",
   newImage: null,
@@ -21,6 +27,9 @@ const initialState: newReportState = {
   newData: null,
   status: Status.Idle,
 };
+
+export const selectCategories = (state: RootState) =>
+  state.newReport.categories;
 
 export const selectNewCategory = (state: RootState) =>
   state.newReport.newCategory;
@@ -50,6 +59,22 @@ export const createNewReportThunk = createAsyncThunk(
   }
 );
 
+export const getCategoriesThunk = createAsyncThunk(
+  "issues/getCategories",
+  async () => {
+    try {
+      const response = await getCategories();
+      return response;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
+const handleLoading = (state: newReportState) => {
+  state.status = Status.Loading;
+};
+
 export const newReportSlice = createSlice({
   name: "newReport",
   initialState,
@@ -69,6 +94,15 @@ export const newReportSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getCategoriesThunk.fulfilled, (state, action) => {
+        state.categories = action.payload.map((category: Category) => {
+          return {
+            id: category.id,
+            value: category.name,
+            label: category.name,
+          };
+        });
+      })
       .addCase(createNewReportThunk.fulfilled, (state, action) => {
         state.newData = action.payload;
         state.status = Status.Idle;
@@ -77,9 +111,8 @@ export const newReportSlice = createSlice({
         state.newData = null;
         state.status = Status.Error;
       })
-      .addCase(createNewReportThunk.pending, (state) => {
-        state.status = Status.Loading;
-      });
+      .addCase(getCategoriesThunk.pending, handleLoading)
+      .addCase(createNewReportThunk.pending, handleLoading);
   },
 });
 

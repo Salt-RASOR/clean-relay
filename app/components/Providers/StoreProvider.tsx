@@ -3,11 +3,8 @@
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "@/lib/store";
-import {
-  getCategoriesThunk,
-  getIconImagesThunk,
-  getIssuesThunk,
-} from "@/lib/features/issuesSlice";
+import { getIconImagesThunk, getIssuesThunk } from "@/lib/features/issuesSlice";
+import { getCategoriesThunk } from "@/lib/features/newReportSlice";
 
 export default function StoreProvider({
   children,
