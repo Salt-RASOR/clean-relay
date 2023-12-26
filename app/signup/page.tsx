@@ -13,16 +13,16 @@ const Page = () => {
   //   ToDo get error from store
   const errors = false;
 
-  const handleClickSubmit = async () => {
+  const handleClickSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
     const emailValue = emailRef.current?.value;
     const passwordValue = passwordRef.current?.value;
 
-  
     if (emailValue && passwordValue) {
       if (passwordValue === passwordConfirmRef.current?.value) {
         console.log("Email:", emailValue);
         console.log("Password:", passwordValue);
-        // ToDo implement sign up 
+        // ToDo implement sign up
       }
     }
   };
@@ -37,7 +37,7 @@ const Page = () => {
       <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
         Sign Up
       </h1>
-      <form className="w-full md:w-7/12">
+      <form className="w-full md:w-7/12" onSubmit={handleClickSubmit}>
         <CustomInput
           label={"Email *"}
           inputType={"email"}
@@ -56,18 +56,14 @@ const Page = () => {
           forwardedRef={passwordConfirmRef}
           hasError={errors}
         />
-        <Button
-          clickHandler={handleClickSubmit}
-          buttonText={"Create Account"}
-          additionalClasses={"my-6"}
-        />
+        <Button buttonText={"Create Account"} additionalClasses={"my-6"} />
       </form>
       <div className="text-center mt-3 text-primary_color">
-        <span className="mr-2"> Already have an account?</span> 
+        <span className="mr-2"> Already have an account?</span>
         <Link
           href="/login"
           className="font-bold underline-offset-1 hover:underline">
-           LOG IN
+          LOG IN
         </Link>
       </div>
     </div>

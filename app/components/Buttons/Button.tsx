@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({
   additionalClasses,
 }) => {
   const handleClick = (event: React.SyntheticEvent) => {
-    event.preventDefault()
+    
     clickHandler && clickHandler();
   };
 
