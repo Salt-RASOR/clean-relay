@@ -107,9 +107,9 @@ const Page = () => {
   return (
     <div className="px-4 w-full md:w-7/12">
       <form onSubmit={saveInformation}>
-        <h2 className="font-bold mb-10 text-primary_color text-center">
+        <h1 className="font-bold mb-10 text-primary_color text-center">
           Please provide some information
-        </h2>
+        </h1>
 
         <Select
           value={selectedOption ? options[selectedOption - 1] : null}
