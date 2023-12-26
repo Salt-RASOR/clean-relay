@@ -8,15 +8,22 @@ import Button from "../components/Buttons/Button";
 const Page = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   //   ToDo get error from store
   const errors = false;
 
   const handleClickSubmit = async () => {
-    if (emailRef.current && passwordRef.current) {
-      console.log("Email:", emailRef.current.value);
-      console.log("Password:", passwordRef.current.value);
-      // todo implement login here
+    const emailValue = emailRef.current?.value;
+    const passwordValue = passwordRef.current?.value;
+
+  
+    if (emailValue && passwordValue) {
+      if (passwordValue === passwordConfirmRef.current?.value) {
+        console.log("Email:", emailValue);
+        console.log("Password:", passwordValue);
+        // ToDo implement sign up 
+      }
     }
   };
 
@@ -28,7 +35,7 @@ const Page = () => {
         "background-container bg-violet"
       )}>
       <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
-        Log In
+        Sign Up
       </h1>
       <form className="w-full md:w-7/12">
         <CustomInput
@@ -43,18 +50,24 @@ const Page = () => {
           forwardedRef={passwordRef}
           hasError={errors}
         />
+        <CustomInput
+          label={"Confirm the Password  *"}
+          inputType={"password"}
+          forwardedRef={passwordConfirmRef}
+          hasError={errors}
+        />
         <Button
           clickHandler={handleClickSubmit}
-          buttonText={"Login"}
+          buttonText={"Create Account"}
           additionalClasses={"my-6"}
         />
       </form>
       <div className="text-center mt-3 text-primary_color">
-        <span className="mr-2"> Need an account?</span>
+        <span className="mr-2"> Already have an account?</span> 
         <Link
-          href="/signup"
+          href="/login"
           className="font-bold underline-offset-1 hover:underline">
-          SIGN UP
+           LOG IN
         </Link>
       </div>
     </div>
