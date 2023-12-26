@@ -5,12 +5,12 @@ import { FiUser } from "react-icons/fi";
 
 export const MENU_LIST = [
   {
-    title: "View Reports",
+    title: "Reports",
     href: "/",
     icon: <MdOutlineReadMore size={24} />,
   },
   {
-    title: "New Report",
+    title: "New",
     href: "/new-report/information",
     icon: <LuPlus size={24} />,
   },

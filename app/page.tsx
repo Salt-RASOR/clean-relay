@@ -42,7 +42,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="mt-10 mb-6 px-4">
+      <div className="px-4">
         <Filter />
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
           <TabList className="grid grid-cols-3 gap-4 mb-8 text-primary_color">

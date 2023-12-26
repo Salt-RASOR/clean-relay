@@ -62,7 +62,7 @@ const Profile: React.FC<ProfileProps> = ({
             forwardedRef={passwordRef}
             hasError={errors}
           />
-          <Button buttonText={"Update Profile"} additionalClasses={"my-6"} />
+          <Button buttonText={"Update Profile"} additionalClasses={"my-6 w-full"} />
         </form>
       </div>
     </div>

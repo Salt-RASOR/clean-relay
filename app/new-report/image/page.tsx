@@ -22,6 +22,7 @@ import Button from "@/app/components/Buttons/Button";
 import Loader from "@/app/components/Loader/Loader";
 import { selectMyLocation } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
+import clsx from "clsx";
 
 const Page = () => {
   const router = useRouter();
@@ -112,11 +113,13 @@ const Page = () => {
         <Button
           buttonText={"Send Report"}
           additionalClasses={
+           clsx( "w-full",
             status === Status.Loading ||
             statusIssues === Status.Loading ||
             categoryId === null
               ? "disabled bg-slate-300 "
               : "" + "mt-12"
+              )
           }
         />
       </form>

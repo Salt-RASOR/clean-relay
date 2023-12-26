@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CgMenuGridR } from "react-icons/cg";
+import { IoMdClose } from "react-icons/io";
 
 import CustomSelect from "./CustomSelect";
 import CustomRange from "./CustomRange";
@@ -11,7 +12,7 @@ const Filter = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };
   return (
-    <div className="">
+    <div className="mb-6">
       <div
         id="accordion-flush"
         data-accordion="collapse"
@@ -25,7 +26,7 @@ const Filter = () => {
             onClick={toggleAccordion}
             aria-expanded="true"
             aria-controls="accordion-flush-body-1">
-            <CgMenuGridR size={25} />
+           {isAccordionOpen ?  <IoMdClose size={25}/> : <CgMenuGridR size={25} />}
           </button>
         </h2>
         <div

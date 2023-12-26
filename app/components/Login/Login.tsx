@@ -37,7 +37,7 @@ const Login: React.FC<LoginProps> = ({emailRef, passwordRef, errors, handleClick
           forwardedRef={passwordRef}
           hasError={errors}
         />
-        <Button buttonText={"Login"} additionalClasses={"my-6"} />
+        <Button buttonText={"Login"} additionalClasses={"my-6 w-full"} />
       </form>
       <div className="text-center mt-3 text-primary_color">
         <span className="mr-2"> Need an account?</span>

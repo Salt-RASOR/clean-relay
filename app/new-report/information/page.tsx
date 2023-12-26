@@ -126,7 +126,7 @@ const Page = () => {
           hasError={errors.descriptionError}
           onChange={updateDescriptionInput}
         />
-        <Button buttonText={"Next"} additionalClasses="mt-10" />
+        <Button buttonText={"Next"} additionalClasses="mt-10 w-full" />
       </form>
     </div>
   );
