@@ -2,25 +2,18 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import CustomInput from "../components/Input/CustomInput";
-import Button from "../components/Buttons/Button";
+import CustomInput from "../Input/CustomInput";
+import Button from "../Buttons/Button";
 
-const Page = () => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  //   ToDo get error from store
-  const errors = false;
-
-  const handleClickSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (emailRef.current && passwordRef.current) {
-      console.log("Email:", emailRef.current.value);
-      console.log("Password:", passwordRef.current.value);
-      // todo implement login here
-    }
+type LoginProps = {
+    emailRef: React.RefObject<HTMLInputElement>;
+    passwordRef: React.RefObject<HTMLInputElement>;
+    errors: boolean;
+    handleClickSubmit: (event: React.SyntheticEvent) => void;
   };
 
+const Login: React.FC<LoginProps> = ({emailRef, passwordRef, errors, handleClickSubmit}) => {
+ 
   return (
     <div
       className={clsx(
@@ -58,4 +51,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Login;

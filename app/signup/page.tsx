@@ -61,7 +61,7 @@ const Page = () => {
       <div className="text-center mt-3 text-primary_color">
         <span className="mr-2"> Already have an account?</span>
         <Link
-          href="/login"
+          href="/profile"
           className="font-bold underline-offset-1 hover:underline">
           LOG IN
         </Link>

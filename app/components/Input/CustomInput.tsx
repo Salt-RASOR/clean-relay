@@ -6,7 +6,7 @@ type CustomInputProps = {
   forwardedRef: React.RefObject<HTMLInputElement>;
   hasError: boolean;
   inputType: string;
-  placeholder?: string;
+  defaultValue?: string;
 };
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -14,14 +14,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
   forwardedRef,
   inputType,
   hasError,
-  placeholder
+  
+  defaultValue,
 }) => {
   return (
     <div className="mb-6">
       <label
         htmlFor={label}
-        className="block text-sm font-medium text-[#818181]"
-      >
+        className="block text-sm font-medium text-[#818181]">
         {label}
       </label>
       <input
@@ -35,7 +35,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         ref={forwardedRef}
         id={label}
         type={inputType}
-        placeholder={placeholder}
+        defaultValue={defaultValue}
       />
     </div>
   );
