@@ -25,6 +25,7 @@ const config: Config = {
         drag_accepted_files: "#00800063",
         drag_rejected_files: "#ff00005e",
         bg_overlay: '#00000096',
+        gold: "#FCA64B",
       },
     },
   },

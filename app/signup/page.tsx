@@ -105,7 +105,7 @@ const Page = () => {
       <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
         Sign Up
       </h1>
-      <form className="w-full max-w-2xl" onSubmit={handleClickSubmit}>
+      <form className="w-full max-w-xl" onSubmit={handleClickSubmit}>
         <CustomInput
           label={"Email *"}
           inputType={"email"}
