@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
@@ -7,6 +6,7 @@ import CustomInput from "../components/Input/CustomInput";
 import Button from "../components/Buttons/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
+  ProfileErrors,
   createNewProfileThunk,
   selectProfileErrors,
   selectUserId,
@@ -16,8 +16,11 @@ import {
 import { toast } from "react-toastify";
 import supabase from "@/app/utils/supabaseLocal";
 import { SignUpData } from "../common/interfaces";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
+
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
@@ -28,23 +31,13 @@ const Page = () => {
 
   const userId = useAppSelector(selectUserId);
 
-  const updateEmailInput = () => {
-    if (errors.emailError) {
-      dispatch(setProfileErrors({ key: "emailError", value: false }));
-    }
+  const updateInput = (key: keyof ProfileErrors, value: boolean) => {
+    setTimeout(() => {
+      dispatch(setProfileErrors({ key, value }));
+    }, 3000);
   };
 
-  const updatePasswordInput = () => {
-    if (errors.passwordError) {
-      dispatch(setProfileErrors({ key: "passwordError", value: false }));
-    }
-  };
 
-  const updateRepeatPasswordInput = () => {
-    if (errors.emailError) {
-      dispatch(setProfileErrors({ key: "repeatPasswordError", value: false }));
-    }
-  };
 
   const handleClickSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -53,14 +46,16 @@ const Page = () => {
     const repeatPasswordValue = passwordConfirmRef.current?.value;
 
     if (!emailValue) {
-      toast("Missing Image", { type: "error", toastId: "emailError" });
+      toast("Missing Email", { type: "error", toastId: "emailError" });
       dispatch(setProfileErrors({ key: "emailError", value: true }));
+      updateInput("emailError", false);
       return;
     }
 
     if (!passwordValue) {
       toast("Missing Password", { type: "error", toastId: "passwordError" });
       dispatch(setProfileErrors({ key: "passwordError", value: true }));
+      updateInput("passwordError", false);
       return;
     }
 
@@ -70,6 +65,7 @@ const Page = () => {
         toastId: "repeatPasswordError",
       });
       dispatch(setProfileErrors({ key: "repeatPasswordError", value: true }));
+      updateInput("repeatPasswordError", false);
       return;
     }
 
@@ -81,6 +77,8 @@ const Page = () => {
         toastId: "passwordTooShortError",
       });
       dispatch(setProfileErrors({ key: "passwordError", value: true }));
+      passwordRef.current.value = "";
+      updateInput("passwordError", false);
       return;
     }
 
@@ -90,6 +88,8 @@ const Page = () => {
         toastId: "passwordTooLongError",
       });
       dispatch(setProfileErrors({ key: "passwordError", value: true }));
+      passwordRef.current.value = "";
+      updateInput("passwordError", false);
       return;
     } //-------
 
@@ -100,6 +100,10 @@ const Page = () => {
       });
       dispatch(setProfileErrors({ key: "passwordError", value: true }));
       dispatch(setProfileErrors({ key: "repeatPasswordError", value: true }));
+      passwordConfirmRef.current.value = "";
+      passwordRef.current.value = "";
+      updateInput("passwordError", false);
+      updateInput("repeatPasswordError", false);
       return;
     }
 
@@ -114,6 +118,13 @@ const Page = () => {
         toastId: "userCreationError",
       });
       dispatch(setUserLoggedIn(false));
+
+      emailRef.current.value = "";
+      passwordConfirmRef.current.value = "";
+      passwordRef.current.value = "";
+      updateInput("passwordError", false);
+      updateInput("repeatPasswordError", false);
+      updateInput("emailError", false);
       return;
     }
 
@@ -125,18 +136,21 @@ const Page = () => {
           type: "success",
           toastId: "signUpSuccess",
         });
+
+        router.push("/profile");
       });
     }
   };
 
+
+  
   return (
     <div
       className={clsx(
         "px-4",
         "flex flex-col justify-center items-center",
         "background-container bg-violet"
-      )}
-    >
+      )}>
       <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
         Sign Up
       </h1>
@@ -146,21 +160,18 @@ const Page = () => {
           inputType={"email"}
           forwardedRef={emailRef}
           hasError={errors.emailError}
-          onChange={updateEmailInput}
         />
         <CustomInput
           label={"Password *"}
           inputType={"password"}
           forwardedRef={passwordRef}
           hasError={errors.passwordError}
-          onChange={updatePasswordInput}
         />
         <CustomInput
           label={"Confirm Password  *"}
           inputType={"password"}
           forwardedRef={passwordConfirmRef}
           hasError={errors.repeatPasswordError}
-          onChange={updateRepeatPasswordInput}
         />
         <Button
           buttonText={"Create Account"}
@@ -171,8 +182,7 @@ const Page = () => {
         <span className="mr-2"> Already have an account?</span>
         <Link
           href="/profile"
-          className="font-bold underline-offset-1 hover:underline"
-        >
+          className="font-bold underline-offset-1 hover:underline">
           LOG IN
         </Link>
       </div>

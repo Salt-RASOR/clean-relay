@@ -1,5 +1,4 @@
 "use client";
-
 import { Coordinates, SignUpData } from "@/app/common/interfaces";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";

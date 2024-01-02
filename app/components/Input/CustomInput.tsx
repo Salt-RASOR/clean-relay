@@ -7,7 +7,6 @@ type CustomInputProps = {
   hasError: boolean;
   inputType: string;
   defaultValue?: string;
-  onChange?: () => void;
 };
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -15,15 +14,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
   forwardedRef,
   inputType,
   hasError,
-  onChange,
+
   defaultValue,
 }) => {
   return (
     <div className="mb-6">
       <label
         htmlFor={label}
-        className="block text-sm font-medium text-[#818181]"
-      >
+        className="block text-sm font-medium text-[#818181]">
         {label}
       </label>
       <input
@@ -38,7 +36,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
         id={label}
         type={inputType}
         defaultValue={defaultValue}
-        onChange={onChange}
       />
     </div>
   );
