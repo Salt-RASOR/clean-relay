@@ -1,30 +1,97 @@
 "use client";
+
 import React, { useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import CustomInput from "../components/Input/CustomInput";
 import Button from "../components/Buttons/Button";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  selectProfileErrors,
+  setProfileErrors,
+} from "@/lib/features/profileSlice";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  //   ToDo get error from store
-  const errors = false;
+  const errors = useAppSelector(selectProfileErrors);
+
+  const dispatch = useAppDispatch();
+
+  const updateEmailInput = () => {
+    if (errors.emailError) {
+      dispatch(setProfileErrors({ key: "emailError", value: false }));
+    }
+  };
+
+  const updatePasswordInput = () => {
+    if (errors.passwordError) {
+      dispatch(setProfileErrors({ key: "passwordError", value: false }));
+    }
+  };
+
+  const updateRepeatPasswordInput = () => {
+    if (errors.emailError) {
+      dispatch(setProfileErrors({ key: "repeatPasswordError", value: false }));
+    }
+  };
 
   const handleClickSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const emailValue = emailRef.current?.value;
     const passwordValue = passwordRef.current?.value;
+    const repeatPasswordValue = passwordConfirmRef.current?.value;
 
-    if (emailValue && passwordValue) {
-      if (passwordValue === passwordConfirmRef.current?.value) {
-        console.log("Email:", emailValue);
-        console.log("Password:", passwordValue);
-        // ToDo implement sign up
-      }
+    if (!emailValue) {
+      toast("Missing Image", { type: "error", toastId: "emailError" });
+      return;
     }
+
+    if (!passwordValue) {
+      toast("Missing Password", { type: "error", toastId: "passwordError" });
+      return;
+    }
+
+    if (!repeatPasswordValue) {
+      toast("Missing Password Confirm", {
+        type: "error",
+        toastId: "repeatPasswordError",
+      });
+      return;
+    }
+
+    //-------
+    // password has to be at least 6 and at most 72 characters due to Supabase
+    if (passwordValue.length < 6) {
+      toast("Password has to be at least 6 characters", {
+        type: "error",
+        toastId: "passwordTooShortError",
+      });
+      return;
+    }
+
+    if (passwordValue.length > 72) {
+      toast("Password has to be at most 72 characters", {
+        type: "error",
+        toastId: "passwordTooLongError",
+      });
+      return;
+    } //-------
+
+    if (passwordValue !== passwordConfirmRef.current?.value) {
+      toast("Passwords have to match", {
+        type: "error",
+        toastId: "passwordMatchError",
+      });
+      return;
+    }
+
+    console.log("Email:", emailValue);
+    console.log("Password:", passwordValue);
+    // ToDo implement sign up
   };
 
   return (
@@ -43,19 +110,22 @@ const Page = () => {
           label={"Email *"}
           inputType={"email"}
           forwardedRef={emailRef}
-          hasError={errors}
+          hasError={errors.emailError}
+          onChange={updateEmailInput}
         />
         <CustomInput
           label={"Password *"}
           inputType={"password"}
           forwardedRef={passwordRef}
-          hasError={errors}
+          hasError={errors.passwordError}
+          onChange={updatePasswordInput}
         />
         <CustomInput
           label={"Confirm Password  *"}
           inputType={"password"}
           forwardedRef={passwordConfirmRef}
-          hasError={errors}
+          hasError={errors.repeatPasswordError}
+          onChange={updateRepeatPasswordInput}
         />
         <Button
           buttonText={"Create Account"}
