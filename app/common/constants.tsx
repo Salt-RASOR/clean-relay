@@ -85,3 +85,8 @@ export enum Status {
   Loading = "loading",
   Error = "error",
 }
+
+export enum Roles {
+  User = "user",
+  SuperUser = "super user",
+}

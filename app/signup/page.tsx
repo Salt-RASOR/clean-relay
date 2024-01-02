@@ -33,7 +33,8 @@ const Page = () => {
         "px-4",
         "flex flex-col justify-center items-center",
         "background-container bg-violet"
-      )}>
+      )}
+    >
       <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
         Sign Up
       </h1>
@@ -51,18 +52,22 @@ const Page = () => {
           hasError={errors}
         />
         <CustomInput
-          label={"Confirm the Password  *"}
+          label={"Confirm Password  *"}
           inputType={"password"}
           forwardedRef={passwordConfirmRef}
           hasError={errors}
         />
-        <Button buttonText={"Create Account"} additionalClasses={"my-6 w-full"} />
+        <Button
+          buttonText={"Create Account"}
+          additionalClasses={"my-6 w-full"}
+        />
       </form>
       <div className="text-center mt-3 text-primary_color">
         <span className="mr-2"> Already have an account?</span>
         <Link
           href="/profile"
-          className="font-bold underline-offset-1 hover:underline">
+          className="font-bold underline-offset-1 hover:underline"
+        >
           LOG IN
         </Link>
       </div>

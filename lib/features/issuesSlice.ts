@@ -21,8 +21,7 @@ export interface issuesState {
   selectedIssueId: number | null;
   viewMode: viewModes;
   iconImages: IconData[];
-  status: Status.Idle | Status.Loading | Status.Error;
-  errorMessage: string;
+  status: Status;
 }
 
 const initialState: issuesState = {
@@ -32,7 +31,6 @@ const initialState: issuesState = {
   viewMode: 0,
   iconImages: [],
   status: Status.Idle,
-  errorMessage: "",
 };
 
 export const getIssuesThunk = createAsyncThunk("issues/getIssues", async () => {

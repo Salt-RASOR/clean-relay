@@ -21,7 +21,7 @@ export interface NewReportState {
   newImage: File | null;
   newImageURL: string;
   newData: IssuePostResponse | null;
-  status: Status.Idle | Status.Loading | Status.Error;
+  status: Status;
   errors: NewReportErrors;
 }
 
