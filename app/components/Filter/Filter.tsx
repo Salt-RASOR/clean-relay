@@ -1,4 +1,5 @@
 import { useState } from "react";
+import clsx from "clsx";
 import { CgMenuGridR } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
 
@@ -12,7 +13,7 @@ const Filter = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };
   return (
-    <div className="mb-6">
+    <div className="my-6">
       <div
         id="accordion-flush"
         data-accordion="collapse"
@@ -26,14 +27,22 @@ const Filter = () => {
             onClick={toggleAccordion}
             aria-expanded="true"
             aria-controls="accordion-flush-body-1">
-           {isAccordionOpen ?  <IoMdClose size={25}/> : <CgMenuGridR size={25} />}
+            {isAccordionOpen ? (
+              <IoMdClose size={25} />
+            ) : (
+              <CgMenuGridR size={25} />
+            )}
           </button>
         </h2>
         <div
           id="accordion-flush-body-1"
           className={isAccordionOpen ? "block" : "hidden"}
           aria-labelledby="accordion-flush-heading-1">
-          <div className="py-5 bg-white w-full p-6 border-b border-gray-200 absolute top-[75] right-0 pb-20 z-10">
+          <div
+            className={clsx(
+              "py-5 bg-white w-full p-6 border-b border-gray-200 absolute top-[75] right-0 pb-20 z-10 ",
+              "md:px-28 xl:px-40 2xl:px-54"
+            )}>
             <CustomSelect />
             <CustomRange />
           </div>

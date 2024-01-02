@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import clsx from "clsx";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import CustomMap from "./components/Map/CustomMap";
@@ -45,22 +46,26 @@ const Page = () => {
       <div className="px-4">
         <Filter />
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
-          <TabList className="grid grid-cols-3 gap-4 mb-8 text-primary_color">
+          <TabList
+            className={clsx(
+              "grid grid-cols-3  justify-items-center gap-4",
+              "mb-8 text-primary_color"
+            )}>
             {status === Status.Loading && <Loader />}
             {reportsPageSections.map((item, index) => (
               <Tab
                 key={index}
-                className={"flex items-center justify-center cursor-pointer"}>
+                className={"cursor-pointer"}>
                 <h2 className="font-bold pb-6">{item}</h2>
               </Tab>
             ))}
           </TabList>
 
           <TabPanel>
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center">
               <div
                 className={
-                  "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4"
+                  "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-4"
                 }>
                 {issues.map((item, index) => (
                   <Card key={index} {...item} onClick={handleIssueClick} />
