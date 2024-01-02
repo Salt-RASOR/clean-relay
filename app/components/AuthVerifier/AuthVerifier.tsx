@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import Image from "next/image";
-import authorizeImage from "@/app/public/authorizeImage.svg";
+import authorizeImage from "@/app/public/authorize_image.svg";
 import Button from "@/app/components/Buttons/Button";
 
 const AuthVerifier = () => {
@@ -11,7 +11,7 @@ const AuthVerifier = () => {
   const redirectToAuth = () => {
     router.push(`/profile`);
   };
-  
+
   return (
     <div
       className={clsx(
@@ -22,7 +22,7 @@ const AuthVerifier = () => {
         To view your points, authorization is necessary
       </h1>
       <Image
-      className="mt-10 mb-20"
+        className="mt-10 mb-20"
         src={authorizeImage}
         alt={"Authorize for full access"}
         width={300}

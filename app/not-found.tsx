@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import notConnected from "@/app/public/notConnected.svg";
+import notConnected from "@/app/public/not_connected.svg";
 import Button from "./components/Buttons/Button";
 
 const NotFound = () => {

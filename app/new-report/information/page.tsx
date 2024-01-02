@@ -105,8 +105,8 @@ const Page = () => {
   return (
     <div className="px-4 w-full md:w-7/12">
       <form onSubmit={saveInformation}>
-        <h1 className="font-bold mb-10 text-primary_color text-center">
-          Please provide some information
+        <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
+          Please, provide some information
         </h1>
 
         <Select
