@@ -9,8 +9,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   selectProfileErrors,
   setProfileErrors,
+  setUserLoggedIn,
+  setUserPoints,
+  setUserRole,
 } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
+import supabase from "@/app/utils/supabaseLocal";
+import { Roles } from "../common/constants";
 
 const Page = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -47,11 +52,13 @@ const Page = () => {
 
     if (!emailValue) {
       toast("Missing Image", { type: "error", toastId: "emailError" });
+      dispatch(setProfileErrors({ key: "emailError", value: true }));
       return;
     }
 
     if (!passwordValue) {
       toast("Missing Password", { type: "error", toastId: "passwordError" });
+      dispatch(setProfileErrors({ key: "passwordError", value: true }));
       return;
     }
 
@@ -60,6 +67,7 @@ const Page = () => {
         type: "error",
         toastId: "repeatPasswordError",
       });
+      dispatch(setProfileErrors({ key: "repeatPasswordError", value: true }));
       return;
     }
 
@@ -70,6 +78,7 @@ const Page = () => {
         type: "error",
         toastId: "passwordTooShortError",
       });
+      dispatch(setProfileErrors({ key: "passwordError", value: true }));
       return;
     }
 
@@ -78,6 +87,7 @@ const Page = () => {
         type: "error",
         toastId: "passwordTooLongError",
       });
+      dispatch(setProfileErrors({ key: "passwordError", value: true }));
       return;
     } //-------
 
@@ -86,12 +96,35 @@ const Page = () => {
         type: "error",
         toastId: "passwordMatchError",
       });
+      dispatch(setProfileErrors({ key: "passwordError", value: true }));
+      dispatch(setProfileErrors({ key: "repeatPasswordError", value: true }));
       return;
     }
 
-    console.log("Email:", emailValue);
-    console.log("Password:", passwordValue);
-    // ToDo implement sign up
+    const { data, error } = await supabase.auth.signUp({
+      email: emailValue,
+      password: passwordValue,
+    });
+
+    if (error) {
+      toast(error.message, {
+        type: "error",
+        toastId: "userCreationError",
+      });
+      dispatch(setUserLoggedIn(false));
+      return;
+    }
+
+    if (data) {
+      dispatch(setUserLoggedIn(true));
+      dispatch(setUserRole(Roles.User));
+      dispatch(setUserPoints(0));
+
+      toast("Signed Up Successfully!", {
+        type: "success",
+        toastId: "signUpSuccess",
+      });
+    }
   };
 
   return (

@@ -83,7 +83,6 @@ const Page = () => {
     data.append("categoryId", categoryId.toString());
     data.append("lat", myLocation.lat.toString());
     data.append("lng", myLocation.lng.toString());
-    data.append("userId", "1");
     data.append("imageFile", imageFile);
 
     dispatch(createNewReportThunk(data))
@@ -112,15 +111,14 @@ const Page = () => {
         <FileInput saveFile={setFile} hasError={errors.imageError} />
         <Button
           buttonText={"Send Report"}
-          additionalClasses={
-           clsx( "w-full",
+          additionalClasses={clsx(
+            "w-full",
             status === Status.Loading ||
-            statusIssues === Status.Loading ||
-            categoryId === null
+              statusIssues === Status.Loading ||
+              categoryId === null
               ? "disabled bg-slate-300 "
               : "" + "mt-12"
-              )
-          }
+          )}
         />
       </form>
     </div>

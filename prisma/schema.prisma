@@ -11,18 +11,27 @@ datasource db {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
+  id      String   @id @default(uuid())
+  Issues  Issue[]
+  profile Profile?
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
   name   String
-  uuid   String  @default(uuid())
-  role   Role    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  email  String
+  phone  String
+  hash   String @unique
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roleId Int
-  Issues Issue[]
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
 }
 
 model Role {
-  id    Int    @id @default(autoincrement())
-  name  String
-  Users User[]
+  id       Int       @id @default(autoincrement())
+  name     String
+  profiles Profile[]
 }
 
 model Category {
@@ -40,7 +49,7 @@ model IssueStatus {
 model Issue {
   id         Int         @id @default(autoincrement())
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
+  userId     String
   category   Category    @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   categoryId Int
   status     IssueStatus @relation(fields: [statusId], references: [id], onDelete: Cascade)

@@ -1,14 +1,23 @@
 "use client";
+
 import React, { useRef } from "react";
 import Login from "../components/Login/Login";
 import Profile from "../components/Profile/Profile";
+import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  selectUserLoggedIn,
+  setProfileErrors,
+} from "@/lib/features/profileSlice";
 
 const Page = () => {
-    // ToDo get authorization
-  const isAuthorized = false;
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+
+  const userLoggedIn = useAppSelector(selectUserLoggedIn);
 
   // ToDo get error from store
   const errors = false;
@@ -37,22 +46,31 @@ const Page = () => {
 
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    // todo implement login here
-    console.log("Email:", emailRef.current?.value);
-    console.log("Password:", passwordRef.current?.value);
-    
-    // clear refs
-    if (emailRef.current && passwordRef.current) {
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
+    const emailValue = emailRef.current?.value;
+    const passwordValue = passwordRef.current?.value;
+
+    if (!emailValue) {
+      toast("Missing Image", { type: "error", toastId: "loginEmailError" });
+      dispatch(setProfileErrors({ key: "loginEmailError", value: true }));
+      return;
     }
 
+    if (!passwordValue) {
+      toast("Missing Password", {
+        type: "error",
+        toastId: "loginPasswordError",
+      });
+      dispatch(setProfileErrors({ key: "loginPasswordError", value: true }));
+      return;
+    }
 
+    emailRef.current.value = "";
+    passwordRef.current.value = "";
   };
 
   return (
     <>
-      {isAuthorized ? (
+      {userLoggedIn ? (
         <Profile
           nameRef={nameRef}
           emailRef={emailRef}

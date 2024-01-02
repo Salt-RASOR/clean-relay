@@ -61,19 +61,6 @@ const seed = async () => {
   }
 
   console.log("");
-  console.log("Upserting Users");
-  i = 1;
-  for (const user of users) {
-    console.log(i + "/" + users.length + ": " + users[i - 1]);
-
-    await prisma.user.upsert({
-      where: { id: i },
-      update: { name: user, roleId: i },
-      create: { name: user, roleId: i++ },
-    });
-  }
-
-  console.log("");
   console.log("Data seeded successfully!");
 };
 

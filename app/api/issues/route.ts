@@ -99,8 +99,20 @@ export const POST = async (req: Request) => {
 
     const statusId = 1;
 
+    if (!body.userId) {
+      const newUser = await prisma.user.create({});
+      body.userId = newUser.id;
+    }
+
     const result = await prisma.issue.create({
-      data: { ...body, imgUrl, statusId, address: address.result, filePath },
+      data: {
+        ...body,
+        imgUrl,
+        statusId,
+        address: address.result,
+        filePath,
+        userId: body.userId,
+      },
       include: { status: true, category: true },
     });
 

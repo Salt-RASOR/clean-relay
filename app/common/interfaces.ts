@@ -15,7 +15,7 @@ export interface Coordinates {
 }
 
 export interface IssueResponse extends Coordinates {
-  userId: number | null;
+  userId: string | null;
   id: number;
   categoryId: number;
   statusId: number;
@@ -25,7 +25,7 @@ export interface IssueResponse extends Coordinates {
 }
 
 export interface IssuePostResponse extends IssueGetResponse {
-  userId: number;
+  userId: string;
 }
 
 export interface IssueGetResponse extends IssueResponse {
