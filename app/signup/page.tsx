@@ -9,6 +9,7 @@ import {
   ProfileErrors,
   createNewProfileThunk,
   selectProfileErrors,
+  selectStatus,
   selectUserId,
   setProfileErrors,
   setUserLoggedIn,
@@ -17,6 +18,8 @@ import { toast } from "react-toastify";
 import supabase from "@/app/utils/supabaseLocal";
 import { SignUpData } from "../common/interfaces";
 import { useRouter } from "next/navigation";
+import { Status } from "../common/constants";
+import Loader from "../components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();
@@ -26,6 +29,7 @@ const Page = () => {
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const errors = useAppSelector(selectProfileErrors);
+  const status = useAppSelector(selectStatus)
 
   const dispatch = useAppDispatch();
 
@@ -122,9 +126,6 @@ const Page = () => {
       emailRef.current.value = "";
       passwordConfirmRef.current.value = "";
       passwordRef.current.value = "";
-      updateInput("passwordError", false);
-      updateInput("repeatPasswordError", false);
-      updateInput("emailError", false);
       return;
     }
 
@@ -142,9 +143,10 @@ const Page = () => {
     }
   };
 
-
+  const isLoading = status === Status.Loading;
   
-  return (
+  return (<>
+  {isLoading && <Loader />}
     <div
       className={clsx(
         "px-4",
@@ -187,6 +189,7 @@ const Page = () => {
         </Link>
       </div>
     </div>
+    </>
   );
 };
 

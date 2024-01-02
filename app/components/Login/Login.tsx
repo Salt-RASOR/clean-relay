@@ -4,16 +4,16 @@ import Link from "next/link";
 import clsx from "clsx";
 import CustomInput from "../Input/CustomInput";
 import Button from "../Buttons/Button";
+import { ProfileErrors } from "@/lib/features/profileSlice";
 
 type LoginProps = {
     emailRef: React.RefObject<HTMLInputElement>;
     passwordRef: React.RefObject<HTMLInputElement>;
-    errors: boolean;
+    errors: ProfileErrors;
     handleClickSubmit: (event: React.SyntheticEvent) => void;
   };
 
 const Login: React.FC<LoginProps> = ({emailRef, passwordRef, errors, handleClickSubmit}) => {
- 
   return (
     <div
       className={clsx(
@@ -29,13 +29,13 @@ const Login: React.FC<LoginProps> = ({emailRef, passwordRef, errors, handleClick
           label={"Email *"}
           inputType={"email"}
           forwardedRef={emailRef}
-          hasError={errors}
+          hasError={errors.loginEmailError}
         />
         <CustomInput
           label={"Password *"}
           inputType={"password"}
           forwardedRef={passwordRef}
-          hasError={errors}
+          hasError={errors.loginPasswordError}
         />
         <Button buttonText={"Login"} additionalClasses={"my-6 w-full"} />
       </form>

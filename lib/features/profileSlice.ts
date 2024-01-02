@@ -72,6 +72,14 @@ export const getProfileDataThunk = createAsyncThunk(
   }
 );
 
+export const selectStatus = (state: RootState) => {
+  return state.profile.status;
+};
+
+const handleLoading = (state: profileState) => {
+  state.status = Status.Loading;
+};
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -103,14 +111,16 @@ export const profileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createNewProfileThunk.fulfilled, (state, action) => {
-      state.userId = action.payload.userId;
-      state.userLoggedIn = true;
-      state.userPoints = action.payload.points;
-      state.userRole = action.payload.role;
-
-      localStorage.setItem("userId", action.payload.userId);
-    });
+    builder
+      .addCase(createNewProfileThunk.fulfilled, (state, action) => {
+        state.userId = action.payload.userId;
+        state.userLoggedIn = true;
+        state.userPoints = action.payload.points;
+        state.userRole = action.payload.role;
+        state.status = Status.Idle;
+        localStorage.setItem("userId", action.payload.userId);
+      })
+      .addCase(createNewProfileThunk.pending, handleLoading);
   },
 });
 

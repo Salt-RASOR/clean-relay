@@ -6,7 +6,9 @@ import Profile from "../components/Profile/Profile";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
+  ProfileErrors,
   getProfileDataThunk,
+  selectProfileErrors,
   selectUserLoggedIn,
   setProfileErrors,
   setUserLoggedIn,
@@ -22,14 +24,20 @@ const Page = () => {
 
   const userLoggedIn = useAppSelector(selectUserLoggedIn);
 
-  // ToDo get error from store
-  const errors = false;
+  const errors = useAppSelector(selectProfileErrors);
 
   const handleSignOut = () => {
     // ToDo implement sign out func
     console.log("click to Sign Out");
   };
 
+  const updateInput = (key: keyof ProfileErrors, value: boolean) => {
+    setTimeout(() => {
+      dispatch(setProfileErrors({ key, value }));
+    }, 3000);
+  };
+
+  
   const handleUpdateSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     console.log("submit the form");
@@ -55,6 +63,7 @@ const Page = () => {
     if (!emailValue) {
       toast("Missing Image", { type: "error", toastId: "loginEmailError" });
       dispatch(setProfileErrors({ key: "loginEmailError", value: true }));
+      updateInput("loginEmailError", false);
       return;
     }
 
@@ -64,6 +73,7 @@ const Page = () => {
         toastId: "loginPasswordError",
       });
       dispatch(setProfileErrors({ key: "loginPasswordError", value: true }));
+      updateInput("loginPasswordError", false);
       return;
     }
 
@@ -78,6 +88,8 @@ const Page = () => {
         toastId: "userLoginError",
       });
       dispatch(setUserLoggedIn(false));
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
       return;
     }
 

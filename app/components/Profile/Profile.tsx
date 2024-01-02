@@ -3,12 +3,13 @@ import React from "react";
 import clsx from "clsx";
 import Button from "../Buttons/Button";
 import CustomInput from "../Input/CustomInput";
+import { ProfileErrors } from "@/lib/features/profileSlice";
 
 type ProfileProps = {
   nameRef: React.RefObject<HTMLInputElement>;
   emailRef: React.RefObject<HTMLInputElement>;
   passwordRef: React.RefObject<HTMLInputElement>;
-  errors: boolean;
+  errors: ProfileErrors;
   handleSignOut: () => void;
   handleUpdateSubmit: (event: React.SyntheticEvent) => void;
 };
@@ -45,20 +46,20 @@ const Profile: React.FC<ProfileProps> = ({
             inputType={"text"}
             defaultValue={currentName}
             forwardedRef={nameRef}
-            hasError={errors}
+            hasError={false}
           />
           <CustomInput
             label={"New Email"}
             inputType={"email"}
             defaultValue={currentEmail}
             forwardedRef={emailRef}
-            hasError={errors}
+            hasError={false}
           />
           <CustomInput
             label={"New Password"}
             inputType={"password"}
             forwardedRef={passwordRef}
-            hasError={errors}
+            hasError={false}
           />
           <Button
             buttonText={"Update Profile"}
