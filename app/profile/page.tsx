@@ -5,7 +5,7 @@ import Profile from "../components/Profile/Profile";
 
 const Page = () => {
     // ToDo get authorization
-  const isAuthorized = true;
+  const isAuthorized = false;
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
