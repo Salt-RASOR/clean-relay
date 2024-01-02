@@ -29,7 +29,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <input
         className={clsx(
           "bg-gray-50 border border-stroke_color rounded-md",
-          "w-full px-4 py-2",
+          "w-full px-4 py-4",
           "text-gray-900 text-sm",
           "focus:outline-none focus:ring focus:ring-[#e4d9eb]",
           hasError && "outline outline-1 outline-red-500"
