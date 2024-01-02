@@ -18,16 +18,16 @@ const ProfileGetSchema = z.object({
 });
 
 const ProfilePostSchema = ProfileGetSchema.extend({
-  name: z.string(),
-  phone: z.string(),
-  roleId: z.number().int(),
   userId: z.string().optional(),
 });
 
-const ProfilePatchSchema = ProfilePostSchema.partial().omit({
-  userId: true,
-  email: true,
-});
+const ProfilePatchSchema = z
+  .object({
+    name: z.string(),
+    phone: z.string(),
+    roleId: z.number().int(),
+  })
+  .partial();
 
 export type IssuePost = z.infer<typeof IssuePostSchema>;
 export type IssuePatch = z.infer<typeof IssuePatchSchema>;

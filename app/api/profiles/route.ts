@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
     }
 
     if (!body.userId) {
-      const newUser = await prisma.user.create({});
+      const newUser = await prisma.user.create({ data: {} });
       body.userId = newUser.id;
     }
 

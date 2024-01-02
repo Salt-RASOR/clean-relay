@@ -6,11 +6,7 @@ import { makeStore, AppStore } from "@/lib/store";
 import { getIconImagesThunk, getIssuesThunk } from "@/lib/features/issuesSlice";
 import { getCategoriesThunk } from "@/lib/features/newReportSlice";
 
-export default function StoreProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const storeRef = useRef<AppStore>();
   if (!storeRef.current) {
     storeRef.current = makeStore();
@@ -22,4 +18,6 @@ export default function StoreProvider({
   }
 
   return <Provider store={storeRef.current}>{children}</Provider>;
-}
+};
+
+export default StoreProvider;

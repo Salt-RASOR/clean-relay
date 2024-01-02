@@ -8,6 +8,7 @@ import StoreProvider from "./components/Providers/StoreProvider";
 import LocationPrompter from "./components/Location/LocationPrompter";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LocalStorage from "./components/Providers/LocalStorage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <>
       <StoreProvider>
+        <LocalStorage />
         <html lang="en">
           <meta
             name="format-detection"

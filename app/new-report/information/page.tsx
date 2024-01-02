@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,6 @@ import {
 import { CategoryOption } from "@/app/common/interfaces";
 import Button from "@/app/components/Buttons/Button";
 import TextArea from "@/app/components/Input/TextArea";
-import { FadeLoader } from "react-spinners";
 import { Status } from "@/app/common/constants";
 import { toast } from "react-toastify";
 
@@ -85,14 +84,14 @@ const Page = () => {
     option: (defaultStyles: {}, state: { isSelected: boolean }) => ({
       ...defaultStyles,
       color: "#343758",
-     
+
       backgroundColor: state.isSelected ? "#eeeef7" : "#ffffff",
       "&:hover": {
         backgroundColor: "#eeeef7",
         cursor: "pointer",
       },
     }),
-    control: (defaultStyles: {},  state:{isFocused: boolean}) => ({
+    control: (defaultStyles: {}, state: { isFocused: boolean }) => ({
       ...defaultStyles,
       padding: "10px",
       border: "none",
@@ -102,7 +101,6 @@ const Page = () => {
   };
 
   const isLoading = status === Status.Loading;
- 
 
   return (
     <div className="px-4 w-full md:w-7/12">

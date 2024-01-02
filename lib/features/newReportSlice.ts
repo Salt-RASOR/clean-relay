@@ -7,6 +7,7 @@ import {
   IssuePostResponse,
 } from "@/app/common/interfaces";
 import { Status } from "@/app/common/constants";
+import { setUserId } from "./profileSlice";
 
 export interface NewReportErrors {
   categoryError: boolean;
@@ -60,9 +61,10 @@ export const selectNewReportErrors = (state: RootState) =>
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
-  async (formData: FormData) => {
+  async (formData: FormData, { dispatch }) => {
     try {
       const attempt = await createNewReport(formData);
+      dispatch(setUserId(attempt.userId));
       return attempt;
     } catch (error) {
       throw new Error((error as Error).message);

@@ -1,4 +1,5 @@
 "use client";
+
 // import "react-tabs/style/react-tabs.css";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +21,7 @@ import { Status } from "@/app/common/constants";
 import FileInput from "@/app/components/Input/FileInput";
 import Button from "@/app/components/Buttons/Button";
 import Loader from "@/app/components/Loader/Loader";
-import { selectMyLocation } from "@/lib/features/profileSlice";
+import { selectMyLocation, selectUserId } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 
@@ -37,6 +38,7 @@ const Page = () => {
   const imageFile = useAppSelector(selectNewImage);
   const myLocation = useAppSelector(selectMyLocation);
   const errors = useAppSelector(selectNewReportErrors);
+  const userId = useAppSelector(selectUserId);
 
   const setFile = async (files: File[]) => {
     if (!files || files.length === 0) {
@@ -83,6 +85,7 @@ const Page = () => {
     data.append("categoryId", categoryId.toString());
     data.append("lat", myLocation.lat.toString());
     data.append("lng", myLocation.lng.toString());
+    data.append("userId", userId);
     data.append("imageFile", imageFile);
 
     dispatch(createNewReportThunk(data))

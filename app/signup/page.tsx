@@ -7,15 +7,15 @@ import CustomInput from "../components/Input/CustomInput";
 import Button from "../components/Buttons/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
+  createNewProfileThunk,
   selectProfileErrors,
+  selectUserId,
   setProfileErrors,
   setUserLoggedIn,
-  setUserPoints,
-  setUserRole,
 } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
 import supabase from "@/app/utils/supabaseLocal";
-import { Roles } from "../common/constants";
+import { SignUpData } from "../common/interfaces";
 
 const Page = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -25,6 +25,8 @@ const Page = () => {
   const errors = useAppSelector(selectProfileErrors);
 
   const dispatch = useAppDispatch();
+
+  const userId = useAppSelector(selectUserId);
 
   const updateEmailInput = () => {
     if (errors.emailError) {
@@ -116,13 +118,13 @@ const Page = () => {
     }
 
     if (data) {
-      dispatch(setUserLoggedIn(true));
-      dispatch(setUserRole(Roles.User));
-      dispatch(setUserPoints(0));
-
-      toast("Signed Up Successfully!", {
-        type: "success",
-        toastId: "signUpSuccess",
+      dispatch(
+        createNewProfileThunk({ data: data as SignUpData, userId })
+      ).then(() => {
+        toast("Signed Up Successfully!", {
+          type: "success",
+          toastId: "signUpSuccess",
+        });
       });
     }
   };

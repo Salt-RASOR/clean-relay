@@ -1,3 +1,5 @@
+import { Session, User } from "@supabase/supabase-js";
+
 export interface Category {
   id: string;
   name: string;
@@ -54,6 +56,11 @@ export interface IconData {
   svgString: string;
   url: string;
   value: string;
+}
+
+export interface SignUpData {
+  user: User;
+  session: Session;
 }
 
 export type viewModes = 0 | 1 | 2;

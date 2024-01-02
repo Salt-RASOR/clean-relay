@@ -1,7 +1,10 @@
-import { Coordinates } from "@/app/common/interfaces";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+"use client";
+
+import { Coordinates, SignUpData } from "@/app/common/interfaces";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
+import { createNewProfile } from "@/app/common/api";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -14,7 +17,7 @@ export interface ProfileErrors {
 export interface profileState {
   myLocation: Coordinates | null;
   userLoggedIn: boolean;
-  userId: string | null;
+  userId: string;
   userRole: Roles | null;
   userPoints: number | null;
   status: Status;
@@ -24,7 +27,7 @@ export interface profileState {
 const initialState: profileState = {
   myLocation: null,
   userLoggedIn: false,
-  userId: null,
+  userId: "",
   userRole: null,
   userPoints: null,
   status: Status.Idle,
@@ -46,6 +49,18 @@ export const selectUserPoints = (state: RootState) => state.profile.userPoints;
 export const selectProfileStatus = (state: RootState) => state.profile.status;
 export const selectProfileErrors = (state: RootState) => state.profile.errors;
 
+export const createNewProfileThunk = createAsyncThunk(
+  "profile/createNewProfile",
+  async ({ data, userId }: { data: SignUpData; userId: string }) => {
+    try {
+      const attempt = await createNewProfile(data, userId);
+      return attempt;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -58,6 +73,7 @@ export const profileSlice = createSlice({
     },
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
+      localStorage.setItem("userId", action.payload);
     },
     setUserRole: (state, action: PayloadAction<Roles | null>) => {
       state.userRole = action.payload;
@@ -74,6 +90,14 @@ export const profileSlice = createSlice({
     ) => {
       state.errors[action.payload.key] = action.payload.value;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewProfileThunk.fulfilled, (state, action) => {
+      state.userId = action.payload.userId;
+      state.userLoggedIn = true;
+      state.userPoints = action.payload.points;
+      state.userRole = action.payload.role;
+    });
   },
 });
 

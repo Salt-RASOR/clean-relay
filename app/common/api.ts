@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SignUpData } from "./interfaces";
 
 export const getCategories = async () => {
   const res = await axios.get(`/api/categories`);
@@ -35,4 +36,12 @@ export const changeTheStatus = async (id: string, statusId: number) => {
 export const deleteIssue = async (id: number) => {
   const res = await axios.delete(`/api/issues/${id}`);
   return res;
+};
+
+export const createNewProfile = async (data: SignUpData, userId: string) => {
+  const res = await axios.post(`/api/profiles`, {
+    email: data.user.email,
+    userId,
+  });
+  return res.data;
 };
