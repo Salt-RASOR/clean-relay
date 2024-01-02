@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
-import { transformIssueGetData } from "@/app/utils/coordinates";
+import { transformIssueGetData } from "@/app/utils/transformResponses";
 import supabase from "@/app/api/supabaseClient";
 
 export const GET = async (

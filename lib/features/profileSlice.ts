@@ -97,6 +97,8 @@ export const profileSlice = createSlice({
       state.userLoggedIn = true;
       state.userPoints = action.payload.points;
       state.userRole = action.payload.role;
+
+      localStorage.setItem("userId", action.payload);
     });
   },
 });

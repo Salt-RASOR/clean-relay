@@ -8,11 +8,12 @@ import {
   transformIssueGetData,
   transformIssuePostData,
   encodeCoordinates,
-} from "../../utils/coordinates";
+} from "../../utils/transformResponses";
 import decodeForm from "@/app/utils/decodeForm";
 import { randomUUID } from "crypto";
 import getAddress from "../getAddress";
 import sharp from "sharp";
+import generateUser from "@/app/utils/generateUser";
 
 export const GET = async (req: Request) => {
   try {
@@ -99,10 +100,7 @@ export const POST = async (req: Request) => {
 
     const statusId = 1;
 
-    if (!body.userId) {
-      const newUser = await prisma.user.create({ data: {} });
-      body.userId = newUser.id;
-    }
+    body.userId = await generateUser(body.userId);
 
     const result = await prisma.issue.create({
       data: {

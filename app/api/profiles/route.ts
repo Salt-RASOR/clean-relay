@@ -6,6 +6,7 @@ import {
 } from "../validation";
 import prisma from "../prismaClient";
 import hashEmail from "@/app/utils/hashEmail";
+import generateUser from "@/app/utils/generateUser";
 
 export const POST = async (req: Request) => {
   try {
@@ -16,13 +17,12 @@ export const POST = async (req: Request) => {
       return NextResponse.json(validate.error.issues, { status: 400 });
     }
 
-    if (!body.userId) {
-      const newUser = await prisma.user.create({ data: {} });
-      body.userId = newUser.id;
-    }
+    body.userId = await generateUser(body.userId, true);
+
+    const hash = hashEmail(body.email);
 
     const result = await prisma.profile.create({
-      data: { ...body },
+      data: { ...body, name: "", phone: "", roleId: 1, hash },
     });
 
     prisma.$disconnect();
