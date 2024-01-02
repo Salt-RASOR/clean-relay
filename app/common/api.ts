@@ -45,3 +45,8 @@ export const createNewProfile = async (data: SignUpData, userId: string) => {
   });
   return res.data;
 };
+
+export const getProfileData = async (email: string) => {
+  const res = await axios.get(`/api/profiles/${email}`);
+  return res.data;
+};

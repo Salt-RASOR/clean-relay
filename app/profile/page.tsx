@@ -6,9 +6,12 @@ import Profile from "../components/Profile/Profile";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
+  getProfileDataThunk,
   selectUserLoggedIn,
   setProfileErrors,
+  setUserLoggedIn,
 } from "@/lib/features/profileSlice";
+import supabase from "../utils/supabaseLocal";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -31,7 +34,7 @@ const Page = () => {
     event.preventDefault();
     console.log("submit the form");
 
-    // todo implement login here
+    // todo implement update here
     console.log("Email:", emailRef.current?.value);
     console.log("Password:", passwordRef.current?.value);
     console.log("Name", nameRef.current?.value);
@@ -62,6 +65,29 @@ const Page = () => {
       });
       dispatch(setProfileErrors({ key: "loginPasswordError", value: true }));
       return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: emailValue,
+      password: passwordValue,
+    });
+
+    if (error) {
+      toast(error.message, {
+        type: "error",
+        toastId: "userLoginError",
+      });
+      dispatch(setUserLoggedIn(false));
+      return;
+    }
+
+    if (data) {
+      dispatch(getProfileDataThunk(data.user.email as string)).then(() => {
+        toast("Logged In Successfully!", {
+          type: "success",
+          toastId: "loginSuccess",
+        });
+      });
     }
 
     emailRef.current.value = "";

@@ -4,7 +4,7 @@ import { Coordinates, SignUpData } from "@/app/common/interfaces";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
-import { createNewProfile } from "@/app/common/api";
+import { createNewProfile, getProfileData } from "@/app/common/api";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -61,6 +61,18 @@ export const createNewProfileThunk = createAsyncThunk(
   }
 );
 
+export const getProfileDataThunk = createAsyncThunk(
+  "profile/getProfileData",
+  async (email: string) => {
+    try {
+      const attempt = await getProfileData(email);
+      return attempt;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -98,7 +110,7 @@ export const profileSlice = createSlice({
       state.userPoints = action.payload.points;
       state.userRole = action.payload.role;
 
-      localStorage.setItem("userId", action.payload);
+      localStorage.setItem("userId", action.payload.userId);
     });
   },
 });

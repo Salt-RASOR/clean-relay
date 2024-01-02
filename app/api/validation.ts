@@ -13,11 +13,8 @@ const IssuePatchSchema = z.object({
   statusId: z.number(),
 });
 
-const ProfileGetSchema = z.object({
+const ProfilePostSchema = z.object({
   email: z.string().email(),
-});
-
-const ProfilePostSchema = ProfileGetSchema.extend({
   userId: z.string().optional(),
 });
 
@@ -32,7 +29,6 @@ const ProfilePatchSchema = z
 export type IssuePost = z.infer<typeof IssuePostSchema>;
 export type IssuePatch = z.infer<typeof IssuePatchSchema>;
 
-export type ProfileGet = z.infer<typeof ProfileGetSchema>;
 export type ProfilePost = z.infer<typeof ProfilePostSchema>;
 export type ProfilePatch = z.infer<typeof ProfilePatchSchema>;
 
@@ -42,10 +38,6 @@ export const validateIssuePost = (data: IssuePost) => {
 
 export const validateIssuePatch = (data: IssuePatch) => {
   return IssuePatchSchema.safeParse(data);
-};
-
-export const validateProfileGet = (data: ProfileGet) => {
-  return ProfileGetSchema.safeParse(data);
 };
 
 export const validateProfilePost = (data: ProfilePost) => {

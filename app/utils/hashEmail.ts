@@ -1,7 +1,10 @@
 import { createHash } from "crypto";
 
 const hashEmail = (email: string) => {
-  const hashedEmail = createHash("sha256").update(email).digest("hex");
+  const salt = process.env.EMAIL_SALT;
+  const hashedEmail = createHash("sha256")
+    .update(email + salt)
+    .digest("hex");
 
   return hashedEmail;
 };
