@@ -37,7 +37,6 @@ const Page = () => {
     }, 3000);
   };
 
-  
   const handleUpdateSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     console.log("submit the form");

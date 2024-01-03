@@ -21,7 +21,7 @@ const center = {
 
 const containerStyle = {
   width: "auto",
-  height: "calc(100vh - 300px)",
+  height: "calc(100vh - 320px)",
 };
 
 const CustomMap = () => {
