@@ -21,7 +21,8 @@ import Loader from "@/app/components/Loader/Loader";
 import SelectedCard from "../../components/Card/SelectedCard";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { selectUserId } from "@/lib/features/profileSlice";
+import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
+import generateAuthData from "@/app/utils/generateAuthData";
 
 const Page = () => {
   const { id } = useParams();
@@ -30,7 +31,9 @@ const Page = () => {
   const issueById = useAppSelector(selectIssueById);
   const issues = useAppSelector(selectAllIssues);
   const selectedIssueId = useAppSelector(selectSelectedIssueId) || Number(id);
+
   const userId = useAppSelector(selectUserId);
+  const email = useAppSelector(selectUserEmail);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -47,8 +50,9 @@ const Page = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOptionsClick = (statusText: string) => {
+  const handleOptionsClick = async (statusText: string) => {
     let newStatus: number;
+    const authData = await generateAuthData(userId, email);
 
     if (selectedIssueId && issueById) {
       switch (statusText) {
@@ -61,7 +65,7 @@ const Page = () => {
         case StatusOptions.Completed:
         case StatusOptions.Delete:
           dispatch(setSelectedIssueId(null));
-          dispatch(deleteIssueThunk({ id: selectedIssueId, userId })).then(
+          dispatch(deleteIssueThunk({ id: selectedIssueId, authData })).then(
             (result) => {
               if (!result.payload) {
                 return toast("Cannot Remove Issue!", {
@@ -88,7 +92,11 @@ const Page = () => {
 
       if (newStatus !== issueById.statusId) {
         dispatch(
-          changeStatusThunk({ id: selectedIssueId, statusId: newStatus })
+          changeStatusThunk({
+            id: selectedIssueId,
+            statusId: newStatus,
+            authData,
+          })
         );
         toast("Status Changed", { type: "success" });
       } else {

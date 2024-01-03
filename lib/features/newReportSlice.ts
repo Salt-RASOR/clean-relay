@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createNewReport, getCategories } from "@/app/common/api";
 import {
+  AuthData,
   Category,
   CategoryOption,
   IssuePostResponse,
@@ -61,9 +62,12 @@ export const selectNewReportErrors = (state: RootState) =>
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
-  async (formData: FormData, { dispatch }) => {
+  async (
+    { formData, authData }: { formData: FormData; authData: AuthData },
+    { dispatch }
+  ) => {
     try {
-      const attempt = await createNewReport(formData);
+      const attempt = await createNewReport(formData, authData);
       dispatch(setUserId(attempt.userId));
       return attempt;
     } catch (error) {

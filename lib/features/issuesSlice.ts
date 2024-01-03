@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  AuthData,
   IconData,
   IssueGetResponse,
   viewModes,
@@ -56,9 +57,21 @@ export const getIssueByIdThunk = createAsyncThunk(
 
 export const changeStatusThunk = createAsyncThunk(
   "issues/changeStatus",
-  async ({ id, statusId }: { id: number; statusId: number }) => {
+  async ({
+    id,
+    statusId,
+    authData,
+  }: {
+    id: number;
+    statusId: number;
+    authData: AuthData;
+  }) => {
     try {
-      const response = await changeTheStatus(id.toString(), statusId);
+      const response = await changeTheStatus({
+        id: id.toString(),
+        statusId,
+        authData,
+      });
       return response;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -68,9 +81,9 @@ export const changeStatusThunk = createAsyncThunk(
 
 export const deleteIssueThunk = createAsyncThunk(
   "issues/deleteIssue",
-  async ({ id, userId }: { id: number; userId: string }) => {
+  async ({ id, authData }: { id: number; authData: AuthData }) => {
     try {
-      await deleteIssue(id, userId);
+      await deleteIssue(id, authData);
       return { id };
     } catch (error) {
       throw new Error((error as Error).message);

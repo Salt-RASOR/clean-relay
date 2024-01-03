@@ -21,9 +21,14 @@ import { Status } from "@/app/common/constants";
 import FileInput from "@/app/components/Input/FileInput";
 import Button from "@/app/components/Buttons/Button";
 import Loader from "@/app/components/Loader/Loader";
-import { selectMyLocation, selectUserId } from "@/lib/features/profileSlice";
+import {
+  selectMyLocation,
+  selectUserEmail,
+  selectUserId,
+} from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
 import clsx from "clsx";
+import generateAuthData from "@/app/utils/generateAuthData";
 
 const Page = () => {
   const router = useRouter();
@@ -38,7 +43,9 @@ const Page = () => {
   const imageFile = useAppSelector(selectNewImage);
   const myLocation = useAppSelector(selectMyLocation);
   const errors = useAppSelector(selectNewReportErrors);
+
   const userId = useAppSelector(selectUserId);
+  const email = useAppSelector(selectUserEmail);
 
   const setFile = async (files: File[]) => {
     if (!files || files.length === 0) {
@@ -88,22 +95,25 @@ const Page = () => {
     data.append("userId", userId);
     data.append("imageFile", imageFile);
 
-    dispatch(createNewReportThunk(data)).then((result) => {
-      if (!result.payload) {
-        return toast("Failed to Create New Report", { type: "error" });
+    const authData = await generateAuthData(userId, email);
+    dispatch(createNewReportThunk({ formData: data, authData })).then(
+      (result) => {
+        if (!result.payload) {
+          return toast("Failed to Create New Report", { type: "error" });
+        }
+
+        toast("New Report Created", { type: "success" });
+
+        dispatch(setNewDescription(""));
+        dispatch(setNewCategory(null));
+
+        localStorage.removeItem("newDescription");
+        localStorage.removeItem("newCategory");
+
+        dispatch(getIssuesThunk());
+        router.push("/new-report/done");
       }
-
-      toast("New Report Created", { type: "success" });
-
-      dispatch(setNewDescription(""));
-      dispatch(setNewCategory(null));
-
-      localStorage.removeItem("newDescription");
-      localStorage.removeItem("newCategory");
-
-      dispatch(getIssuesThunk());
-      router.push("/new-report/done");
-    });
+    );
   };
 
   return (

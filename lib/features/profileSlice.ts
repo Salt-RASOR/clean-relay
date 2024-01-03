@@ -1,5 +1,10 @@
 "use client";
-import { Coordinates, SignUpData, CredentialData } from "@/app/common/interfaces";
+import {
+  Coordinates,
+  SignUpData,
+  CredentialData,
+  AuthData,
+} from "@/app/common/interfaces";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
@@ -75,9 +80,9 @@ export const createNewProfileThunk = createAsyncThunk(
 
 export const getProfileDataThunk = createAsyncThunk(
   "profile/getProfileData",
-  async (email: string) => {
+  async (authData: AuthData) => {
     try {
-      const attempt = await getProfileData(email);
+      const attempt = await getProfileData(authData);
       return attempt;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -87,9 +92,9 @@ export const getProfileDataThunk = createAsyncThunk(
 
 export const updateUserCredentialsThunk = createAsyncThunk(
   "profile/updateUserCredentials",
-  async ({email, data} : {email: string, data: CredentialData}) => {
+  async ({ data, authData }: { data: CredentialData; authData: AuthData }) => {
     try {
-      const response = await updateUserCredentials(email, data);
+      const response = await updateUserCredentials(data, authData);
       return response;
     } catch (error) {
       throw new Error((error as Error).message);

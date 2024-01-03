@@ -70,3 +70,9 @@ export interface CredentialData {
   phone: string;
   roleId: number;
 }
+
+export interface AuthData {
+  email: string;
+  userId: string;
+  jwtToken: string;
+}

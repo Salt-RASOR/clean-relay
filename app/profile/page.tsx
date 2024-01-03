@@ -16,8 +16,10 @@ import {
   setUserLoggedIn,
   selectUserPhome,
   updateUserCredentialsThunk,
+  selectUserId,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
+import generateAuthData from "../utils/generateAuthData";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -31,6 +33,7 @@ const Page = () => {
   const currentUserEmail = useAppSelector(selectUserEmail);
   const currentUserName = useAppSelector(selectUserName);
   const currentUserPhone = useAppSelector(selectUserPhome);
+  const userId = useAppSelector(selectUserId);
 
   const errors = useAppSelector(selectProfileErrors);
 
@@ -45,7 +48,7 @@ const Page = () => {
     }, 3000);
   };
 
-  const handleUpdateSubmit = (event: React.SyntheticEvent) => {
+  const handleUpdateSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
     const nameValue = nameRef.current?.value || "";
@@ -64,9 +67,10 @@ const Page = () => {
       phone: phoneValue,
       roleId: 1,
     };
-    dispatch(
-      updateUserCredentialsThunk({ email: currentUserEmail, data: data })
-    );
+
+    const authData = await generateAuthData(userId, email as string);
+
+    dispatch(updateUserCredentialsThunk({ data, authData }));
 
     // Clear refs
     if (nameRef.current && passwordRef.current) {
@@ -114,19 +118,17 @@ const Page = () => {
     }
 
     if (data) {
-      dispatch(getProfileDataThunk(data.user.email as string)).then(
-        (result) => {
-          if (!result.payload) {
-            return toast("Failed To Log In", { type: "error" });
-          }
-
-          toast("Logged In Successfully!", {
-            type: "success",
-            toastId: "loginSuccess",
-          });
+      const authData = await generateAuthData(userId, emailValue);
+      dispatch(getProfileDataThunk(authData)).then((result) => {
+        if (!result.payload) {
+          return toast("Failed To Log In", { type: "error" });
         }
-      );
-     
+
+        toast("Logged In Successfully!", {
+          type: "success",
+          toastId: "loginSuccess",
+        });
+      });
     }
 
     emailRef.current.value = "";
