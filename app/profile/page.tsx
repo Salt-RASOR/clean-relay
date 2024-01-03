@@ -93,12 +93,18 @@ const Page = () => {
     }
 
     if (data) {
-      dispatch(getProfileDataThunk(data.user.email as string)).then(() => {
-        toast("Logged In Successfully!", {
-          type: "success",
-          toastId: "loginSuccess",
-        });
-      });
+      dispatch(getProfileDataThunk(data.user.email as string)).then(
+        (result) => {
+          if (!result.payload) {
+            return toast("Failed To Log In", { type: "error" });
+          }
+
+          toast("Logged In Successfully!", {
+            type: "success",
+            toastId: "loginSuccess",
+          });
+        }
+      );
     }
 
     emailRef.current.value = "";

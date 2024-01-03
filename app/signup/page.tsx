@@ -29,7 +29,7 @@ const Page = () => {
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const errors = useAppSelector(selectProfileErrors);
-  const status = useAppSelector(selectStatus)
+  const status = useAppSelector(selectStatus);
 
   const dispatch = useAppDispatch();
 
@@ -40,8 +40,6 @@ const Page = () => {
       dispatch(setProfileErrors({ key, value }));
     }, 3000);
   };
-
-
 
   const handleClickSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -132,7 +130,11 @@ const Page = () => {
     if (data) {
       dispatch(
         createNewProfileThunk({ data: data as SignUpData, userId })
-      ).then(() => {
+      ).then((result) => {
+        if (!result.payload) {
+          return toast("Failed To Sign Up", { type: "error" });
+        }
+
         toast("Signed Up Successfully!", {
           type: "success",
           toastId: "signUpSuccess",
@@ -144,51 +146,54 @@ const Page = () => {
   };
 
   const isLoading = status === Status.Loading;
-  
-  return (<>
-  {isLoading && <Loader />}
-    <div
-      className={clsx(
-        "px-4",
-        "flex flex-col justify-center items-center",
-        "background-container bg-violet"
-      )}>
-      <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
-        Sign Up
-      </h1>
-      <form className="w-full max-w-xl" onSubmit={handleClickSubmit}>
-        <CustomInput
-          label={"Email *"}
-          inputType={"email"}
-          forwardedRef={emailRef}
-          hasError={errors.emailError}
-        />
-        <CustomInput
-          label={"Password *"}
-          inputType={"password"}
-          forwardedRef={passwordRef}
-          hasError={errors.passwordError}
-        />
-        <CustomInput
-          label={"Confirm Password  *"}
-          inputType={"password"}
-          forwardedRef={passwordConfirmRef}
-          hasError={errors.repeatPasswordError}
-        />
-        <Button
-          buttonText={"Create Account"}
-          additionalClasses={"my-6 w-full"}
-        />
-      </form>
-      <div className="text-center mt-3 text-primary_color">
-        <span className="mr-2"> Already have an account?</span>
-        <Link
-          href="/profile"
-          className="font-bold underline-offset-1 hover:underline">
-          LOG IN
-        </Link>
+
+  return (
+    <>
+      {isLoading && <Loader />}
+      <div
+        className={clsx(
+          "px-4",
+          "flex flex-col justify-center items-center",
+          "background-container bg-violet"
+        )}
+      >
+        <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
+          Sign Up
+        </h1>
+        <form className="w-full max-w-xl" onSubmit={handleClickSubmit}>
+          <CustomInput
+            label={"Email *"}
+            inputType={"email"}
+            forwardedRef={emailRef}
+            hasError={errors.emailError}
+          />
+          <CustomInput
+            label={"Password *"}
+            inputType={"password"}
+            forwardedRef={passwordRef}
+            hasError={errors.passwordError}
+          />
+          <CustomInput
+            label={"Confirm Password  *"}
+            inputType={"password"}
+            forwardedRef={passwordConfirmRef}
+            hasError={errors.repeatPasswordError}
+          />
+          <Button
+            buttonText={"Create Account"}
+            additionalClasses={"my-6 w-full"}
+          />
+        </form>
+        <div className="text-center mt-3 text-primary_color">
+          <span className="mr-2"> Already have an account?</span>
+          <Link
+            href="/profile"
+            className="font-bold underline-offset-1 hover:underline"
+          >
+            LOG IN
+          </Link>
+        </div>
       </div>
-    </div>
     </>
   );
 };

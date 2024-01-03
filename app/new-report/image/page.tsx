@@ -88,23 +88,22 @@ const Page = () => {
     data.append("userId", userId);
     data.append("imageFile", imageFile);
 
-    dispatch(createNewReportThunk(data))
-      .then(() => {
-        toast("New Report Created", { type: "success" });
+    dispatch(createNewReportThunk(data)).then((result) => {
+      if (!result.payload) {
+        return toast("Failed to Create New Report", { type: "error" });
+      }
 
-        dispatch(setNewDescription(""));
-        dispatch(setNewCategory(null));
+      toast("New Report Created", { type: "success" });
 
-        localStorage.removeItem("newDescription");
-        localStorage.removeItem("newCategory");
+      dispatch(setNewDescription(""));
+      dispatch(setNewCategory(null));
 
-        dispatch(getIssuesThunk());
-        router.push("/new-report/done");
-      })
-      .catch((error) => {
-        toast("Failed to Create New Report", { type: "error" });
-        console.log(error.message);
-      });
+      localStorage.removeItem("newDescription");
+      localStorage.removeItem("newCategory");
+
+      dispatch(getIssuesThunk());
+      router.push("/new-report/done");
+    });
   };
 
   return (

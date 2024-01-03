@@ -21,6 +21,7 @@ import Loader from "@/app/components/Loader/Loader";
 import SelectedCard from "../../components/Card/SelectedCard";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { selectUserId } from "@/lib/features/profileSlice";
 
 const Page = () => {
   const { id } = useParams();
@@ -29,6 +30,7 @@ const Page = () => {
   const issueById = useAppSelector(selectIssueById);
   const issues = useAppSelector(selectAllIssues);
   const selectedIssueId = useAppSelector(selectSelectedIssueId) || Number(id);
+  const userId = useAppSelector(selectUserId);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -43,7 +45,7 @@ const Page = () => {
       dispatch(getIssueByIdThunk(selectedIssueId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIssueId, dispatch]);
+  }, []);
 
   const handleOptionsClick = (statusText: string) => {
     let newStatus: number;
@@ -59,18 +61,25 @@ const Page = () => {
         case StatusOptions.Completed:
         case StatusOptions.Delete:
           dispatch(setSelectedIssueId(null));
-          dispatch(deleteIssueThunk(selectedIssueId)).then(() => {
-            dispatch(getIssuesThunk());
-            router.push("/");
-          });
+          dispatch(deleteIssueThunk({ id: selectedIssueId, userId })).then(
+            (result) => {
+              if (!result.payload) {
+                return toast("Cannot Remove Issue!", {
+                  type: "error",
+                });
+              }
 
-          statusText === StatusOptions.Completed
-            ? toast("Issue Completed!", {
-                type: "success",
-              })
-            : toast("Issue Deleted", {
-                type: "info",
-              });
+              dispatch(getIssuesThunk());
+              router.push("/");
+              statusText === StatusOptions.Completed
+                ? toast("Issue Completed!", {
+                    type: "success",
+                  })
+                : toast("Issue Deleted", {
+                    type: "info",
+                  });
+            }
+          );
           return;
         default:
           console.log("Invalid status option");

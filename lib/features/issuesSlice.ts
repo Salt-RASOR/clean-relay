@@ -68,14 +68,10 @@ export const changeStatusThunk = createAsyncThunk(
 
 export const deleteIssueThunk = createAsyncThunk(
   "issues/deleteIssue",
-  async (id: number) => {
+  async ({ id, userId }: { id: number; userId: string }) => {
     try {
-      const response = await deleteIssue(id);
-      if (response.status === 200) {
-        return { id };
-      }
-
-      throw new Error("Couldnt delete issue");
+      await deleteIssue(id, userId);
+      return { id };
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -167,7 +163,7 @@ export const issuesSlice = createSlice({
         state.status = Status.Idle;
       })
       .addCase(deleteIssueThunk.fulfilled, (state, action) => {
-        state.allIssues.filter((issue) => issue.id !== action.payload.id);
+        state.allIssues.filter((issue) => issue.id !== action.payload!.id);
       })
       .addCase(getIssuesThunk.pending, handleLoading)
       .addCase(changeStatusThunk.pending, handleLoading);

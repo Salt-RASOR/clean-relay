@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
-import supabase from "@/app/api/supabaseClient";
+import supabaseImages, { supabase } from "@/app/api/supabaseClient";
+import checkUserAuth from "@/app/utils/checkUserAuth";
 
 export const GET = async (
   req: Request,
@@ -81,9 +82,14 @@ export const DELETE = async (
       return NextResponse.json(found, { status: 404 });
     }
 
+    const auth = await checkUserAuth(found.userId, req, supabase);
+    if (auth) {
+      return auth;
+    }
+
     const filePath = found.filePath;
 
-    await supabase.remove([filePath]);
+    await supabaseImages.remove([filePath]);
 
     const result = await prisma.issue.delete({
       where: { id },
