@@ -28,7 +28,7 @@ const Page = () => {
   const phoneRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
- 
+
   const userLoggedIn = useAppSelector(selectUserLoggedIn);
   const currentUserEmail = useAppSelector(selectUserEmail);
   const currentUserName = useAppSelector(selectUserName);
@@ -53,7 +53,6 @@ const Page = () => {
 
     const nameValue = nameRef.current?.value || "";
     const phoneValue = phoneRef.current?.value || "";
-
 
     const data = {
       name: nameValue,

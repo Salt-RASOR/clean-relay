@@ -5,7 +5,7 @@ const getAuthHeaders = (authData: AuthData) => {
     headers: {
       userId: authData.userId,
       email: authData.email,
-      Authorization: `Bearer ${authData.jwtToken}`,
+      Authorization: `${authData.jwtToken}`,
     },
   };
 };

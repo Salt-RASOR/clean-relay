@@ -44,11 +44,11 @@ export const PATCH = async (
     }
 
     const id = Number(params.id);
-    const found = await prisma.issue.findUnique({ where: { id } });
-    if (!found) {
+    const issue = await prisma.issue.findUnique({ where: { id } });
+    if (!issue) {
       prisma.$disconnect();
 
-      return NextResponse.json(found, { status: 404 });
+      return NextResponse.json(issue, { status: 404 });
     }
 
     const data = await prisma.issue.update({
@@ -75,19 +75,19 @@ export const DELETE = async (
 ) => {
   try {
     const id = Number(params.id);
-    const found = await prisma.issue.findFirst({ where: { id } });
+    const issue = await prisma.issue.findFirst({ where: { id } });
 
-    if (!found) {
+    if (!issue) {
       prisma.$disconnect();
-      return NextResponse.json(found, { status: 404 });
+      return NextResponse.json(issue, { status: 404 });
     }
 
-    const auth = await checkUserAuth(found.userId, req, supabase);
+    const auth = await checkUserAuth(issue.userId, req, supabase);
     if (auth) {
       return auth;
     }
 
-    const filePath = found.filePath;
+    const filePath = issue.filePath;
 
     await supabaseImages.remove([filePath]);
 

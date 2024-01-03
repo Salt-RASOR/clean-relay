@@ -2,7 +2,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 const checkProfileAuth = async (
-  email: string,
+  targetEmail: string, // email of the data/user being accessed
   req: Request,
   supabase: SupabaseClient
 ) => {
@@ -25,7 +25,7 @@ const checkProfileAuth = async (
       );
     }
 
-    if (data.user.email !== email) {
+    if (data.user.email !== targetEmail) {
       return NextResponse.json(
         { message: "Unauthorized access" },
         { status: 403 }
@@ -34,7 +34,7 @@ const checkProfileAuth = async (
 
     return null;
   } catch (error) {
-    console.error("Error verifying user:", error);
+    console.error("Error verifying user: ", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

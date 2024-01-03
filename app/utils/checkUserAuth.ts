@@ -2,35 +2,46 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import prisma from "../api/prismaClient";
 import checkProfileAuth from "./checkProfileAuth";
 import { NextResponse } from "next/server";
+import checkSuperUserAuth from "./checkSuperUserAuth";
 
 const checkUserAuth = async (
-  userId: string,
+  targetUserId: string, // user id of the data being accessed
   req: Request,
   supabase: SupabaseClient,
-  checkReqUserId = true
+  superUserAccess = true, // allows auth via being a super user
+  checkReqUserId = true // allows auth if the target user is unregistered but has the same user id as request
 ) => {
   try {
-    const profile = await prisma.profile.findUnique({ where: { userId } });
+    if (superUserAccess) {
+      const isSuperUser = await checkSuperUserAuth(req, supabase);
+      if (isSuperUser) {
+        return null;
+      }
+    }
+
+    const targetProfile = await prisma.profile.findUnique({
+      where: { userId: targetUserId },
+    });
     prisma.$disconnect();
 
-    if (!profile) {
-      if (checkReqUserId) {
-        const reqUserId = req.headers.get("userId");
-        if (reqUserId !== userId) {
-          return NextResponse.json(
-            { message: "Unauthorized user id" },
-            { status: 403 }
-          );
-        }
+    if (!targetProfile) {
+      const reqUserId = req.headers.get("userId") || "";
+
+      if (checkReqUserId && reqUserId !== targetUserId) {
+        return NextResponse.json(
+          { message: "Unauthorized user id" },
+          { status: 403 }
+        );
       }
 
       return null;
     }
 
-    const email = profile.email;
+    const targetEmail = targetProfile.email;
 
-    return await checkProfileAuth(email, req, supabase);
+    return await checkProfileAuth(targetEmail, req, supabase);
   } catch (error) {
+    prisma.$disconnect();
     return NextResponse.json(error, { status: 500 });
   }
 };
