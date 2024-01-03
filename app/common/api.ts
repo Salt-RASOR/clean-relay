@@ -1,5 +1,30 @@
 import axios from "axios";
 import { SignUpData, CredentialData } from "./interfaces";
+import { useAppSelector } from "@/lib/hooks";
+import { selectUserId } from "@/lib/features/profileSlice";
+import supabase from "../utils/supabaseLocal";
+
+axios.interceptors.request.use(
+  async (config) => {
+    const email = useAppSelector(selectUserEmail);
+    const userId = useAppSelector(selectUserId);
+    const session = await supabase.auth.getSession();
+    let jwtToken = "";
+
+    if (session.data) {
+      jwtToken = session.data.session?.access_token || "";
+    }
+
+    config.headers["Authorization"] = `Bearer ${jwtToken}`;
+    config.headers["userId"] = userId;
+    config.headers["userEmail"] = email;
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const getCategories = async () => {
   const res = await axios.get(`/api/categories`);
