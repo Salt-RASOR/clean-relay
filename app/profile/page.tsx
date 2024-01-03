@@ -28,8 +28,8 @@ const Page = () => {
   const phoneRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
-  const userLoggedIn = true;
-  // const userLoggedIn = useAppSelector(selectUserLoggedIn);
+ 
+  const userLoggedIn = useAppSelector(selectUserLoggedIn);
   const currentUserEmail = useAppSelector(selectUserEmail);
   const currentUserName = useAppSelector(selectUserName);
   const currentUserPhone = useAppSelector(selectUserPhome);
@@ -54,13 +54,6 @@ const Page = () => {
     const nameValue = nameRef.current?.value || "";
     const phoneValue = phoneRef.current?.value || "";
 
-    let email;
-
-    if (currentUserEmail.length === 0) {
-      email = localStorage.getItem("userEmail");
-    } else {
-      email = currentUserEmail;
-    }
 
     const data = {
       name: nameValue,
@@ -68,7 +61,7 @@ const Page = () => {
       roleId: 1,
     };
 
-    const authData = await generateAuthData(userId, email as string);
+    const authData = await generateAuthData(userId, currentUserEmail as string);
 
     dispatch(updateUserCredentialsThunk({ data, authData }));
 

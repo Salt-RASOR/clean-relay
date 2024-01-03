@@ -13,6 +13,7 @@ import {
   getProfileData,
   updateUserCredentials,
 } from "@/app/common/api";
+import { saveToLocalStorage } from "@/app/common/helpers";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -149,21 +150,19 @@ export const profileSlice = createSlice({
         state.userRole = action.payload.role;
         state.userEmail = action.payload.email;
         state.status = Status.Idle;
-        localStorage.setItem("userId", action.payload.userId);
+        saveToLocalStorage("userId", action.payload.userId);
       })
       .addCase(getProfileDataThunk.fulfilled, (state, action) => {
         state.userEmail = action.payload.email;
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
         state.status = Status.Idle;
-        localStorage.setItem("userEmail", action.payload.email);
       })
       .addCase(updateUserCredentialsThunk.fulfilled, (state, action) => {
         state.userEmail = action.payload.email;
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
         state.status = Status.Idle;
-        localStorage.setItem("userEmail", action.payload.email);
       })
       .addCase(createNewProfileThunk.pending, handleLoading)
       .addCase(updateUserCredentialsThunk.pending, handleLoading);
