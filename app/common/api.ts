@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SignUpData, CredentialData } from "./interfaces";
 import { useAppSelector } from "@/lib/hooks";
-import { selectUserId } from "@/lib/features/profileSlice";
+import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 
 axios.interceptors.request.use(
