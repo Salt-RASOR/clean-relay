@@ -9,6 +9,7 @@ import LocationPrompter from "./components/Location/LocationPrompter";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LocalStorage from "./components/Providers/LocalStorage";
+import AutoLogger from "./components/Login/AutoLogger";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <>
       <StoreProvider>
+        <AutoLogger />
         <LocalStorage />
         <html lang="en">
           <meta

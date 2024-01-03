@@ -14,6 +14,8 @@ import {
   updateUserCredentials,
 } from "@/app/common/api";
 import { saveToLocalStorage } from "@/app/common/helpers";
+import supabase from "@/app/utils/supabaseLocal";
+import generateAuthData from "@/app/utils/generateAuthData";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -103,6 +105,19 @@ export const updateUserCredentialsThunk = createAsyncThunk(
   }
 );
 
+export const autoLoginThunk = createAsyncThunk(
+  "profile/autoLogin",
+  async (undefined, { dispatch }) => {
+    try {
+      const authData = await generateAuthData("", "", true);
+
+      return dispatch(getProfileDataThunk(authData));
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 export const selectStatus = (state: RootState) => {
   return state.profile.status;
 };
@@ -153,10 +168,15 @@ export const profileSlice = createSlice({
         saveToLocalStorage("userId", action.payload.userId);
       })
       .addCase(getProfileDataThunk.fulfilled, (state, action) => {
+        state.userId = action.payload.userId;
+        state.userLoggedIn = true;
+        state.userPoints = action.payload.points;
+        state.userRole = action.payload.role;
         state.userEmail = action.payload.email;
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
         state.status = Status.Idle;
+        saveToLocalStorage("userId", action.payload.userId);
       })
       .addCase(updateUserCredentialsThunk.fulfilled, (state, action) => {
         state.userEmail = action.payload.email;
