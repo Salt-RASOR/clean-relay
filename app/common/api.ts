@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SignUpData } from "./interfaces";
+import { SignUpData, CredentialData } from "./interfaces";
 
 export const getCategories = async () => {
   const res = await axios.get(`/api/categories`);
@@ -75,5 +75,14 @@ export const getProfileData = async (email: string) => {
   if (res.status !== 200) {
     throw new Error(res.statusText);
   }
+  return res.data;
+};
+
+export const updateUserCredentials = async (
+  email: string,
+  data: CredentialData
+) => {
+  const res = await axios.patch(`/api/profiles/${email}`, data);
+
   return res.data;
 };

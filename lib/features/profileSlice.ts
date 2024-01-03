@@ -1,9 +1,13 @@
 "use client";
-import { Coordinates, SignUpData } from "@/app/common/interfaces";
+import { Coordinates, SignUpData, CredentialData } from "@/app/common/interfaces";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
-import { createNewProfile, getProfileData } from "@/app/common/api";
+import {
+  createNewProfile,
+  getProfileData,
+  updateUserCredentials,
+} from "@/app/common/api";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -18,6 +22,9 @@ export interface profileState {
   userLoggedIn: boolean;
   userId: string;
   userRole: Roles | null;
+  userEmail: string;
+  userName: "";
+  userPhone: "";
   userPoints: number | null;
   status: Status;
   errors: ProfileErrors;
@@ -28,6 +35,9 @@ const initialState: profileState = {
   userLoggedIn: false,
   userId: "",
   userRole: null,
+  userEmail: "",
+  userName: "",
+  userPhone: "",
   userPoints: null,
   status: Status.Idle,
   errors: {
@@ -47,6 +57,9 @@ export const selectUserRole = (state: RootState) => state.profile.userRole;
 export const selectUserPoints = (state: RootState) => state.profile.userPoints;
 export const selectProfileStatus = (state: RootState) => state.profile.status;
 export const selectProfileErrors = (state: RootState) => state.profile.errors;
+export const selectUserEmail = (state: RootState) => state.profile.userEmail;
+export const selectUserName = (state: RootState) => state.profile.userName;
+export const selectUserPhome = (state: RootState) => state.profile.userPhone;
 
 export const createNewProfileThunk = createAsyncThunk(
   "profile/createNewProfile",
@@ -66,6 +79,18 @@ export const getProfileDataThunk = createAsyncThunk(
     try {
       const attempt = await getProfileData(email);
       return attempt;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
+export const updateUserCredentialsThunk = createAsyncThunk(
+  "profile/updateUserCredentials",
+  async ({email, data} : {email: string, data: CredentialData}) => {
+    try {
+      const response = await updateUserCredentials(email, data);
+      return response;
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -117,10 +142,26 @@ export const profileSlice = createSlice({
         state.userLoggedIn = true;
         state.userPoints = action.payload.points;
         state.userRole = action.payload.role;
+        state.userEmail = action.payload.email;
         state.status = Status.Idle;
         localStorage.setItem("userId", action.payload.userId);
       })
-      .addCase(createNewProfileThunk.pending, handleLoading);
+      .addCase(getProfileDataThunk.fulfilled, (state, action) => {
+        state.userEmail = action.payload.email;
+        state.userPhone = action.payload.phone;
+        state.userName = action.payload.name;
+        state.status = Status.Idle;
+        localStorage.setItem("userEmail", action.payload.email);
+      })
+      .addCase(updateUserCredentialsThunk.fulfilled, (state, action) => {
+        state.userEmail = action.payload.email;
+        state.userPhone = action.payload.phone;
+        state.userName = action.payload.name;
+        state.status = Status.Idle;
+        localStorage.setItem("userEmail", action.payload.email);
+      })
+      .addCase(createNewProfileThunk.pending, handleLoading)
+      .addCase(updateUserCredentialsThunk.pending, handleLoading);
   },
 });
 

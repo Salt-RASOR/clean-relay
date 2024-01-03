@@ -64,3 +64,9 @@ export interface SignUpData {
 }
 
 export type viewModes = 0 | 1 | 2;
+
+export interface CredentialData {
+  name: string;
+  phone: string;
+  roleId: number;
+}

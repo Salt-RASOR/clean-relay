@@ -10,8 +10,12 @@ import {
   getProfileDataThunk,
   selectProfileErrors,
   selectUserLoggedIn,
+  selectUserEmail,
+  selectUserName,
   setProfileErrors,
   setUserLoggedIn,
+  selectUserPhome,
+  updateUserCredentialsThunk,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 
@@ -19,10 +23,14 @@ const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
-
-  const userLoggedIn = useAppSelector(selectUserLoggedIn);
+  const userLoggedIn = true;
+  // const userLoggedIn = useAppSelector(selectUserLoggedIn);
+  const currentUserEmail = useAppSelector(selectUserEmail);
+  const currentUserName = useAppSelector(selectUserName);
+  const currentUserPhone = useAppSelector(selectUserPhome);
 
   const errors = useAppSelector(selectProfileErrors);
 
@@ -39,16 +47,29 @@ const Page = () => {
 
   const handleUpdateSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("submit the form");
 
-    // todo implement update here
-    console.log("Email:", emailRef.current?.value);
-    console.log("Password:", passwordRef.current?.value);
-    console.log("Name", nameRef.current?.value);
+    const nameValue = nameRef.current?.value || "";
+    const phoneValue = phoneRef.current?.value || "";
+
+    let email;
+
+    if (currentUserEmail.length === 0) {
+      email = localStorage.getItem("userEmail");
+    } else {
+      email = currentUserEmail;
+    }
+
+    const data = {
+      name: nameValue,
+      phone: phoneValue,
+      roleId: 1,
+    };
+    dispatch(
+      updateUserCredentialsThunk({ email: currentUserEmail, data: data })
+    );
 
     // Clear refs
-    if (emailRef.current && nameRef.current && passwordRef.current) {
-      emailRef.current.value = "";
+    if (nameRef.current && passwordRef.current) {
       nameRef.current.value = "";
       passwordRef.current.value = "";
     }
@@ -105,6 +126,7 @@ const Page = () => {
           });
         }
       );
+     
     }
 
     emailRef.current.value = "";
@@ -116,11 +138,13 @@ const Page = () => {
       {userLoggedIn ? (
         <Profile
           nameRef={nameRef}
-          emailRef={emailRef}
-          passwordRef={passwordRef}
+          phoneRef={phoneRef}
           errors={errors}
           handleSignOut={handleSignOut}
           handleUpdateSubmit={handleUpdateSubmit}
+          currentUserEmail={currentUserEmail}
+          currentUserName={currentUserName}
+          currentUserPhone={currentUserPhone}
         />
       ) : (
         <Login

@@ -7,26 +7,28 @@ import { ProfileErrors } from "@/lib/features/profileSlice";
 
 type ProfileProps = {
   nameRef: React.RefObject<HTMLInputElement>;
-  emailRef: React.RefObject<HTMLInputElement>;
-  passwordRef: React.RefObject<HTMLInputElement>;
+  phoneRef: React.RefObject<HTMLInputElement>;
   errors: ProfileErrors;
+  currentUserEmail: string;
+  currentUserName: string;
+  currentUserPhone: string;
   handleSignOut: () => void;
   handleUpdateSubmit: (event: React.SyntheticEvent) => void;
 };
 
 const Profile: React.FC<ProfileProps> = ({
   nameRef,
-  emailRef,
-  passwordRef,
+  phoneRef,
+  currentUserEmail,
+  currentUserName,
+  currentUserPhone,
   errors,
   handleSignOut,
   handleUpdateSubmit,
 }) => {
-  // ToDo get default values from API
-  const currentName = "Bob Marley";
-  const currentEmail = "Bob@gmail.com";
+  
   return (
-    <div className={clsx("px-4 py-20", "background-container bg-violet")}>
+    <div className={clsx("px-4 py-20", "background-container bg-violet mb-[110px]")}>
       <div className="max-w-2xl m-auto">
         <div className=" flex items-center justify-between mb-40">
           <div className="text-primary_color">Hello, user</div>
@@ -40,27 +42,22 @@ const Profile: React.FC<ProfileProps> = ({
         <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
           Update Profile
         </h1>
-        <form  onSubmit={handleUpdateSubmit}>
+        <form onSubmit={handleUpdateSubmit}>
           <CustomInput
             label={"Name"}
             inputType={"text"}
-            defaultValue={currentName}
+            defaultValue={currentUserName}
             forwardedRef={nameRef}
             hasError={false}
           />
           <CustomInput
-            label={"New Email"}
-            inputType={"email"}
-            defaultValue={currentEmail}
-            forwardedRef={emailRef}
+            label={"Phone"}
+            inputType={"number"}
+            defaultValue={currentUserPhone}
+            forwardedRef={phoneRef}
             hasError={false}
           />
-          <CustomInput
-            label={"New Password"}
-            inputType={"password"}
-            forwardedRef={passwordRef}
-            hasError={false}
-          />
+       
           <Button
             buttonText={"Update Profile"}
             additionalClasses={"my-6 w-full"}
