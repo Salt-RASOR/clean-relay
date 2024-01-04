@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import clsx from "clsx";
 import Points from "../components/Points/Points";
@@ -19,7 +20,8 @@ const Page = () => {
         "px-4",
         "flex flex-col justify-center items-center",
         "background-container bg-violet"
-      )}>
+      )}
+    >
       {userLoggedIn ? (
         <Points pointsBalance={pointsBalance} />
       ) : (

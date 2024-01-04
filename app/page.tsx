@@ -24,6 +24,7 @@ import Filter from "@/app/components/Filter/Filter";
 import MyList from "./components/MyList/MyList";
 import filterIssues from "./utils/filterIssues";
 import { selectMyLocation } from "@/lib/features/profileSlice";
+import NoResults from "./components/NoResults/NoResults";
 
 const Page = () => {
   const router = useRouter();
@@ -77,6 +78,7 @@ const Page = () => {
           </TabList>
 
           <TabPanel>
+            {filteredIssues.length === 0 && <NoResults />}
             <div className="flex justify-center">
               <div
                 className={

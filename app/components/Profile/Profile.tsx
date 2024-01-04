@@ -41,7 +41,9 @@ const Profile: React.FC<ProfileProps> = ({
                 checked={checked}
                 onChange={handleChange}
               />
-              <span className="ml-4 text-primary_color">Admin Access</span>
+              <span className="ml-4 text-primary_color">
+                I want to fix issues
+              </span>
             </label>
           </div>
           <Button
