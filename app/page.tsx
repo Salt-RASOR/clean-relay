@@ -16,7 +16,6 @@ import {
   selectViewMode,
   setSelectedIssueId,
   setViewMode,
-  selectUserIssues,
 } from "@/lib/features/issuesSlice";
 import { viewModes } from "./common/interfaces";
 import { useRouter } from "next/navigation";
@@ -95,7 +94,6 @@ const Page = () => {
           </TabPanel>
 
           <TabPanel>
-            {status === Status.Loading && <Loader />}
             <MyList />
           </TabPanel>
         </Tabs>

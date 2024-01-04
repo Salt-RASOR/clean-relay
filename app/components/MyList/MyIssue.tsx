@@ -11,6 +11,8 @@ type MyIssueProps = {
   statusId: number;
   adress: string;
   imgUrl: string;
+  issueId: number;
+  handleDelete: (id: number) => void;
 };
 
 const MyIssue: React.FC<MyIssueProps> = ({
@@ -18,11 +20,23 @@ const MyIssue: React.FC<MyIssueProps> = ({
   statusId,
   adress,
   imgUrl,
+  issueId,
+  handleDelete,
 }) => {
   const iconList = useAppSelector(selectIconImages);
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
+
+  const handleClick = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    handleDelete && handleDelete(issueId);
+  };
+  
   return (
-    <div className={clsx("flex items-center justify-between", "border-b border-solid border-stroke_color")}>
+    <div
+      className={clsx(
+        "flex items-center justify-between",
+        "border-b border-solid border-stroke_color"
+      )}>
       <div className="flex items-center gap-4 w-2/4">
         <Image src={categoryIconUrl} alt={""} width={30} height={30} />
         <p>{adress}</p>
@@ -43,7 +57,8 @@ const MyIssue: React.FC<MyIssueProps> = ({
           "rounded-lg",
           "flex items-center  gap-4",
           "focus:ring-4 focus:outline-none focus:ring-violet_hover hover:bg-violet_hover"
-        )}>
+        )}
+        onClick={handleClick}>
         <RiDeleteBin6Line size={20} />
       </button>
     </div>
