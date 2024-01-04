@@ -8,6 +8,7 @@ import Image from "next/image";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 import { selectIconImages } from "@/lib/features/issuesSlice";
 import { useAppSelector } from "@/lib/hooks";
+import { selectUserRole } from "@/lib/features/profileSlice";
 
 type CardHeaderProps = {
   statusText: string | undefined;
@@ -32,6 +33,8 @@ const CardHeader: React.FC<CardHeaderProps> = ({
   const iconList = useAppSelector(selectIconImages);
   const categoryIconUrl = getIssueIcon(iconList, categoryId, statusId);
 
+  const roleId = useAppSelector(selectUserRole);
+
   return (
     <header className="flex justify-between items-center mb-4 relative mx-4">
       <div className="flex justify-left items-center">
@@ -43,17 +46,21 @@ const CardHeader: React.FC<CardHeaderProps> = ({
         />
         <p className="font-bold ml-6">{categoryName}</p>
       </div>
-      <button
-        onClick={handleModalShow}
-        type="button"
-        className={clsx(
-          "px-3 py-2",
-          "rounded-lg",
-          "focus:ring-4 focus:outline-none focus:ring-violet_hover"
-        )}
-      >
-        <BsThreeDotsVertical />
-      </button>
+      {roleId === 2 ? (
+        <button
+          onClick={handleModalShow}
+          type="button"
+          className={clsx(
+            "px-3 py-2",
+            "rounded-lg",
+            "focus:ring-4 focus:outline-none focus:ring-violet_hover"
+          )}
+        >
+          <BsThreeDotsVertical />
+        </button>
+      ) : (
+        <div></div>
+      )}
 
       <Modal showModal={showModal} handleModalClose={handleModalClose}>
         <div className="p-4 mt-4 flex flex-col min-w-[200px] text-primary_color">
