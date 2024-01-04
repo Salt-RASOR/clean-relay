@@ -1,5 +1,6 @@
 "use client";
 
+import { getFromLocalStorage } from "@/app/common/helpers";
 import {
   setNewCategory,
   setNewDescription,
@@ -12,9 +13,9 @@ const LocalStorage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const localDescription = localStorage.getItem("newDescription");
-    const localCategory = localStorage.getItem("newCategory");
-    const userId = localStorage.getItem("userId");
+    const localDescription = getFromLocalStorage("newDescription");
+    const localCategory = getFromLocalStorage("newCategory");
+    const userId = getFromLocalStorage("userId");
 
     if (localDescription) {
       dispatch(setNewDescription(localDescription));

@@ -1,6 +1,13 @@
+import { SupabaseClient } from "@supabase/supabase-js";
 import prisma from "../api/prismaClient";
+import checkUserAuth from "./checkUserAuth";
 
-const generateUser = async (userId?: string, register = false) => {
+const generateUser = async (
+  userId?: string,
+  register = false,
+  req?: Request,
+  supabase?: SupabaseClient
+) => {
   let found;
   if (userId) {
     found = await prisma.user.findUnique({
@@ -8,11 +15,18 @@ const generateUser = async (userId?: string, register = false) => {
     });
     prisma.$disconnect();
 
-    if (found && register) {
-      const profile = await prisma.profile.findUnique({ where: { userId } });
+    if (found) {
+      if (register) {
+        const profile = await prisma.profile.findUnique({ where: { userId } });
 
-      if (profile) {
-        found = false;
+        if (profile) {
+          found = false;
+        }
+      } else {
+        const auth = await checkUserAuth(userId, req!, supabase!, false, false);
+        if (auth) {
+          return null;
+        }
       }
     }
   }

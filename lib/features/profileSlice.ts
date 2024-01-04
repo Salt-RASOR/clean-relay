@@ -14,7 +14,6 @@ import {
   updateUserCredentials,
 } from "@/app/common/api";
 import { saveToLocalStorage } from "@/app/common/helpers";
-import supabase from "@/app/utils/supabaseLocal";
 import generateAuthData from "@/app/utils/generateAuthData";
 
 export interface ProfileErrors {
@@ -138,7 +137,7 @@ export const profileSlice = createSlice({
     },
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
-      localStorage.setItem("userId", action.payload);
+      saveToLocalStorage("userId", action.payload);
     },
     setUserRole: (state, action: PayloadAction<Roles | null>) => {
       state.userRole = action.payload;
@@ -184,6 +183,7 @@ export const profileSlice = createSlice({
         state.userName = action.payload.name;
         state.status = Status.Idle;
       })
+      .addCase(getProfileDataThunk.pending, handleLoading)
       .addCase(createNewProfileThunk.pending, handleLoading)
       .addCase(updateUserCredentialsThunk.pending, handleLoading);
   },

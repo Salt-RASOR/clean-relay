@@ -21,6 +21,7 @@ import Button from "@/app/components/Buttons/Button";
 import TextArea from "@/app/components/Input/TextArea";
 import { Status } from "@/app/common/constants";
 import { toast } from "react-toastify";
+import { saveToLocalStorage } from "@/app/common/helpers";
 
 const Page = () => {
   const router = useRouter();
@@ -74,8 +75,8 @@ const Page = () => {
 
     dispatch(setNewDescription(description));
 
-    localStorage.setItem("newDescription", description);
-    localStorage.setItem("newCategory", selectedOption.toString());
+    saveToLocalStorage("newDescription", description);
+    saveToLocalStorage("newCategory", selectedOption.toString());
 
     router.push("/new-report/image");
   };

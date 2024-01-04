@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import prisma from "@/app/api/prismaClient";
-import supabase from "@/app/api/supabaseClient";
+import supabaseImages, { supabase } from "@/app/api/supabaseClient";
 
 import { validateIssuePost, validateImageBuffer } from "../validation";
 import {
@@ -82,7 +82,7 @@ export const POST = async (req: Request) => {
 
     const fileName = `${randomUUID()}.png`;
 
-    const upload = await supabase.upload(fileName, compressedBuffer, {
+    const upload = await supabaseImages.upload(fileName, compressedBuffer, {
       contentType: "image/png",
     });
 
@@ -100,7 +100,15 @@ export const POST = async (req: Request) => {
 
     const statusId = 1;
 
-    body.userId = await generateUser(body.userId);
+    const userId = await generateUser(body.userId, false, req, supabase);
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Unauthorized post" },
+        { status: 403 }
+      );
+    }
+
+    body.userId = userId;
 
     const result = await prisma.issue.create({
       data: {

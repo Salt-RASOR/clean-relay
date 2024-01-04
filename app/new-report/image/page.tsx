@@ -99,10 +99,16 @@ const Page = () => {
     dispatch(createNewReportThunk({ formData: data, authData })).then(
       (result) => {
         if (!result.payload) {
-          return toast("Failed to Create New Report", { type: "error" });
+          return toast("Failed to Create New Report", {
+            type: "error",
+            toastId: "newReportError",
+          });
         }
 
-        toast("New Report Created", { type: "success" });
+        toast("New Report Created", {
+          type: "success",
+          toastId: "newReportSuccess",
+        });
 
         dispatch(setNewDescription(""));
         dispatch(setNewCategory(null));

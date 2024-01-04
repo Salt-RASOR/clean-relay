@@ -70,6 +70,7 @@ const Page = () => {
               if (!result.payload) {
                 return toast("Cannot Remove Issue!", {
                   type: "error",
+                  toastId: "deleteError",
                 });
               }
 
@@ -78,9 +79,11 @@ const Page = () => {
               statusText === StatusOptions.Completed
                 ? toast("Issue Completed!", {
                     type: "success",
+                    toastId: "deleteSuccess",
                   })
                 : toast("Issue Deleted", {
                     type: "info",
+                    toastId: "deleteSuccess",
                   });
             }
           );
@@ -97,8 +100,18 @@ const Page = () => {
             statusId: newStatus,
             authData,
           })
-        );
-        toast("Status Changed", { type: "success" });
+        ).then((result) => {
+          if (!result.payload) {
+            return toast("Cannot Change Status!", {
+              type: "error",
+              toastId: "statusError",
+            });
+          }
+          toast("Status Changed", {
+            type: "success",
+            toastId: "statusSuccess",
+          });
+        });
       } else {
         console.log("Nothing to change");
       }

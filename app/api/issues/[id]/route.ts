@@ -51,6 +51,11 @@ export const PATCH = async (
       return NextResponse.json(issue, { status: 404 });
     }
 
+    const auth = await checkUserAuth(issue.userId, req, supabase);
+    if (auth) {
+      return auth;
+    }
+
     const data = await prisma.issue.update({
       where: { id },
       data: body,

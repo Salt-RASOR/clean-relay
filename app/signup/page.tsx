@@ -132,7 +132,10 @@ const Page = () => {
         createNewProfileThunk({ data: data as SignUpData, userId })
       ).then((result) => {
         if (!result.payload) {
-          return toast("Failed To Sign Up", { type: "error" });
+          return toast("Failed To Sign Up", {
+            type: "error",
+            toastId: "signUpError",
+          });
         }
 
         toast("Signed Up Successfully!", {

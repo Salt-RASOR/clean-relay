@@ -37,9 +37,15 @@ const Page = () => {
 
   const errors = useAppSelector(selectProfileErrors);
 
-  const handleSignOut = () => {
-    // ToDo implement sign out func
-    console.log("click to Sign Out");
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast("Couldnt Sign Out", { type: "error", toastId: "signoutError" });
+    } else {
+      toast("Signed Out", { type: "success", toastId: "signoutSuccess" });
+      dispatch(setUserLoggedIn(false));
+    }
   };
 
   const updateInput = (key: keyof ProfileErrors, value: boolean) => {
@@ -62,13 +68,19 @@ const Page = () => {
 
     const authData = await generateAuthData(userId, currentUserEmail as string);
 
-    dispatch(updateUserCredentialsThunk({ data, authData }));
+    dispatch(updateUserCredentialsThunk({ data, authData })).then((result) => {
+      if (!result.payload) {
+        return toast("Failed To Update", {
+          type: "error",
+          toastId: "updateError",
+        });
+      }
 
-    // Clear refs
-    if (nameRef.current && passwordRef.current) {
-      nameRef.current.value = "";
-      passwordRef.current.value = "";
-    }
+      toast("Updated Successfully!", {
+        type: "success",
+        toastId: "updateSuccess",
+      });
+    });
   };
 
   const handleLogin = async (e: React.SyntheticEvent) => {
@@ -113,7 +125,10 @@ const Page = () => {
       const authData = await generateAuthData(userId, emailValue);
       dispatch(getProfileDataThunk(authData)).then((result) => {
         if (!result.payload) {
-          return toast("Failed To Log In", { type: "error" });
+          return toast("Failed To Log In", {
+            type: "error",
+            toastId: "loginError",
+          });
         }
 
         toast("Logged In Successfully!", {
