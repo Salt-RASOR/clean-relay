@@ -26,12 +26,11 @@ const Profile: React.FC<ProfileProps> = ({
   handleSignOut,
   handleUpdateSubmit,
 }) => {
-  
   return (
-    <div className={clsx("px-4 py-20", "background-container bg-violet mb-[110px]")}>
+    <div className={clsx("px-4 py-16", "background-container bg-violet")}>
       <div className="max-w-2xl m-auto">
-        <div className=" flex items-center justify-between mb-40">
-          <div className="text-primary_color">Hello, user</div>
+        <div className="flex items-center justify-between mb-2">
+          <div></div>
           <Button
             buttonText={"Sign Out"}
             clickHandler={handleSignOut}
@@ -57,7 +56,7 @@ const Profile: React.FC<ProfileProps> = ({
             forwardedRef={phoneRef}
             hasError={false}
           />
-       
+
           <Button
             buttonText={"Update Profile"}
             additionalClasses={"my-6 w-full"}
