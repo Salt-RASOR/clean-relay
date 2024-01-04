@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import MyIssue from "./MyIssue";
 import NoResults from "../NoResults/NoResults";
 import {
@@ -24,12 +24,6 @@ const MyList = () => {
     dispatch(getIssueByUserThunk({ userId, authData }));
   };
 
-  useEffect(() => {
-    getUserIssues();
-  }, [userIssues]);
-
-
-
   const deleteIssue = async (selectedIssueId: number) => {
     const authData = await generateAuthData(userId, currentUserEmail as string);
     dispatch(deleteIssueThunk({ id: selectedIssueId, authData })).then(
@@ -50,7 +44,13 @@ const MyList = () => {
       }
     );
   };
-  
+
+  const deleteIssueCallback = useCallback(deleteIssue, []); 
+
+  useEffect(() => {
+    getUserIssues();
+  }, [deleteIssueCallback]);
+
   return (
     <>
       {userIssues.length === 0 && <NoResults />}
@@ -70,3 +70,4 @@ const MyList = () => {
 };
 
 export default MyList;
+
