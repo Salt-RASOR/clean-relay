@@ -19,6 +19,7 @@ import { viewModes } from "./common/interfaces";
 import { useRouter } from "next/navigation";
 import Loader from "./components/Loader/Loader";
 import Filter from "@/app/components/Filter/Filter";
+import MyList from "./components/MyList/MyList";
 
 const Page = () => {
   const router = useRouter();
@@ -54,8 +55,10 @@ const Page = () => {
           >
             {status === Status.Loading && <Loader />}
             {reportsPageSections.map((item, index) => (
-              <Tab key={index} className={"cursor-pointer"}>
-                <h2 className="font-bold py-5">{item}</h2>
+              <Tab
+                key={index}
+                className={"cursor-pointer"}>
+                <h2 className="font-bold pb-2">{item}</h2>
               </Tab>
             ))}
           </TabList>
@@ -79,7 +82,7 @@ const Page = () => {
 
           <TabPanel>
             {status === Status.Loading && <Loader />}
-            WIP: MY REPORTS
+            <MyList />
           </TabPanel>
         </Tabs>
       </div>
