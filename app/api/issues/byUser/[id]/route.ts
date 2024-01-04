@@ -1,4 +1,6 @@
 import prisma from "@/app/api/prismaClient";
+import { supabase } from "@/app/api/supabaseClient";
+import checkUserAuth from "@/app/utils/checkUserAuth";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
 import { NextResponse } from "next/server";
 
@@ -8,6 +10,12 @@ export const GET = async (
 ) => {
   try {
     const id = params.id;
+
+    const auth = await checkUserAuth(id, req, supabase, false);
+    if (auth) {
+      return auth;
+    }
+
     const data = await prisma.issue.findMany({
       where: { userId: id },
       include: { category: true, status: true },

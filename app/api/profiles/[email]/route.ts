@@ -2,12 +2,19 @@ import hashEmail from "@/app/utils/hashEmail";
 import prisma from "../../prismaClient";
 import { NextResponse } from "next/server";
 import { validateProfilePatch } from "../../validation";
+import checkProfileAuth from "@/app/utils/checkProfileAuth";
+import { supabase } from "../../supabaseClient";
 
 export const GET = async (
   req: Request,
   { params }: { params: { email: string } }
 ) => {
   try {
+    const auth = await checkProfileAuth(params.email, req, supabase);
+    if (auth) {
+      return auth;
+    }
+
     const hash = hashEmail(params.email);
 
     const data = await prisma.profile.findUnique({
@@ -40,6 +47,11 @@ export const PATCH = async (
       return NextResponse.json(validate.error.issues, { status: 400 });
     }
 
+    const auth = await checkProfileAuth(params.email, req, supabase);
+    if (auth) {
+      return auth;
+    }
+
     const hash = hashEmail(params.email);
 
     const found = await prisma.profile.findUnique({ where: { hash } });
@@ -69,6 +81,11 @@ export const DELETE = async (
   { params }: { params: { email: string } }
 ) => {
   try {
+    const auth = await checkProfileAuth(params.email, req, supabase);
+    if (auth) {
+      return auth;
+    }
+
     const hash = hashEmail(params.email);
 
     const found = await prisma.profile.findFirst({ where: { hash } });

@@ -42,6 +42,14 @@ export const POST = async (req: Request) => {
       return NextResponse.json(validate.error.issues, { status: 400 });
     }
 
+    const userId = await generateUser(body.userId, false, req, supabase);
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Unauthorized post" },
+        { status: 403 }
+      );
+    }
+
     const file: File | null = data.get("imageFile") as unknown as File;
 
     const fileBuffer = await file.arrayBuffer();
@@ -99,14 +107,6 @@ export const POST = async (req: Request) => {
     encodeCoordinates(body);
 
     const statusId = 1;
-
-    const userId = await generateUser(body.userId, false, req, supabase);
-    if (!userId) {
-      return NextResponse.json(
-        { message: "Unauthorized post" },
-        { status: 403 }
-      );
-    }
 
     body.userId = userId;
 

@@ -18,6 +18,17 @@ export const getIssues = async () => {
   return res.data;
 };
 
+export const getIssuesByUser = async (userId: string, authData: AuthData) => {
+  const res = await axios.get(
+    `/api/issues/byUser/${userId}`,
+    getAuthHeaders(authData)
+  );
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
+  return res.data;
+};
+
 export const createNewReport = async (
   formData: FormData,
   authData: AuthData
@@ -108,6 +119,15 @@ export const updateUserCredentials = async (
   const res = await axios.patch(
     `/api/profiles/${authData.email}`,
     data,
+    getAuthHeaders(authData)
+  );
+
+  return res.data;
+};
+
+export const deleteProfile = async (authData: AuthData) => {
+  const res = await axios.delete(
+    `/api/profiles/${authData.email}`,
     getAuthHeaders(authData)
   );
 

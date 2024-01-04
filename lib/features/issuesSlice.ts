@@ -12,12 +12,14 @@ import {
   getIssueById,
   changeTheStatus,
   deleteIssue,
+  getIssuesByUser,
 } from "@/app/common/api";
 import { RootState } from "../store";
 import { Status, issuesIcons } from "@/app/common/constants";
 
 export interface issuesState {
   allIssues: IssueGetResponse[];
+  userIssues: IssueGetResponse[];
   issueById: IssueGetResponse | null;
   selectedIssueId: number | null;
   viewMode: viewModes;
@@ -27,6 +29,7 @@ export interface issuesState {
 
 const initialState: issuesState = {
   allIssues: [],
+  userIssues: [],
   issueById: null,
   selectedIssueId: null,
   viewMode: 0,
@@ -48,6 +51,18 @@ export const getIssueByIdThunk = createAsyncThunk(
   async (id: number) => {
     try {
       const response = await getIssueById(id.toString());
+      return response;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
+export const getIssueByUserThunk = createAsyncThunk(
+  "issues/getIssueByUser",
+  async ({ userId, authData }: { userId: string; authData: AuthData }) => {
+    try {
+      const response = await getIssuesByUser(userId, authData);
       return response;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -155,6 +170,10 @@ export const issuesSlice = createSlice({
         state.allIssues = action.payload;
         state.status = Status.Idle;
       })
+      .addCase(getIssueByUserThunk.fulfilled, (state, action) => {
+        state.userIssues = action.payload;
+        state.status = Status.Idle;
+      })
       .addCase(getIconImagesThunk.fulfilled, (state, action) => {
         state.iconImages = action.payload;
       })
@@ -177,8 +196,11 @@ export const issuesSlice = createSlice({
       })
       .addCase(deleteIssueThunk.fulfilled, (state, action) => {
         state.allIssues.filter((issue) => issue.id !== action.payload!.id);
+        state.status = Status.Idle;
       })
       .addCase(getIssuesThunk.pending, handleLoading)
+      .addCase(getIssueByUserThunk.pending, handleLoading)
+      .addCase(deleteIssueThunk.pending, handleLoading)
       .addCase(changeStatusThunk.pending, handleLoading);
   },
 });

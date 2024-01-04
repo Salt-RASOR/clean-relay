@@ -10,6 +10,7 @@ import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
 import {
   createNewProfile,
+  deleteProfile,
   getProfileData,
   updateUserCredentials,
 } from "@/app/common/api";
@@ -67,6 +68,9 @@ export const selectProfileErrors = (state: RootState) => state.profile.errors;
 export const selectUserEmail = (state: RootState) => state.profile.userEmail;
 export const selectUserName = (state: RootState) => state.profile.userName;
 export const selectUserPhome = (state: RootState) => state.profile.userPhone;
+export const selectStatus = (state: RootState) => {
+  return state.profile.status;
+};
 
 export const createNewProfileThunk = createAsyncThunk(
   "profile/createNewProfile",
@@ -117,9 +121,17 @@ export const autoLoginThunk = createAsyncThunk(
   }
 );
 
-export const selectStatus = (state: RootState) => {
-  return state.profile.status;
-};
+export const deleteProfileThunk = createAsyncThunk(
+  "profile/deleteProfile",
+  async (authData: AuthData, { dispatch }) => {
+    try {
+      await deleteProfile(authData);
+      return dispatch(logoutUser());
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
 
 const handleLoading = (state: profileState) => {
   state.status = Status.Loading;
