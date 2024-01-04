@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import MyIssue from "./MyIssue";
 import NoResults from "../NoResults/NoResults";
 import {
@@ -12,6 +12,8 @@ import generateAuthData from "@/app/utils/generateAuthData";
 import { toast } from "react-toastify";
 
 const MyList = () => {
+  const [triggerEffect, setTriggerEffect] = useState(false);
+
   const userIssues = useAppSelector(selectUserIssues);
   const currentUserEmail = useAppSelector(selectUserEmail);
   const userId = useAppSelector(selectUserId);
@@ -42,28 +44,31 @@ const MyList = () => {
         });
       }
     );
+    setTriggerEffect(true);
   };
-
-  const deleteIssueCallback = useCallback(deleteIssue, []);
 
   useEffect(() => {
     getUserIssues();
-  }, [deleteIssueCallback]);
+    setTriggerEffect(false);
+  }, [triggerEffect]);
 
   return (
     <>
-      {userIssues.length === 0 && <NoResults />}
-      {userIssues.map((issue) => (
-        <MyIssue
-          key={issue.id}
-          issueId={issue.id}
-          categoryId={issue.categoryId}
-          statusId={issue.statusId}
-          adress={issue.address}
-          imgUrl={issue.imgUrl}
-          handleDelete={deleteIssue}
-        />
-      ))}
+      {userIssues.length === 0 ? (
+        <NoResults />
+      ) : (
+        userIssues.map((issue) => (
+          <MyIssue
+            key={issue.id}
+            issueId={issue.id}
+            categoryId={issue.categoryId}
+            statusId={issue.statusId}
+            adress={issue.address}
+            imgUrl={issue.imgUrl}
+            handleDelete={deleteIssue}
+          />
+        ))
+      )}
     </>
   );
 };
