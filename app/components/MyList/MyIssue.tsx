@@ -30,13 +30,14 @@ const MyIssue: React.FC<MyIssueProps> = ({
     e.preventDefault();
     handleDelete && handleDelete(issueId);
   };
-  
+
   return (
     <div
       className={clsx(
         "flex items-center justify-between",
         "border-b border-solid border-stroke_color"
-      )}>
+      )}
+    >
       <div className="flex items-center gap-4 w-2/4">
         <Image src={categoryIconUrl} alt={""} width={30} height={30} />
         <p>{adress}</p>
@@ -52,13 +53,16 @@ const MyIssue: React.FC<MyIssueProps> = ({
         // className="object-cover w-full my-4 h-[200px]"
       />
       <button
+        id={id}
+        onClick={handleClick}
         className={clsx(
           "px-3 py-4",
           "rounded-lg",
           "flex items-center  gap-4",
           "focus:ring-4 focus:outline-none focus:ring-violet_hover hover:bg-violet_hover"
         )}
-        onClick={handleClick}>
+        onClick={handleClick}
+      >
         <RiDeleteBin6Line size={20} />
       </button>
     </div>
