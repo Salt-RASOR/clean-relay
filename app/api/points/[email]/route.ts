@@ -1,11 +1,7 @@
 import hashEmail from "@/app/utils/hashEmail";
 import prisma from "../../prismaClient";
 import { NextResponse } from "next/server";
-import {
-  validatePointsPost,
-  validatePointsPut,
-  validateProfilePatch,
-} from "../../validation";
+import { validatePointsPost, validatePointsPut } from "../../validation";
 import checkProfileAuth from "@/app/utils/checkProfileAuth";
 import { supabase } from "../../supabaseClient";
 
@@ -44,7 +40,7 @@ export const POST = async (
 
     prisma.$disconnect();
 
-    return NextResponse.json(data);
+    return NextResponse.json({ points });
   } catch (error) {
     prisma.$disconnect();
 
@@ -87,7 +83,7 @@ export const PUT = async (
 
     prisma.$disconnect();
 
-    return NextResponse.json(data);
+    return NextResponse.json({ points });
   } catch (error) {
     prisma.$disconnect();
 

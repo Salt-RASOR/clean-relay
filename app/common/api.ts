@@ -121,7 +121,9 @@ export const updateUserCredentials = async (
     data,
     getAuthHeaders(authData)
   );
-
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
   return res.data;
 };
 
@@ -130,6 +132,32 @@ export const deleteProfile = async (authData: AuthData) => {
     `/api/profiles/${authData.email}`,
     getAuthHeaders(authData)
   );
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
+  return res.data;
+};
 
+export const addPoints = async (points: number, authData: AuthData) => {
+  const res = await axios.post(
+    `/api/points/${authData.email}`,
+    { points },
+    getAuthHeaders(authData)
+  );
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
+  return res.data;
+};
+
+export const setPoints = async (points: number, authData: AuthData) => {
+  const res = await axios.put(
+    `/api/points/${authData.email}`,
+    { points },
+    getAuthHeaders(authData)
+  );
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
   return res.data;
 };

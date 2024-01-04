@@ -9,6 +9,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Status, Roles } from "@/app/common/constants";
 import {
+  addPoints,
   createNewProfile,
   deleteProfile,
   getProfileData,
@@ -133,6 +134,18 @@ export const deleteProfileThunk = createAsyncThunk(
   }
 );
 
+export const addPointsThunk = createAsyncThunk(
+  "profile/addPoints",
+  async ({ points, authData }: { points: number; authData: AuthData }) => {
+    try {
+      const response = await addPoints(points, authData);
+      return response;
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 const handleLoading = (state: profileState) => {
   state.status = Status.Loading;
 };
@@ -209,6 +222,9 @@ export const profileSlice = createSlice({
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
         state.status = Status.Idle;
+      })
+      .addCase(addPointsThunk.fulfilled, (state, action) => {
+        state.userPoints = action.payload.points;
       })
       .addCase(getProfileDataThunk.pending, handleLoading)
       .addCase(createNewProfileThunk.pending, handleLoading)
