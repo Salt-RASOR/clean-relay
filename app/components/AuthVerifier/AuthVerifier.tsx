@@ -30,7 +30,7 @@ const AuthVerifier = () => {
         height={300}
       />
       <Button
-        buttonText={"Go to log in page"}
+        buttonText={"Go to authorization page"}
         additionalClasses={"w-full"}
         clickHandler={redirectToAuth}
       />

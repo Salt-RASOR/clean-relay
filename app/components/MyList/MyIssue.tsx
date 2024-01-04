@@ -53,8 +53,6 @@ const MyIssue: React.FC<MyIssueProps> = ({
         // className="object-cover w-full my-4 h-[200px]"
       />
       <button
-        id={id}
-        onClick={handleClick}
         className={clsx(
           "px-3 py-4",
           "rounded-lg",

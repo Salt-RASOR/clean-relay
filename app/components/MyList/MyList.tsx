@@ -2,7 +2,6 @@ import React, { useEffect, useCallback } from "react";
 import MyIssue from "./MyIssue";
 import NoResults from "../NoResults/NoResults";
 import {
-  deleteIssueThunk,
   getIssueByUserThunk,
   getIssuesThunk,
   selectUserIssues,
@@ -19,19 +18,7 @@ const MyList = () => {
 
   const dispatch = useAppDispatch();
 
-  const getUserIssues = async (authData?: AuthData) => {
-    if (!authData) {
-      authData = await generateAuthData(userId, currentUserEmail as string);
-    }
-
-    dispatch(getIssueByUserThunk({ userId, authData }));
-  };
-
-  const handleDelete = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-
-    const currentTarget = event.currentTarget as HTMLElement;
-
+  const getUserIssues = async () => {
     const authData = await generateAuthData(userId, currentUserEmail as string);
     dispatch(getIssueByUserThunk({ userId, authData }));
   };
@@ -68,7 +55,6 @@ const MyList = () => {
       {userIssues.length === 0 && <NoResults />}
       {userIssues.map((issue) => (
         <MyIssue
-          id={issue.id.toString()}
           key={issue.id}
           issueId={issue.id}
           categoryId={issue.categoryId}
