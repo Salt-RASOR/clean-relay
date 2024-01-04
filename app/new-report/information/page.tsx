@@ -22,6 +22,7 @@ import TextArea from "@/app/components/Input/TextArea";
 import { Status } from "@/app/common/constants";
 import { toast } from "react-toastify";
 import { saveToLocalStorage } from "@/app/utils/localStorage";
+import Loader from "@/app/components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();
@@ -104,31 +105,34 @@ const Page = () => {
   const isLoading = status === Status.Loading;
 
   return (
-    <div className="px-4 w-full md:w-7/12">
-      <form onSubmit={saveInformation}>
-        <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
-          Please, provide some information
-        </h1>
+    <>
+      {isLoading && <Loader />}
+      <div className="px-4 w-full md:w-7/12">
+        <form onSubmit={saveInformation}>
+          <h1 className="font-bold mb-10 text-primary_color text-center text-lg">
+            Please, provide some information
+          </h1>
 
-        <Select
-          value={selectedOption ? options[selectedOption - 1] : null}
-          onChange={handleOption}
-          options={options}
-          isLoading={isLoading}
-          loadingMessage={() => "Loading..."}
-          noOptionsMessage={() => "Loading..."}
-          styles={customStyles}
-          placeholder="Select Category"
-          instanceId={useId()}
-        />
-        <TextArea
-          defaultValue={newDescription}
-          hasError={errors.descriptionError}
-          onChange={updateDescriptionInput}
-        />
-        <Button buttonText={"Next"} additionalClasses="mt-10 w-full" />
-      </form>
-    </div>
+          <Select
+            value={selectedOption ? options[selectedOption - 1] : null}
+            onChange={handleOption}
+            options={options}
+            isLoading={isLoading}
+            loadingMessage={() => "Loading..."}
+            noOptionsMessage={() => "Loading..."}
+            styles={customStyles}
+            placeholder="Select Category"
+            instanceId={useId()}
+          />
+          <TextArea
+            defaultValue={newDescription}
+            hasError={errors.descriptionError}
+            onChange={updateDescriptionInput}
+          />
+          <Button buttonText={"Next"} additionalClasses="mt-10 w-full" />
+        </form>
+      </div>
+    </>
   );
 };
 

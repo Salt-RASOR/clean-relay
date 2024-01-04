@@ -8,9 +8,10 @@ const NoResults = () => {
     <div
       className={clsx(
         "px-4",
-        "flex flex-col justify-center items-center",
-        "background-container bg-violet"
-      )}>
+        "flex flex-col justify-center items-center"
+        // "background-container bg-violet"
+      )}
+    >
       <Image
         className="mb-10"
         src={noResults}

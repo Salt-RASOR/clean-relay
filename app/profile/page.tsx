@@ -19,10 +19,12 @@ import {
   selectUserId,
   logoutUser,
   selectUserRole,
+  selectProfileStatus,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 import generateAuthData from "../utils/generateAuthData";
-import { Roles } from "../common/constants";
+import { Roles, Status } from "../common/constants";
+import Loader from "../components/Loader/Loader";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -44,6 +46,7 @@ const Page = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentUserPhone = useAppSelector(selectUserPhome);
   const userId = useAppSelector(selectUserId);
+  const status = useAppSelector(selectProfileStatus);
 
   const errors = useAppSelector(selectProfileErrors);
 
@@ -165,6 +168,7 @@ const Page = () => {
 
   return (
     <>
+      {status === Status.Loading && <Loader />}
       {userLoggedIn ? (
         <Profile
           nameRef={nameRef}
