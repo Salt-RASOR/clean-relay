@@ -50,7 +50,6 @@ const MyIssue: React.FC<MyIssueProps> = ({
         width={50}
         height={50}
         className="object-cover my-4 md:w-[70px] md:h-[70px] lg:w-[100px] lg:h-[100px]"
-        // className="object-cover w-full my-4 h-[200px]"
       />
       <button
         className={clsx(
