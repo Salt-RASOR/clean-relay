@@ -15,6 +15,7 @@ import {
   selectAllIssues,
   setIssueById,
   getIssuesThunk,
+  completeIssueThunk,
 } from "@/lib/features/issuesSlice";
 import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
@@ -63,12 +64,11 @@ const Page = () => {
           newStatus = 2;
           break;
         case StatusOptions.Completed:
-        case StatusOptions.Delete:
           dispatch(setSelectedIssueId(null));
-          dispatch(deleteIssueThunk({ id: selectedIssueId, authData })).then(
+          dispatch(completeIssueThunk({ id: selectedIssueId, authData })).then(
             (result) => {
               if (!result.payload) {
-                return toast("Cannot Remove Issue!", {
+                return toast("Cannot Complete Issue!", {
                   type: "error",
                   toastId: "deleteError",
                 });
@@ -76,15 +76,30 @@ const Page = () => {
 
               dispatch(getIssuesThunk());
               router.push("/");
-              statusText === StatusOptions.Completed
-                ? toast("Issue Completed!", {
-                    type: "success",
-                    toastId: "deleteSuccess",
-                  })
-                : toast("Issue Deleted", {
-                    type: "info",
-                    toastId: "deleteSuccess",
-                  });
+              toast("Issue Completed!", {
+                type: "success",
+                toastId: "deleteSuccess",
+              });
+            }
+          );
+          return;
+        case StatusOptions.Delete:
+          dispatch(setSelectedIssueId(null));
+          dispatch(deleteIssueThunk({ id: selectedIssueId, authData })).then(
+            (result) => {
+              if (!result.payload) {
+                return toast("Cannot Delete Issue!", {
+                  type: "error",
+                  toastId: "deleteError",
+                });
+              }
+
+              dispatch(getIssuesThunk());
+              router.push("/");
+              toast("Issue Deleted", {
+                type: "info",
+                toastId: "deleteSuccess",
+              });
             }
           );
           return;

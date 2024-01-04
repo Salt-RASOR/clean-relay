@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { validateIssuePatch } from "../../validation";
 import prisma from "@/app/api/prismaClient";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
 import supabaseImages, { supabase } from "@/app/api/supabaseClient";
 import checkUserAuth from "@/app/utils/checkUserAuth";
+import checkSuperUserAuth from "@/app/utils/checkSuperUserAuth";
+import getIssuePoints from "@/app/utils/getIssuePoints";
 
 export const GET = async (
   req: Request,
@@ -51,9 +53,12 @@ export const PATCH = async (
       return NextResponse.json(issue, { status: 404 });
     }
 
-    const auth = await checkUserAuth(issue.userId, req, supabase);
-    if (auth) {
-      return auth;
+    const isSuperUser = await checkSuperUserAuth(req, supabase);
+    if (!isSuperUser) {
+      return NextResponse.json(
+        { message: "Unauthorized access" },
+        { status: 403 }
+      );
     }
 
     const data = await prisma.issue.update({
@@ -75,7 +80,7 @@ export const PATCH = async (
 };
 
 export const DELETE = async (
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   try {
@@ -87,9 +92,21 @@ export const DELETE = async (
       return NextResponse.json(issue, { status: 404 });
     }
 
-    const auth = await checkUserAuth(issue.userId, req, supabase);
-    if (auth) {
-      return auth;
+    const completed = req.nextUrl.searchParams.get("complete") === "true";
+
+    if (completed) {
+      const isSuperUser = await checkSuperUserAuth(req, supabase);
+      if (!isSuperUser) {
+        return NextResponse.json(
+          { message: "Unauthorized access" },
+          { status: 403 }
+        );
+      }
+    } else {
+      const auth = await checkUserAuth(issue.userId, req, supabase);
+      if (auth) {
+        return auth;
+      }
     }
 
     const filePath = issue.filePath;
@@ -100,6 +117,18 @@ export const DELETE = async (
       where: { id },
       include: { category: true, status: true },
     });
+
+    if (completed) {
+      const userId = result.userId;
+
+      const points = getIssuePoints(result);
+
+      await prisma.profile.update({
+        where: { userId },
+        data: { points: { increment: points } },
+      });
+    }
+
     prisma.$disconnect();
 
     const decodedData = transformIssueGetData(result);

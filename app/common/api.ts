@@ -90,6 +90,17 @@ export const deleteIssue = async (id: number, authData: AuthData) => {
   return res;
 };
 
+export const completeIssue = async (id: number, authData: AuthData) => {
+  const res = await axios.delete(
+    `/api/issues/${id}?complete=true`,
+    getAuthHeaders(authData)
+  );
+  if (res.status !== 200) {
+    throw new Error(res.statusText);
+  }
+  return res;
+};
+
 export const createNewProfile = async (data: SignUpData, userId: string) => {
   const res = await axios.post(`/api/profiles`, {
     email: data.user.email,
@@ -130,30 +141,6 @@ export const updateUserCredentials = async (
 export const deleteProfile = async (authData: AuthData) => {
   const res = await axios.delete(
     `/api/profiles/${authData.email}`,
-    getAuthHeaders(authData)
-  );
-  if (res.status !== 200) {
-    throw new Error(res.statusText);
-  }
-  return res.data;
-};
-
-export const addPoints = async (points: number, authData: AuthData) => {
-  const res = await axios.post(
-    `/api/points/${authData.email}`,
-    { points },
-    getAuthHeaders(authData)
-  );
-  if (res.status !== 200) {
-    throw new Error(res.statusText);
-  }
-  return res.data;
-};
-
-export const setPoints = async (points: number, authData: AuthData) => {
-  const res = await axios.put(
-    `/api/points/${authData.email}`,
-    { points },
     getAuthHeaders(authData)
   );
   if (res.status !== 200) {

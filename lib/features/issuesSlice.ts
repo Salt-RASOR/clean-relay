@@ -13,6 +13,7 @@ import {
   changeTheStatus,
   deleteIssue,
   getIssuesByUser,
+  completeIssue,
 } from "@/app/common/api";
 import { RootState } from "../store";
 import { Status, issuesIcons } from "@/app/common/constants";
@@ -24,6 +25,8 @@ export interface issuesState {
   selectedIssueId: number | null;
   viewMode: viewModes;
   iconImages: IconData[];
+  filterCategories: number[];
+  filterRange: number;
   status: Status;
 }
 
@@ -34,6 +37,8 @@ const initialState: issuesState = {
   selectedIssueId: null,
   viewMode: 0,
   iconImages: [],
+  filterCategories: [],
+  filterRange: 0,
   status: Status.Idle,
 };
 
@@ -106,6 +111,18 @@ export const deleteIssueThunk = createAsyncThunk(
   }
 );
 
+export const completeIssueThunk = createAsyncThunk(
+  "issues/completeIssue",
+  async ({ id, authData }: { id: number; authData: AuthData }) => {
+    try {
+      await completeIssue(id, authData);
+      return { id };
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
 export const getIconImagesThunk = createAsyncThunk(
   "issues/getIconImages",
   async () => {
@@ -141,7 +158,9 @@ export const selectIssueById = (state: RootState) => state.issues.issueById;
 export const selectSelectedIssueId = (state: RootState) =>
   state.issues.selectedIssueId;
 export const selectViewMode = (state: RootState) => state.issues.viewMode;
-
+export const selectFilterCategories = (state: RootState) =>
+  state.issues.filterCategories;
+export const selectFilterRange = (state: RootState) => state.issues.filterRange;
 export const selectStatus = (state: RootState) => {
   return state.issues.status;
 };
@@ -202,14 +221,20 @@ export const issuesSlice = createSlice({
         state.allIssues.filter((issue) => issue.id !== action.payload!.id);
         state.status = Status.Idle;
       })
+      .addCase(completeIssueThunk.fulfilled, (state, action) => {
+        state.allIssues.filter((issue) => issue.id !== action.payload!.id);
+        state.status = Status.Idle;
+      })
       .addCase(getIssuesThunk.pending, handleLoading)
       .addCase(getIssueByUserThunk.pending, handleLoading)
       .addCase(deleteIssueThunk.pending, handleLoading)
+      .addCase(completeIssueThunk.pending, handleLoading)
       .addCase(changeStatusThunk.pending, handleLoading)
 
       .addCase(getIssuesThunk.rejected, handleError)
       .addCase(getIssueByUserThunk.rejected, handleError)
       .addCase(deleteIssueThunk.rejected, handleError)
+      .addCase(completeIssueThunk.rejected, handleError)
       .addCase(changeStatusThunk.rejected, handleError);
   },
 });
