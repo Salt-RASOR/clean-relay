@@ -87,6 +87,6 @@ export enum Status {
 }
 
 export enum Roles {
-  User = "user",
-  SuperUser = "super user",
+  UserRole = 1,
+  SuperUser = 2,
 }

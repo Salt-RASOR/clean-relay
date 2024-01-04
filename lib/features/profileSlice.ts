@@ -201,7 +201,7 @@ export const profileSlice = createSlice({
         state.userId = action.payload.userId;
         state.userLoggedIn = true;
         state.userPoints = action.payload.points;
-        state.userRole = action.payload.role;
+        state.userRole = action.payload.roleId;
         state.userEmail = action.payload.email;
         state.status = Status.Idle;
         saveToLocalStorage("userId", action.payload.userId);
@@ -210,7 +210,7 @@ export const profileSlice = createSlice({
         state.userId = action.payload.userId;
         state.userLoggedIn = true;
         state.userPoints = action.payload.points;
-        state.userRole = action.payload.role;
+        state.userRole = action.payload.roleId;
         state.userEmail = action.payload.email;
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
@@ -221,6 +221,7 @@ export const profileSlice = createSlice({
         state.userEmail = action.payload.email;
         state.userPhone = action.payload.phone;
         state.userName = action.payload.name;
+        state.userRole = action.payload.roleId;
         state.status = Status.Idle;
       })
       .addCase(addPointsThunk.fulfilled, (state, action) => {

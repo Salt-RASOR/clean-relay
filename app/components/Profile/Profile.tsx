@@ -12,6 +12,8 @@ type ProfileProps = {
   currentUserEmail: string;
   currentUserName: string;
   currentUserPhone: string;
+  checked: boolean;
+  handleChange: () => void;
   handleSignOut: () => void;
   handleUpdateSubmit: (event: React.SyntheticEvent) => void;
 };
@@ -25,12 +27,23 @@ const Profile: React.FC<ProfileProps> = ({
   errors,
   handleSignOut,
   handleUpdateSubmit,
+  checked,
+  handleChange,
 }) => {
   return (
     <div className={clsx("px-4 py-16", "background-container bg-violet")}>
       <div className="max-w-2xl m-auto">
         <div className="flex items-center justify-between mb-2">
-          <div></div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={handleChange}
+              />
+              <span className="ml-4 text-primary_color">Admin Access</span>
+            </label>
+          </div>
           <Button
             buttonText={"Sign Out"}
             clickHandler={handleSignOut}

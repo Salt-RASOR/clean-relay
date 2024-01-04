@@ -18,15 +18,24 @@ import {
   updateUserCredentialsThunk,
   selectUserId,
   logoutUser,
+  selectUserRole,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 import generateAuthData from "../utils/generateAuthData";
+import { Roles } from "../common/constants";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
+
+  const userRole = useAppSelector(selectUserRole);
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked((prevState) => !prevState);
+  };
 
   const dispatch = useAppDispatch();
 
@@ -64,7 +73,7 @@ const Page = () => {
     const data = {
       name: nameValue,
       phone: phoneValue,
-      roleId: 1,
+      roleId: checked ? 2 : 1,
     };
 
     const authData = await generateAuthData(userId, currentUserEmail as string);
@@ -143,6 +152,18 @@ const Page = () => {
     passwordRef.current.value = "";
   };
 
+  React.useEffect(() => {
+    if (userRole == null) {
+      setChecked(false);
+      // return
+    }
+    if (userRole === Roles.UserRole) {
+      setChecked(false);
+    } else if (userRole === Roles.SuperUser) {
+      setChecked(true);
+    }
+  }, [userRole]);
+
   return (
     <>
       {userLoggedIn ? (
@@ -152,6 +173,8 @@ const Page = () => {
           errors={errors}
           handleSignOut={handleSignOut}
           handleUpdateSubmit={handleUpdateSubmit}
+          checked={checked}
+          handleChange={handleChange}
           currentUserEmail={currentUserEmail}
           currentUserName={currentUserName}
           currentUserPhone={currentUserPhone}
