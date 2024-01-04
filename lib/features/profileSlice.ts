@@ -15,7 +15,7 @@ import {
   getProfileData,
   updateUserCredentials,
 } from "@/app/common/api";
-import { saveToLocalStorage } from "@/app/common/helpers";
+import { saveToLocalStorage } from "@/app/utils/localStorage";
 import generateAuthData from "@/app/utils/generateAuthData";
 
 export interface ProfileErrors {

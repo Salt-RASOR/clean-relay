@@ -33,7 +33,7 @@ export const POST = async (
 
     const points = body.points + found.points;
 
-    const data = await prisma.profile.update({
+    await prisma.profile.update({
       where: { hash },
       data: { points },
     });
@@ -76,7 +76,7 @@ export const PUT = async (
 
     const points = body.points;
 
-    const data = await prisma.profile.update({
+    await prisma.profile.update({
       where: { hash },
       data: { points },
     });

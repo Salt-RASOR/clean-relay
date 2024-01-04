@@ -21,7 +21,7 @@ import Button from "@/app/components/Buttons/Button";
 import TextArea from "@/app/components/Input/TextArea";
 import { Status } from "@/app/common/constants";
 import { toast } from "react-toastify";
-import { saveToLocalStorage } from "@/app/common/helpers";
+import { saveToLocalStorage } from "@/app/utils/localStorage";
 
 const Page = () => {
   const router = useRouter();

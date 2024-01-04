@@ -1,6 +1,6 @@
 "use client";
 
-import { getFromLocalStorage } from "@/app/common/helpers";
+import { getFromLocalStorage } from "@/app/utils/localStorage";
 import {
   setNewCategory,
   setNewDescription,
