@@ -137,6 +137,10 @@ const handleLoading = (state: profileState) => {
   state.status = Status.Loading;
 };
 
+const handleError = (state: profileState) => {
+  state.status = Status.Error;
+};
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -208,7 +212,11 @@ export const profileSlice = createSlice({
       })
       .addCase(getProfileDataThunk.pending, handleLoading)
       .addCase(createNewProfileThunk.pending, handleLoading)
-      .addCase(updateUserCredentialsThunk.pending, handleLoading);
+      .addCase(updateUserCredentialsThunk.pending, handleLoading)
+
+      .addCase(getProfileDataThunk.rejected, handleError)
+      .addCase(createNewProfileThunk.rejected, handleError)
+      .addCase(updateUserCredentialsThunk.rejected, handleError);
   },
 });
 

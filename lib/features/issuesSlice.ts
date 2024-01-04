@@ -150,6 +150,10 @@ const handleLoading = (state: issuesState) => {
   state.status = Status.Loading;
 };
 
+const handleError = (state: issuesState) => {
+  state.status = Status.Error;
+};
+
 export const issuesSlice = createSlice({
   name: "issues",
   initialState,
@@ -201,7 +205,12 @@ export const issuesSlice = createSlice({
       .addCase(getIssuesThunk.pending, handleLoading)
       .addCase(getIssueByUserThunk.pending, handleLoading)
       .addCase(deleteIssueThunk.pending, handleLoading)
-      .addCase(changeStatusThunk.pending, handleLoading);
+      .addCase(changeStatusThunk.pending, handleLoading)
+
+      .addCase(getIssuesThunk.rejected, handleError)
+      .addCase(getIssueByUserThunk.rejected, handleError)
+      .addCase(deleteIssueThunk.rejected, handleError)
+      .addCase(changeStatusThunk.rejected, handleError);
   },
 });
 
