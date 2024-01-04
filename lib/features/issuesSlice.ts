@@ -153,6 +153,7 @@ export const getIconImagesThunk = createAsyncThunk(
 );
 
 export const selectAllIssues = (state: RootState) => state.issues.allIssues;
+export const selectUserIssues = (state: RootState) => state.issues.userIssues;
 export const selectIconImages = (state: RootState) => state.issues.iconImages;
 export const selectIssueById = (state: RootState) => state.issues.issueById;
 export const selectSelectedIssueId = (state: RootState) =>

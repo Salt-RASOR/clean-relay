@@ -14,6 +14,7 @@ import {
   selectViewMode,
   setSelectedIssueId,
   setViewMode,
+  selectUserIssues
 } from "@/lib/features/issuesSlice";
 import { viewModes } from "./common/interfaces";
 import { useRouter } from "next/navigation";

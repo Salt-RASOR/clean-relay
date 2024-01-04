@@ -1,27 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MyIssue from "./MyIssue";
 import NoResults from "../NoResults/NoResults";
-import img from "@/app/public/authorize_image.svg";
+import {
+  getIssueByUserThunk,
+  selectUserIssues,
+} from "@/lib/features/issuesSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
+import generateAuthData from "@/app/utils/generateAuthData";
 
 const MyList = () => {
-  const noResults = false;
-  const categoryId = 2;
-  const statusId = 1;
-  const adress = "164 55 Nordanvag 94, Kista";
-  const imgUrl = img;
+  const userIssues = useAppSelector(selectUserIssues);
+  const currentUserEmail = useAppSelector(selectUserEmail);
+  const userId = useAppSelector(selectUserId);
+  const dispatch = useAppDispatch();
+
+  const getUserIssues = async () => {
+    const authData = await generateAuthData(userId, currentUserEmail as string);
+    dispatch(getIssueByUserThunk({userId, authData}));
+  };
   
+  useEffect(() => {
+    getUserIssues();
+  }, []);
+
   return (
     <>
-      {noResults ? (
-        <NoResults />
-      ) : (
+      {!userIssues && <NoResults />}
+      {userIssues.map((issue) => (
         <MyIssue
-          categoryId={categoryId}
-          statusId={statusId}
-          adress={adress}
-          imgUrl={imgUrl}
+          key={issue.id}
+          categoryId={issue.categoryId}
+          statusId={issue.statusId}
+          adress={issue.address}
+          imgUrl={issue.imgUrl}
         />
-      )}
+      ))}
     </>
   );
 };
