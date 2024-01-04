@@ -155,7 +155,6 @@ const Page = () => {
   React.useEffect(() => {
     if (userRole == null) {
       setChecked(false);
-      // return
     }
     if (userRole === Roles.UserRole) {
       setChecked(false);

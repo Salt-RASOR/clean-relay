@@ -1,13 +1,18 @@
+"use client";
 import React from "react";
 import clsx from "clsx";
 import Points from "../components/Points/Points";
 import AuthVerifier from "../components/AuthVerifier/AuthVerifier";
+import {
+  selectUserPoints,
+  selectUserLoggedIn,
+} from "@/lib/features/profileSlice";
+import { useAppSelector } from "@/lib/hooks";
 
-const page = () => {
-  // ToDo get authorization
-  const isAuthorized = false;
-  const pointsBalance = 300;
-  
+const Page = () => {
+  const userLoggedIn = useAppSelector(selectUserLoggedIn);
+  const pointsBalance = useAppSelector(selectUserPoints);
+
   return (
     <div
       className={clsx(
@@ -15,7 +20,7 @@ const page = () => {
         "flex flex-col justify-center items-center",
         "background-container bg-violet"
       )}>
-      {isAuthorized ? (
+      {userLoggedIn ? (
         <Points pointsBalance={pointsBalance} />
       ) : (
         <AuthVerifier />
@@ -24,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

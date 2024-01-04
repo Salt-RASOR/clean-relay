@@ -4,7 +4,7 @@ import points from "@/app/public/points.svg";
 import Image from "next/image";
 
 type PointsProps = {
-  pointsBalance: number;
+  pointsBalance: number | null;
 };
 const Points: React.FC<PointsProps> = ({ pointsBalance }) => {
   return (
