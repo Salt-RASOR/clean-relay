@@ -1,3 +1,5 @@
+"use client";
+
 import Select, { MultiValue } from "react-select";
 import { Status } from "@/app/common/constants";
 
@@ -6,19 +8,20 @@ import {
   selectNewStatus,
   selectNewReportErrors,
 } from "@/lib/features/newReportSlice";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { CategoryOption } from "@/app/common/interfaces";
+import { setFilterCategories } from "@/lib/features/issuesSlice";
+import { useId } from "react";
 
 const CustomSelect = () => {
   const options = useAppSelector(selectCategories);
   const status = useAppSelector(selectNewStatus);
   const errors = useAppSelector(selectNewReportErrors);
 
+  const dispatch = useAppDispatch();
+
   const customStyles = {
-    option: (
-      defaultStyles: {},
-      state: { isSelected: boolean }
-    ) => ({
+    option: (defaultStyles: {}, state: { isSelected: boolean }) => ({
       ...defaultStyles,
       color: "#343758",
       backgroundColor: state.isSelected ? "#eeeef7" : "#ffffff",
@@ -28,10 +31,7 @@ const CustomSelect = () => {
         cursor: "pointer",
       },
     }),
-    control: (
-      defaultStyles: {},
-      state: { isFocused: boolean }
-    ) => ({
+    control: (defaultStyles: {}, state: { isFocused: boolean }) => ({
       ...defaultStyles,
       padding: "6px",
       borderRadius: "10px",
@@ -52,12 +52,15 @@ const CustomSelect = () => {
   const isLoading = status === Status.Loading;
 
   const handleOption = (event: MultiValue<CategoryOption | null>) => {
-    // toDo implement
+    const values = event
+      .filter((object) => object)
+      .map((object) => Number(object!.id));
+    dispatch(setFilterCategories(values));
   };
 
   return (
     <>
-      <span className="pl-2 text-[#818181]">Select the category</span>
+      <span className="text-[#818181]">Filter by category</span>
       <Select
         defaultValue={null}
         onChange={handleOption}
@@ -67,6 +70,7 @@ const CustomSelect = () => {
         loadingMessage={() => "Loading..."}
         noOptionsMessage={() => "Loading..."}
         styles={customStyles}
+        instanceId={useId()}
       />
     </>
   );

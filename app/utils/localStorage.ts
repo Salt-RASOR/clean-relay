@@ -25,8 +25,8 @@ export const getFromLocalStorage = (key: string, parse = true) => {
   try {
     const value = localStorage.getItem(key);
 
-    if (parse) {
-      return JSON.parse(value || "");
+    if (parse && value) {
+      return JSON.parse(value);
     }
 
     return value;

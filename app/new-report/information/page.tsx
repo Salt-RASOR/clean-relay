@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useId } from "react";
 import Select, { SingleValue } from "react-select";
 import { useRouter } from "next/navigation";
 
@@ -119,6 +119,7 @@ const Page = () => {
           noOptionsMessage={() => "Loading..."}
           styles={customStyles}
           placeholder="Select Category"
+          instanceId={useId()}
         />
         <TextArea
           defaultValue={newDescription}

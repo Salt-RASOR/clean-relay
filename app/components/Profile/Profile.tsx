@@ -45,7 +45,7 @@ const Profile: React.FC<ProfileProps> = ({
             </label>
           </div>
           <Button
-            buttonText={"Sign Out"}
+            buttonText={"Log Out"}
             clickHandler={handleSignOut}
             additionalClasses="w-[6.5rem]"
           />

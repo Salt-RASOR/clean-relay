@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import clsx from "clsx";
 import { CgMenuGridR } from "react-icons/cg";
@@ -43,7 +45,7 @@ const Filter = () => {
         >
           <div
             className={clsx(
-              "py-5 bg-white w-full p-6 border-b border-gray-200 absolute top-[75] right-0 pb-20 z-10 ",
+              "py-5 bg-white w-full p-6 border-b border-gray-200 absolute top-[75] right-0 pb-4 z-10 ",
               "md:px-28 xl:px-40 2xl:px-54"
             )}
           >

@@ -28,7 +28,7 @@ export default function RootLayout({
       <StoreProvider>
         <AutoLogger />
         <LocalStorage />
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning={true}>
           <meta
             name="format-detection"
             content="telephone=no, date=no, email=no, address=no"

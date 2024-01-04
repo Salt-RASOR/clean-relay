@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { FC } from "react";
 import { useRouter } from "next/navigation";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import {
-  selectAllIssues,
   selectIconImages,
   setSelectedIssueId,
 } from "@/lib/features/issuesSlice";
@@ -12,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 import Loader from "../Loader/Loader";
 import { selectMyLocation } from "@/lib/features/profileSlice";
+import { IssueGetResponse } from "@/app/common/interfaces";
 
 const center = {
   // central Stockholm
@@ -24,10 +24,13 @@ const containerStyle = {
   height: "calc(100vh - 320px)",
 };
 
-const CustomMap = () => {
+export interface CustomMapProps {
+  issues: IssueGetResponse[];
+}
+
+const CustomMap: FC<CustomMapProps> = ({ issues }) => {
   const router = useRouter();
 
-  const issues = useAppSelector(selectAllIssues);
   const iconImages = useAppSelector(selectIconImages);
   const myLocation = useAppSelector(selectMyLocation);
 

@@ -114,7 +114,9 @@ export const autoLoginThunk = createAsyncThunk(
     try {
       const authData = await generateAuthData("", "", true);
 
-      return dispatch(getProfileDataThunk(authData));
+      if (authData.jwtToken) {
+        return dispatch(getProfileDataThunk(authData));
+      }
     } catch (error) {
       throw new Error((error as Error).message);
     }

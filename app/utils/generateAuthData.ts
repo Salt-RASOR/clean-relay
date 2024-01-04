@@ -8,8 +8,8 @@ const generateAuthData = async (
   const { data, error } = await supabase.auth.getSession();
 
   let jwtToken = "";
-  if (data && !error) {
-    jwtToken = `Bearer ${data.session?.access_token}`;
+  if (data.session?.access_token && !error) {
+    jwtToken = `Bearer ${data.session.access_token}`;
 
     if (reAssignEmail) {
       email = data.session?.user.email || "";

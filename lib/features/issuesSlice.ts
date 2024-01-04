@@ -38,7 +38,7 @@ const initialState: issuesState = {
   viewMode: 0,
   iconImages: [],
   filterCategories: [],
-  filterRange: 0,
+  filterRange: 10,
   status: Status.Idle,
 };
 
@@ -187,6 +187,12 @@ export const issuesSlice = createSlice({
     setIssueById: (state, action: PayloadAction<IssueGetResponse | null>) => {
       state.issueById = action.payload;
     },
+    setFilterRange: (state, action: PayloadAction<number>) => {
+      state.filterRange = action.payload;
+    },
+    setFilterCategories: (state, action: PayloadAction<number[]>) => {
+      state.filterCategories = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -240,6 +246,11 @@ export const issuesSlice = createSlice({
   },
 });
 
-export const { setSelectedIssueId, setViewMode, setIssueById } =
-  issuesSlice.actions;
+export const {
+  setSelectedIssueId,
+  setViewMode,
+  setIssueById,
+  setFilterRange,
+  setFilterCategories,
+} = issuesSlice.actions;
 export default issuesSlice.reducer;

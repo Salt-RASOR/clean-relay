@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+"use client";
+
+import { selectFilterRange, setFilterRange } from "@/lib/features/issuesSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import React from "react";
 import { Range } from "react-range";
 
 const CustomRange = () => {
-  const [rangeState, setRangeState] = useState([0]);
+  const filterRange = useAppSelector(selectFilterRange);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="py-8">
-      <div className="pl-2 mb-2 text-[#818181] flex justify-between">
-        Choose the distance: <span> {rangeState[0]} km</span>{" "}
+      <div className="mb-2 text-[#818181] flex justify-between">
+        Filter by distance<span>{[filterRange]} km</span>{" "}
       </div>
       <Range
-        step={5}
-        min={0}
+        step={1}
+        min={1}
         max={100}
-        values={rangeState}
-        onChange={(values) => setRangeState(values)}
+        values={[filterRange]}
+        onChange={(values) => dispatch(setFilterRange(values[0]))}
         renderTrack={({ props, children }) => (
           <div
             {...props}
@@ -22,13 +28,15 @@ const CustomRange = () => {
               height: "3px",
               width: "100%",
               backgroundColor: "#bdc1c8",
-            }}>
+            }}
+          >
             {children}
           </div>
         )}
         renderThumb={({ props }) => (
           <div
             {...props}
+            key={"filterRangeDivSomething"}
             style={{
               ...props.style,
               height: "20px",
