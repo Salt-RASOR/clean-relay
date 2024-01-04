@@ -50,13 +50,12 @@ const Page = () => {
             className={clsx(
               "grid grid-cols-3  justify-items-center gap-4",
               "mb-8 text-primary_color"
-            )}>
+            )}
+          >
             {status === Status.Loading && <Loader />}
             {reportsPageSections.map((item, index) => (
-              <Tab
-                key={index}
-                className={"cursor-pointer"}>
-                <h2 className="font-bold pb-6">{item}</h2>
+              <Tab key={index} className={"cursor-pointer"}>
+                <h2 className="font-bold py-5">{item}</h2>
               </Tab>
             ))}
           </TabList>
@@ -66,7 +65,8 @@ const Page = () => {
               <div
                 className={
                   "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-4"
-                }>
+                }
+              >
                 {issues.map((item, index) => (
                   <Card key={index} {...item} onClick={handleIssueClick} />
                 ))}
