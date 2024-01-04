@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   ProfileErrors,
   createNewProfileThunk,
+  logoutUser,
   selectProfileErrors,
   selectStatus,
   selectUserId,
@@ -119,7 +120,7 @@ const Page = () => {
         type: "error",
         toastId: "userCreationError",
       });
-      dispatch(setUserLoggedIn(false));
+      dispatch(logoutUser());
 
       emailRef.current.value = "";
       passwordConfirmRef.current.value = "";

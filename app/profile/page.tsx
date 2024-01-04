@@ -17,6 +17,7 @@ import {
   selectUserPhome,
   updateUserCredentialsThunk,
   selectUserId,
+  logoutUser,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 import generateAuthData from "../utils/generateAuthData";
@@ -44,7 +45,7 @@ const Page = () => {
       toast("Couldnt Sign Out", { type: "error", toastId: "signoutError" });
     } else {
       toast("Signed Out", { type: "success", toastId: "signoutSuccess" });
-      dispatch(setUserLoggedIn(false));
+      dispatch(logoutUser());
     }
   };
 
@@ -115,7 +116,7 @@ const Page = () => {
         type: "error",
         toastId: "userLoginError",
       });
-      dispatch(setUserLoggedIn(false));
+      dispatch(logoutUser());
       emailRef.current.value = "";
       passwordRef.current.value = "";
       return;

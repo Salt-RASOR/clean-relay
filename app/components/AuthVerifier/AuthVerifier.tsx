@@ -17,9 +17,10 @@ const AuthVerifier = () => {
       className={clsx(
         "w-full max-w-xl",
         "flex flex-col justify-center items-center"
-      )}>
+      )}
+    >
       <h1 className="text-center text-primary_color text-2xl pt-10">
-        To view your points, authorization is necessary
+        Log in to view your points
       </h1>
       <Image
         className="mt-10 mb-20"

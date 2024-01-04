@@ -30,8 +30,8 @@ export interface profileState {
   userId: string;
   userRole: Roles | null;
   userEmail: string;
-  userName: "";
-  userPhone: "";
+  userName: string;
+  userPhone: string;
   userPoints: number | null;
   status: Status;
   errors: ProfileErrors;
@@ -154,6 +154,17 @@ export const profileSlice = createSlice({
     ) => {
       state.errors[action.payload.key] = action.payload.value;
     },
+    logoutUser: (state) => {
+      state.userLoggedIn = false;
+      state.userId = "";
+      state.userEmail = "";
+      state.userName = "";
+      state.userPoints = null;
+      state.userRole = null;
+      state.userPhone = "";
+
+      saveToLocalStorage("userId", "");
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -197,5 +208,6 @@ export const {
   setUserPoints,
   setProfileStatus,
   setProfileErrors,
+  logoutUser,
 } = profileSlice.actions;
 export default profileSlice.reducer;
