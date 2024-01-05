@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import prisma from "../api/prismaClient";
+import prisma from "./prismaClient";
 import checkProfileAuth from "./checkProfileAuth";
 import { NextResponse } from "next/server";
 import checkSuperUserAuth from "./checkSuperUserAuth";

@@ -1,17 +1,6 @@
-import prisma from "@/app/api/prismaClient";
+import prisma from "@/app/utils/prismaClient";
 import { NextResponse } from "next/server";
 
-
-/**
- * @swagger
- * /api/getAddress:
- *  get:
- *  description: Returns the current adress based on location
- *  responses:
- *  200:
- * description: Hello World
- *
- */
 export const GET = async (req: Request) => {
   try {
     const data = await prisma.category.findMany();

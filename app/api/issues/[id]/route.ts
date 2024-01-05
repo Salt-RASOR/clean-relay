@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateIssuePatch } from "../../validation";
-import prisma from "@/app/api/prismaClient";
+import { validateIssuePatch } from "../../../utils/validation";
+import prisma from "@/app/utils/prismaClient";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
-import supabaseImages, { supabase } from "@/app/api/supabaseClient";
+import supabaseImages, { supabase } from "@/app/utils/supabaseClient";
 import checkUserAuth from "@/app/utils/checkUserAuth";
 import checkSuperUserAuth from "@/app/utils/checkSuperUserAuth";
 import getIssuePoints from "@/app/utils/getIssuePoints";

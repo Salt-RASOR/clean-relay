@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import prisma from "@/app/api/prismaClient";
-import supabaseImages, { supabase } from "@/app/api/supabaseClient";
+import prisma from "@/app/utils/prismaClient";
+import supabaseImages, { supabase } from "@/app/utils/supabaseClient";
 
-import { validateIssuePost, validateImageBuffer } from "../validation";
+import { validateIssuePost, validateImageBuffer } from "../../utils/validation";
 import {
   transformIssueGetData,
   transformIssuePostData,
@@ -11,7 +11,7 @@ import {
 } from "../../utils/transformResponses";
 import decodeForm from "@/app/utils/decodeForm";
 import { randomUUID } from "crypto";
-import getAddress from "../getAddress";
+import getAddress from "../../utils/getAddress";
 import sharp from "sharp";
 import generateUser from "@/app/utils/generateUser";
 

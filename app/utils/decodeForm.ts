@@ -1,4 +1,4 @@
-import { IssuePost } from "../api/validation";
+import { IssuePost } from "./validation";
 
 const decodeForm = (formData: FormData) => {
   const userText = formData.get("userText") as string;

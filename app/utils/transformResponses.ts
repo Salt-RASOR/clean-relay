@@ -1,4 +1,4 @@
-import { IssuePost } from "../api/validation";
+import { IssuePost } from "./validation";
 import {
   IssueDBData,
   IssueGetResponse,

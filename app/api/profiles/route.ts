@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { validateProfilePost } from "../validation";
-import prisma from "../prismaClient";
+import { validateProfilePost } from "../../utils/validation";
+import prisma from "../../utils/prismaClient";
 import hashEmail from "@/app/utils/hashEmail";
 import generateUser from "@/app/utils/generateUser";
 

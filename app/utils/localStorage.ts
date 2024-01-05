@@ -3,13 +3,6 @@ export const saveToLocalStorage = (
   value: string,
   stringify = true
 ) => {
-  // const existingData = localStorage.getItem(key);
-  // console.log("inside", existingData, existingData !== null);
-
-  // if (existingData !== null) {
-  //   localStorage.removeItem(key);
-  // }
-
   try {
     if (stringify) {
       value = JSON.stringify(value);

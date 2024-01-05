@@ -1,9 +1,9 @@
 import hashEmail from "@/app/utils/hashEmail";
-import prisma from "../../prismaClient";
+import prisma from "../../../utils/prismaClient";
 import { NextResponse } from "next/server";
-import { validateProfilePatch } from "../../validation";
+import { validateProfilePatch } from "../../../utils/validation";
 import checkProfileAuth from "@/app/utils/checkProfileAuth";
-import supabaseImages, { supabase } from "../../supabaseClient";
+import supabaseImages, { supabase } from "../../../utils/supabaseClient";
 
 export const GET = async (
   req: Request,

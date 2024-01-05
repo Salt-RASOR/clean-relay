@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import prisma from "../api/prismaClient";
+import prisma from "./prismaClient";
 import hashEmail from "./hashEmail";
 
 const checkSuperUserAuth = async (req: Request, supabase: SupabaseClient) => {

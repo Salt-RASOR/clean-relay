@@ -1,5 +1,5 @@
-import prisma from "@/app/api/prismaClient";
-import { supabase } from "@/app/api/supabaseClient";
+import prisma from "@/app/utils/prismaClient";
+import { supabase } from "@/app/utils/supabaseClient";
 import checkUserAuth from "@/app/utils/checkUserAuth";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
 import { NextResponse } from "next/server";
