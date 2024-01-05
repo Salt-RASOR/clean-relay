@@ -16,7 +16,7 @@ import {
   completeIssue,
 } from "@/app/common/api";
 import { RootState } from "../store";
-import { Status, issuesIcons } from "@/app/common/constants";
+import { FILTER_RANGE_MAX, Status, issuesIcons } from "@/app/common/constants";
 
 export interface issuesState {
   allIssues: IssueGetResponse[];
@@ -38,7 +38,7 @@ const initialState: issuesState = {
   viewMode: 0,
   iconImages: [],
   filterCategories: [],
-  filterRange: 10,
+  filterRange: FILTER_RANGE_MAX + 1,
   status: Status.Idle,
 };
 

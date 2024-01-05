@@ -1,5 +1,6 @@
 "use client";
 
+import { FILTER_RANGE_MAX } from "@/app/common/constants";
 import { selectFilterRange, setFilterRange } from "@/lib/features/issuesSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import React from "react";
@@ -12,12 +13,17 @@ const CustomRange = () => {
   return (
     <div className="py-8">
       <div className="mb-2 text-[#818181] flex justify-between">
-        Filter by distance<span>{[filterRange]} km</span>{" "}
+        Filter by distance
+        <span>
+          {filterRange === FILTER_RANGE_MAX + 1
+            ? "Unlimited"
+            : `${filterRange} km`}
+        </span>{" "}
       </div>
       <Range
         step={1}
         min={1}
-        max={100}
+        max={FILTER_RANGE_MAX + 1}
         values={[filterRange]}
         onChange={(values) => dispatch(setFilterRange(values[0]))}
         renderTrack={({ props, children }) => (

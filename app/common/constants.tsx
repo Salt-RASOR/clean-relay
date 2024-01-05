@@ -24,6 +24,8 @@ export const reportsPageSections = [
   ReportsPageSections.MY_REPORTS,
 ];
 
+export const FILTER_RANGE_MAX = 100; // in km
+
 export const issuesIcons = [
   { id: 1, value: "Snow", icon: snow },
   { id: 2, value: "Slippery", icon: slippery },
