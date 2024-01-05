@@ -1,16 +1,17 @@
 "use client";
 
-// import "react-tabs/style/react-tabs.css";
 import { useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   createNewReportThunk,
+  selectMapPin,
   selectNewCategory,
   selectNewDescription,
   selectNewImage,
   selectNewReportErrors,
   selectNewStatus,
+  setMapPin,
   setNewCategory,
   setNewDescription,
   setNewImage,
@@ -43,6 +44,7 @@ const Page = () => {
   const imageFile = useAppSelector(selectNewImage);
   const myLocation = useAppSelector(selectMyLocation);
   const errors = useAppSelector(selectNewReportErrors);
+  const mapPin = useAppSelector(selectMapPin);
 
   const userId = useAppSelector(selectUserId);
   const email = useAppSelector(selectUserEmail);
@@ -68,18 +70,21 @@ const Page = () => {
       toast("Missing Image", { type: "error", toastId: "imageError" });
     }
 
-    if (!myLocation) {
-      toast("Please Allow Access to Your Location", {
-        type: "error",
-        toastId: "locationError",
-      });
+    if (!myLocation && !mapPin) {
+      toast(
+        "Please Allow Access to Your Location or Give a Location Manually",
+        {
+          type: "error",
+          toastId: "locationError",
+        }
+      );
     }
 
     if (
       !userText ||
       !categoryId ||
       !imageFile ||
-      !myLocation ||
+      (!myLocation && !mapPin) ||
       status === Status.Loading
     ) {
       return;
@@ -90,8 +95,11 @@ const Page = () => {
 
     data.append("userText", userText);
     data.append("categoryId", categoryId.toString());
-    data.append("lat", myLocation.lat.toString());
-    data.append("lng", myLocation.lng.toString());
+
+    const location = mapPin || myLocation;
+
+    data.append("lat", location!.lat.toString());
+    data.append("lng", location!.lng.toString());
     data.append("userId", userId);
     data.append("imageFile", imageFile);
 
@@ -113,6 +121,7 @@ const Page = () => {
         dispatch(setNewDescription(""));
         dispatch(setNewCategory(null));
         dispatch(setNewImage(null));
+        dispatch(setMapPin(null));
 
         localStorage.removeItem("newDescription");
         localStorage.removeItem("newCategory");
@@ -123,20 +132,29 @@ const Page = () => {
     );
   };
 
+  const handleLocationClick = () => {
+    router.push("/new-report/location");
+  };
+
   return (
     <div className="px-4">
       {status === Status.Loading && <Loader />}
       <form onSubmit={sendReport}>
         <FileInput saveFile={setFile} hasError={errors.imageError} />
         <Button
+          buttonText={"Set Location Manually"}
+          additionalClasses="w-full mt-12"
+          clickHandler={handleLocationClick}
+        />
+        <Button
           buttonText={"Send Report"}
           additionalClasses={clsx(
-            "w-full",
+            "w-full mt-6",
             status === Status.Loading ||
               statusIssues === Status.Loading ||
               categoryId === null
               ? "disabled bg-slate-300 "
-              : "" + "mt-12"
+              : ""
           )}
         />
       </form>

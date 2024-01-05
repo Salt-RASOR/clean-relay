@@ -11,8 +11,11 @@ const Button: React.FC<ButtonProps> = ({
   additionalClasses,
 }) => {
   const handleClick = (event: React.SyntheticEvent) => {
-    
-    clickHandler && clickHandler();
+    if (clickHandler) {
+      event.preventDefault();
+      event.stopPropagation();
+      clickHandler();
+    }
   };
 
   return (

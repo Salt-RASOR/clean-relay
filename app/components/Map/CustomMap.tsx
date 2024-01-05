@@ -12,6 +12,7 @@ import getIssueIcon from "@/app/utils/getIssueIcon";
 import Loader from "../Loader/Loader";
 import { selectMyLocation } from "@/lib/features/profileSlice";
 import { IssueGetResponse } from "@/app/common/interfaces";
+import { selectMapPin, setMapPin } from "@/lib/features/newReportSlice";
 
 const center = {
   // central Stockholm
@@ -25,14 +26,16 @@ const containerStyle = {
 };
 
 export interface CustomMapProps {
-  issues: IssueGetResponse[];
+  issues?: IssueGetResponse[];
+  pinnable?: boolean;
 }
 
-const CustomMap: FC<CustomMapProps> = ({ issues }) => {
+const CustomMap: FC<CustomMapProps> = ({ issues = [], pinnable = false }) => {
   const router = useRouter();
 
   const iconImages = useAppSelector(selectIconImages);
   const myLocation = useAppSelector(selectMyLocation);
+  const pin = useAppSelector(selectMapPin);
 
   const dispatch = useAppDispatch();
 
@@ -55,6 +58,17 @@ const CustomMap: FC<CustomMapProps> = ({ issues }) => {
     dispatch(setSelectedIssueId(Number(id)));
     router.push(`/issue/${id}`);
   };
+
+  const handleMapClick = (event: google.maps.MapMouseEvent) => {
+    event.stop();
+
+    const coordinates = event.latLng
+      ? { lat: event.latLng.lat(), lng: event.latLng.lng() }
+      : null;
+
+    dispatch(setMapPin(coordinates));
+  };
+
   return (
     <>
       {isLoaded ? (
@@ -69,6 +83,7 @@ const CustomMap: FC<CustomMapProps> = ({ issues }) => {
               streetViewControl: false,
               mapTypeControlOptions: { mapTypeIds: [] },
             }}
+            onClick={handleMapClick}
           >
             {issues.map((issue) => {
               const iconId = issue.categoryId;
@@ -87,6 +102,7 @@ const CustomMap: FC<CustomMapProps> = ({ issues }) => {
                 />
               );
             })}
+            {pinnable && pin && <Marker position={pin} />}
           </GoogleMap>
         </>
       ) : (

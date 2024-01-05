@@ -5,6 +5,7 @@ import {
   AuthData,
   Category,
   CategoryOption,
+  Coordinates,
   IssuePostResponse,
 } from "@/app/common/interfaces";
 import { Status } from "@/app/common/constants";
@@ -23,6 +24,7 @@ export interface NewReportState {
   newImage: File | null;
   newImageURL: string;
   newData: IssuePostResponse | null;
+  mapPin: Coordinates | null;
   status: Status;
   errors: NewReportErrors;
 }
@@ -34,6 +36,7 @@ const initialState: NewReportState = {
   newImage: null,
   newImageURL: "",
   newData: null,
+  mapPin: null,
   status: Status.Idle,
   errors: { categoryError: false, descriptionError: false, imageError: false },
 };
@@ -59,6 +62,8 @@ export const selectNewStatus = (state: RootState) => state.newReport.status;
 
 export const selectNewReportErrors = (state: RootState) =>
   state.newReport.errors;
+
+export const selectMapPin = (state: RootState) => state.newReport.mapPin;
 
 export const createNewReportThunk = createAsyncThunk(
   "newReport/createNewReport",
@@ -114,6 +119,9 @@ export const newReportSlice = createSlice({
     ) => {
       state.errors[action.payload.key] = action.payload.value;
     },
+    setMapPin: (state, action: PayloadAction<Coordinates | null>) => {
+      state.mapPin = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -146,5 +154,6 @@ export const {
   setNewImage,
   setNewImageURL,
   setNewReportErrors,
+  setMapPin,
 } = newReportSlice.actions;
 export default newReportSlice.reducer;
