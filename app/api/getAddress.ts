@@ -1,5 +1,33 @@
 import axios from "axios";
 
+
+
+/**
+ * @swagger
+ * /api/getAddress:
+ *   get:
+ *     description: Returns the current adress based on location
+ *     parameters:
+ *       - in: query
+ *         name: lat
+ *         description: Latitude
+ *         required: true
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: lng
+ *         description: Longitude
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       '200':
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: string
+ *          description: current adress
+ */
 const getAddress = async (lat: number, lng: number) => {
   const apiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 
