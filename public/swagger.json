@@ -1,0 +1,458 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Clean Relay API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/categories": {
+      "get": {
+        "summary": "Gets a list of all categories",
+        "description": "Gets a list of all categories",
+        "responses": {
+          "200": {
+            "description": "Successful fetch"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/issues/{id}": {
+      "get": {
+        "summary": "Gets a specific issue",
+        "description": "Gets a specific issue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Issue Id (UUID) of the specific issue"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful fetch"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a specific issue",
+        "description": "Updates a specific issue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Issue Id (UUID) of the specific issue"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "description": "The data to change",
+            "schema": {
+              "type": "object",
+              "required": [
+                "statusId"
+              ],
+              "properties": {
+                "statusId": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "1 for not started, 2 for in progress"
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Supabase JWT for authentication (super user only)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful patch"
+          },
+          "400": {
+            "description": "Invalid body data"
+          },
+          "401": {
+            "description": "Missing credentials for this user"
+          },
+          "403": {
+            "description": "Invalid credentials for this user"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a specific issue",
+        "description": "Deletes a specific issue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "Issue Id (UUID) of the specific issue"
+          },
+          {
+            "in": "header",
+            "name": "complete",
+            "type": "string",
+            "description": "set to \"true\" to give points to the reporting user as super user"
+          },
+          {
+            "in": "header",
+            "name": "userId",
+            "type": "string",
+            "description": "User Id (UUID) for authentication"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "Supabase JWT for authentication (required if completing or the issue is from a registered profile)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful delete"
+          },
+          "401": {
+            "description": "Missing credentials for this user"
+          },
+          "403": {
+            "description": "Invalid credentials for this user"
+          },
+          "404": {
+            "description": "Issue not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/issues/byUser/{id}": {
+      "get": {
+        "summary": "Gets a list of issues posted by a specific user",
+        "description": "Gets a list of issues posted by a specific user. If the user is not signed up, only the user Id is required. If the user is signed up, the authorization token is required.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "User Id (UUID) of the specific user"
+          },
+          {
+            "in": "header",
+            "name": "userId",
+            "type": "string",
+            "description": "User Id (UUID) for authentication"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "Supabase JWT for authentication"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful fetch"
+          },
+          "401": {
+            "description": "Missing credentials for this user"
+          },
+          "403": {
+            "description": "Invalid credentials for this user"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/issues": {
+      "get": {
+        "summary": "Gets a list of all active issues/reports",
+        "description": "Gets a list of all active issues/reports",
+        "responses": {
+          "200": {
+            "description": "Successful fetch"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new issue based on the data",
+        "description": "Creates a new issue based on the data. Will create a new user id if not provided, or will use the given user id if possible (based on authentication.)",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "userId",
+            "type": "string",
+            "description": "User Id (UUID)"
+          },
+          {
+            "in": "formData",
+            "name": "userText",
+            "type": "string",
+            "description": "User text description",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "categoryId",
+            "type": "integer",
+            "description": "Issue category int",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "lat",
+            "type": "float",
+            "description": "Issue latitude float",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "lng",
+            "type": "float",
+            "description": "Issue longitude float",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "imageFile",
+            "type": "File",
+            "description": "Issue attached image File object",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "userId",
+            "type": "string",
+            "description": "User Id (UUID) for authentication"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "Supabase JWT for authentication"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful post"
+          },
+          "400": {
+            "description": "Invalid formData"
+          },
+          "403": {
+            "description": "Invalid credentials for userId formData"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/profiles/{email}": {
+      "get": {
+        "summary": "Gets a specific profile",
+        "description": "Gets a specific profile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "type": "string",
+            "description": "email of the specific profile"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Supabase JWT for authentication"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful fetch"
+          },
+          "401": {
+            "description": "Missing credentials for this profile"
+          },
+          "403": {
+            "description": "Invalid credentials for this profile"
+          },
+          "404": {
+            "description": "profile not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a specific profile",
+        "description": "Updates a specific profile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "type": "string",
+            "description": "email of the specific profile"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "description": "The data to change",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the profile"
+                },
+                "phone": {
+                  "type": "string",
+                  "description": "Phone number of the profile"
+                },
+                "roleId": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "1 for regular user, 2 for super user (access to completing and changing statuses of issues)"
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Supabase JWT for authentication"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful patch"
+          },
+          "400": {
+            "description": "Invalid body data"
+          },
+          "401": {
+            "description": "Missing credentials for this profile"
+          },
+          "403": {
+            "description": "Invalid credentials for this profile"
+          },
+          "404": {
+            "description": "profile not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a specific profile",
+        "description": "Deletes a specific profile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "type": "string",
+            "description": "email of the specific profile"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "required": true,
+            "description": "Supabase JWT for authentication"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful delete"
+          },
+          "401": {
+            "description": "Missing credentials for this profile"
+          },
+          "403": {
+            "description": "Invalid credentials for this profile"
+          },
+          "404": {
+            "description": "profile not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/profiles": {
+      "post": {
+        "summary": "Creates a new user profile.",
+        "description": "Creates a new user profile. Can use the userId in the body to save the user's created issues if the user is not already registered under a profile. Will create a new user id if it is already in use.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "description": "The data to use for a new profile",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "email to be used for logging in"
+                },
+                "userID": {
+                  "type": "string",
+                  "description": "UUID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful post"
+          },
+          "400": {
+            "description": "Invalid body data"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

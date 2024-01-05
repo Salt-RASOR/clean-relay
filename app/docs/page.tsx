@@ -5,7 +5,7 @@ const IndexPage = async () => {
   const spec = await getApiDocs();
   return (
     <section>
-      <ReactSwagger spec={spec} />
+      <ReactSwagger spec={spec} url="/swagger.json" />
     </section>
   );
 };
