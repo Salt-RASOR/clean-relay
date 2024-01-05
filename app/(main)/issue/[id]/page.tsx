@@ -24,7 +24,8 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
 import generateAuthData from "@/app/utils/generateAuthData";
-import { MdOutlineArrowBackIos } from "react-icons/md";
+
+import BackButton from "@/app/components/Buttons/BackButton";
 
 const Page = () => {
   const { id } = useParams();
@@ -142,24 +143,16 @@ const Page = () => {
       />
     );
 
-    const redirectToHome = () => {
-      router.push("/");
-    };
+  const redirectToHome = () => {
+    router.push("/");
+  };
 
   return (
     <>
       {status === Status.Loading && <Loader />}
       {issueById && (
         <div className="p-4 mt-20">
-          <button
-          onClick={redirectToHome}
-            type="button"
-            className="flex items-center pl-2 pr-4 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white gap-x-2 sm:w-auto hover:bg-gray-100"
-          >
-            <MdOutlineArrowBackIos />
-
-            <span>Go back</span>
-          </button>
+          <BackButton redirectToHome={redirectToHome} />
           <SelectedCard
             {...issueById!}
             handleOptionsClick={handleOptionsClick}

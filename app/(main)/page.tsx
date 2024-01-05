@@ -25,8 +25,7 @@ import MyList from "../components/MyList/MyList";
 import filterIssues from "../utils/filterIssues";
 import { selectMyLocation } from "@/lib/features/profileSlice";
 import NoResults from "../components/NoResults/NoResults";
-import Image from "next/image";
-import logo from "@/app/public/logo.svg";
+import Logo from "../components/Logo/Logo";
 
 const Page = () => {
   const router = useRouter();
@@ -60,11 +59,15 @@ const Page = () => {
     router.push(`/issue/${currentTarget.id}`);
   };
 
+  const redirecAboutPage = () => {
+    router.push('/about')
+  }
+
   return (
     <>
       <div className="px-4">
         <div className="flex items-center justify-between my-4 mb-9 ">
-          <Image src={logo} alt={"logo"} width={100} height={40} />
+          <Logo clickHandler={redirecAboutPage}/>
           <Filter />
         </div>
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
