@@ -11,5 +11,3 @@ const IndexPage = async () => {
 };
 
 export default IndexPage;
-
-export const dynamic = "force-dynamic";

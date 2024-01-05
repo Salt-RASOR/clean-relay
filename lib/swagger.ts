@@ -9,6 +9,15 @@ export const getApiDocs = async () => {
         title: "Clean Relay API",
         version: "1.0",
       },
+      components: {
+        securitySchemes: {
+          BearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
       security: [],
     },
   });
