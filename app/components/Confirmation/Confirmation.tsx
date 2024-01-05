@@ -24,15 +24,19 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <div className="flex flex-col justify-center items-center py-10">
         <div
           onClick={moveToHome}
-          className="flex flex-col justify-center items-center cursor-pointer"
-        >
-          <Image width={100} height={100} src={submittedReport} alt="" />
+          className="flex flex-col justify-center items-center cursor-pointer">
+          <Image
+            width={100}
+            height={100}
+            src={submittedReport}
+            alt="uploaded issue"
+          />
           <p className="font-bold text-center text-primary_color text-2xl max-w-80">
             Thank you! <br />
             {text}
           </p>
+          {children}
         </div>
-        {children}
       </div>
     </div>
   );

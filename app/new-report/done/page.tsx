@@ -23,9 +23,9 @@ const Page = () => {
     <>
       <Confirmation text={"Your report has been submitted"}>
         {newReport && (
-          <div className="mt-8 z-10">
-            <Card {...newReport} onClick={moveToIssue} />
-          </div>
+         
+            <Card {...newReport} onClick={moveToIssue} otherProps="scale-75 "/>
+        
         )}
       </Confirmation>
     </>

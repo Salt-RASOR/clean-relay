@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import clsx from "clsx";
 import { IssueGetResponse } from "@/app/common/interfaces";
 import getIssueIcon from "@/app/utils/getIssueIcon";
 import { useAppSelector } from "@/lib/hooks";
@@ -13,6 +14,7 @@ import { selectMyLocation } from "@/lib/features/profileSlice";
 
 export interface CardProps extends IssueGetResponse {
   onClick?: (event: React.MouseEvent) => void;
+  otherProps?: string;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -27,6 +29,7 @@ const Card: React.FC<CardProps> = ({
   lat,
   lng,
   onClick,
+  otherProps,
 }) => {
   const myLocation = useAppSelector(selectMyLocation);
   const iconList = useAppSelector(selectIconImages);
@@ -34,11 +37,13 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className=" max-w-[400px] rounded-[10px] bg-card_bg py-6 px-4 my-2 cursor-pointer"
+      className={clsx(
+        " max-w-[400px] rounded-[10px] bg-card_bg py-6 px-4 my-2 cursor-pointer",
+        otherProps
+      )}
       style={{ boxShadow: "0 1.72px 6.86px rgba(0, 0, 0, 0.25)" }}
       onClick={onClick}
-      id={id.toString()}
-    >
+      id={id.toString()}>
       <div className="flex justify-left items-center mb-4">
         <Image
           src={categoryIconUrl}
