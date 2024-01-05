@@ -216,13 +216,18 @@ export const profileSlice = createSlice({
         state.userRole = action.payload.roleId;
         state.status = Status.Idle;
       })
+      .addCase(deleteProfileThunk.fulfilled, (state) => {
+        state.status = Status.Idle;
+      })
       .addCase(getProfileDataThunk.pending, handleLoading)
       .addCase(createNewProfileThunk.pending, handleLoading)
       .addCase(updateUserCredentialsThunk.pending, handleLoading)
+      .addCase(deleteProfileThunk.pending, handleLoading)
 
       .addCase(getProfileDataThunk.rejected, handleError)
       .addCase(createNewProfileThunk.rejected, handleError)
-      .addCase(updateUserCredentialsThunk.rejected, handleError);
+      .addCase(updateUserCredentialsThunk.rejected, handleError)
+      .addCase(deleteProfileThunk.rejected, handleError);
   },
 });
 
