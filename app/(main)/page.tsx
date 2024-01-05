@@ -25,6 +25,8 @@ import MyList from "../components/MyList/MyList";
 import filterIssues from "../utils/filterIssues";
 import { selectMyLocation } from "@/lib/features/profileSlice";
 import NoResults from "../components/NoResults/NoResults";
+import Image from "next/image";
+import logo from "@/app/public/logo.svg";
 
 const Page = () => {
   const router = useRouter();
@@ -61,14 +63,16 @@ const Page = () => {
   return (
     <>
       <div className="px-4">
-        <Filter />
+        <div className="flex items-center justify-between my-4 mb-9 ">
+          <Image src={logo} alt={"logo"} width={100} height={40} />
+          <Filter />
+        </div>
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
           <TabList
             className={clsx(
               "grid grid-cols-3  justify-items-center gap-4",
               "mb-8 text-primary_color"
-            )}
-          >
+            )}>
             {status === Status.Loading && <Loader />}
             {reportsPageSections.map((item, index) => (
               <Tab key={index} className={"cursor-pointer"}>
@@ -83,8 +87,7 @@ const Page = () => {
               <div
                 className={
                   "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-4"
-                }
-              >
+                }>
                 {filteredIssues.map((item, index) => (
                   <Card key={index} {...item} onClick={handleIssueClick} />
                 ))}
