@@ -43,7 +43,7 @@ const Page = () => {
         <h2>Core Values</h2>
         <p>
           Responsibility: Empowering individuals to take ownership of their
-          surroundings and contribute positively to their community's
+          surroundings and contribute positively to their community&aposs
           cleanliness. Collaboration: Fostering a culture of cooperation where
           users work together to achieve a common goal of a cleaner environment.
           Accessibility: Ensuring that the platform is user-friendly, inclusive,
