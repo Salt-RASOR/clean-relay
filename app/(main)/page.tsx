@@ -4,9 +4,9 @@ import React from "react";
 import clsx from "clsx";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import CustomMap from "./components/Map/CustomMap";
-import Card from "./components/Card/Card";
-import { Status, reportsPageSections } from "./common/constants";
+import CustomMap from "../components/Map/CustomMap";
+import Card from "../components/Card/Card";
+import { Status, reportsPageSections } from "../common/constants";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   selectAllIssues,
@@ -17,14 +17,14 @@ import {
   setSelectedIssueId,
   setViewMode,
 } from "@/lib/features/issuesSlice";
-import { viewModes } from "./common/interfaces";
+import { viewModes } from "../common/interfaces";
 import { useRouter } from "next/navigation";
-import Loader from "./components/Loader/Loader";
+import Loader from "../components/Loader/Loader";
 import Filter from "@/app/components/Filter/Filter";
-import MyList from "./components/MyList/MyList";
-import filterIssues from "./utils/filterIssues";
+import MyList from "../components/MyList/MyList";
+import filterIssues from "../utils/filterIssues";
 import { selectMyLocation } from "@/lib/features/profileSlice";
-import NoResults from "./components/NoResults/NoResults";
+import NoResults from "../components/NoResults/NoResults";
 
 const Page = () => {
   const router = useRouter();

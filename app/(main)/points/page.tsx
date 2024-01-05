@@ -2,16 +2,16 @@
 
 import React from "react";
 import clsx from "clsx";
-import Points from "../components/Points/Points";
-import AuthVerifier from "../components/AuthVerifier/AuthVerifier";
 import {
   selectUserPoints,
   selectUserLoggedIn,
   selectProfileStatus,
 } from "@/lib/features/profileSlice";
 import { useAppSelector } from "@/lib/hooks";
-import Loader from "../components/Loader/Loader";
-import { Status } from "../common/constants";
+import { Status } from "@/app/common/constants";
+import Loader from "@/app/components/Loader/Loader";
+import Points from "@/app/components/Points/Points";
+import AuthVerifier from "@/app/components/AuthVerifier/AuthVerifier";
 
 const Page = () => {
   const userLoggedIn = useAppSelector(selectUserLoggedIn);

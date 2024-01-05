@@ -13,7 +13,6 @@ import {
   selectStatus,
   selectUserId,
   setProfileErrors,
-  setUserLoggedIn,
 } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
 import supabase from "@/app/utils/supabaseLocal";

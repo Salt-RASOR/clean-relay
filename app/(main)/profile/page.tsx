@@ -13,7 +13,6 @@ import {
   selectUserEmail,
   selectUserName,
   setProfileErrors,
-  setUserLoggedIn,
   selectUserPhome,
   updateUserCredentialsThunk,
   selectUserId,
