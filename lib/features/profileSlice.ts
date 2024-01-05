@@ -16,6 +16,7 @@ import {
 } from "@/app/common/api";
 import { saveToLocalStorage } from "@/app/utils/localStorage";
 import generateAuthData from "@/app/utils/generateAuthData";
+import supabase from "@/app/utils/supabaseLocal";
 
 export interface ProfileErrors {
   emailError: boolean;
@@ -173,6 +174,8 @@ export const profileSlice = createSlice({
       state.errors[action.payload.key] = action.payload.value;
     },
     logoutUser: (state) => {
+      supabase.auth.signOut();
+
       state.userLoggedIn = false;
       state.userId = "";
       state.userEmail = "";

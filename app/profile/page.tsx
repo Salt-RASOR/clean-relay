@@ -20,6 +20,7 @@ import {
   logoutUser,
   selectUserRole,
   selectProfileStatus,
+  deleteProfileThunk,
 } from "@/lib/features/profileSlice";
 import supabase from "../utils/supabaseLocal";
 import generateAuthData from "../utils/generateAuthData";
@@ -65,6 +66,23 @@ const Page = () => {
     setTimeout(() => {
       dispatch(setProfileErrors({ key, value }));
     }, 3000);
+  };
+
+  const handleDelete = async () => {
+    const authData = await generateAuthData(userId, currentUserEmail as string);
+    dispatch(deleteProfileThunk(authData)).then((result) => {
+      if (!result.payload) {
+        return toast("Failed To Delete", {
+          type: "error",
+          toastId: "accountDeleteError",
+        });
+      }
+
+      toast("Account Deleted", {
+        type: "success",
+        toastId: "accountDeleteSuccess",
+      });
+    });
   };
 
   const handleUpdateSubmit = async (event: React.SyntheticEvent) => {
@@ -178,6 +196,7 @@ const Page = () => {
           handleUpdateSubmit={handleUpdateSubmit}
           checked={checked}
           handleChange={handleChange}
+          handleDelete={handleDelete}
           currentUserEmail={currentUserEmail}
           currentUserName={currentUserName}
           currentUserPhone={currentUserPhone}
