@@ -1,6 +1,16 @@
 import prisma from "@/app/utils/prismaClient";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/hello:
+ *   get:
+ *     description: Returns the hello world
+ *     responses:
+ *       200:
+ *         description: Hello World!
+ */
+
 export const GET = async (req: Request) => {
   try {
     const data = await prisma.category.findMany();

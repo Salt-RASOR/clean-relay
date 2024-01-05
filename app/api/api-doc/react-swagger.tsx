@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import 'swagger-ui-react/swagger-ui.css'
+import "swagger-ui-react/swagger-ui.css";
 import SwaggerUI from "swagger-ui-react";
 
 type reactSwaggerProps = {
