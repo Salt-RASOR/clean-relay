@@ -102,7 +102,7 @@ export const newReportSlice = createSlice({
     setNewDescription: (state, action: PayloadAction<string>) => {
       state.newDescription = action.payload;
     },
-    setNewImage: (state, action: PayloadAction<File>) => {
+    setNewImage: (state, action: PayloadAction<File | null>) => {
       state.newImage = action.payload;
     },
     setNewImageURL: (state, action: PayloadAction<string>) => {

@@ -112,6 +112,7 @@ const Page = () => {
 
         dispatch(setNewDescription(""));
         dispatch(setNewCategory(null));
+        dispatch(setNewImage(null));
 
         localStorage.removeItem("newDescription");
         localStorage.removeItem("newCategory");
