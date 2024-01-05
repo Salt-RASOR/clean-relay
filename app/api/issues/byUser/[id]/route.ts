@@ -21,10 +21,6 @@ import { NextResponse } from "next/server";
  *         type: string
  *         description: User Id (UUID) for authentication
  *       - in: header
- *         name: email
- *         type: string
- *         description: User email for authentication
- *       - in: header
  *         name: authorization
  *         type: string
  *         description: Supabase JWT for authentication

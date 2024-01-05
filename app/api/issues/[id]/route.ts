@@ -43,18 +43,13 @@ import getIssuePoints from "@/app/utils/getIssuePoints";
  *           properties:
  *             statusId:
  *               type: integer
- *       - in: header
- *         name: userId
- *         type: string
- *         description: User Id (UUID) for authentication
- *       - in: header
- *         name: email
- *         type: string
- *         description: User email for authentication
+ *               minimum: 1
+ *               description: 1 for not started, 2 for in progress
  *       - in: header
  *         name: authorization
  *         type: string
- *         description: Supabase JWT for authentication
+ *         required: true
+ *         description: Supabase JWT for authentication (super user only)
  *     responses:
  *       200:
  *         description: Successful patch
@@ -79,19 +74,15 @@ import getIssuePoints from "@/app/utils/getIssuePoints";
  *       - in: header
  *         name: complete
  *         type: string
- *         description: set to "true" to give points to the reporting user
+ *         description: set to "true" to give points to the reporting user as super user
  *       - in: header
  *         name: userId
  *         type: string
  *         description: User Id (UUID) for authentication
  *       - in: header
- *         name: email
- *         type: string
- *         description: User email for authentication
- *       - in: header
  *         name: authorization
  *         type: string
- *         description: Supabase JWT for authentication
+ *         description: Supabase JWT for authentication (required if completing or the issue is from a registered profile)
  *     responses:
  *       200:
  *         description: Successful delete

@@ -5,6 +5,101 @@ import { validateProfilePatch } from "../../../utils/validation";
 import checkProfileAuth from "@/app/utils/checkProfileAuth";
 import supabaseImages, { supabase } from "../../../utils/supabaseClient";
 
+/**
+ *  @swagger
+ * /api/profiles/{email}:
+ *   get:
+ *     summary: Gets a specific profile
+ *     description: Gets a specific profile
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         type: string
+ *         description: email of the specific profile
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful fetch
+ *       401:
+ *         description: Missing credentials for this profile
+ *       403:
+ *         description: Invalid credentials for this profile
+ *       404:
+ *         description: profile not found
+ *       500:
+ *         description: Server error
+ *   patch:
+ *     summary: Updates a specific profile
+ *     description: Updates a specific profile
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         type: string
+ *         description: email of the specific profile
+ *       - in: body
+ *         name: data
+ *         description: The data to change
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: Name of the profile
+ *             phone:
+ *               type: string
+ *               description: Phone number of the profile
+ *             roleId:
+ *               type: integer
+ *               minimum: 1
+ *               description: 1 for regular user, 2 for super user (access to completing and changing statuses of issues)
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful patch
+ *       400:
+ *         description: Invalid body data
+ *       401:
+ *         description: Missing credentials for this profile
+ *       403:
+ *         description: Invalid credentials for this profile
+ *       404:
+ *         description: profile not found
+ *       500:
+ *         description: Server error
+ *   delete:
+ *     summary: Deletes a specific profile
+ *     description: Deletes a specific profile
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         type: string
+ *         description: email of the specific profile
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         required: true
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful delete
+ *       401:
+ *         description: Missing credentials for this profile
+ *       403:
+ *         description: Invalid credentials for this profile
+ *       404:
+ *         description: profile not found
+ *       500:
+ *         description: Server error
+ */
+
 export const GET = async (
   req: Request,
   { params }: { params: { email: string } }
@@ -98,6 +193,7 @@ export const DELETE = async (
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
     const { data, error } = await supabase.auth.getUser(token);
 
+    // this check is probably not needed but the api requires the data to get the auth user id from supabase which is used to delete it later
     if (!data || error) {
       return NextResponse.json(error, { status: 404 });
     }

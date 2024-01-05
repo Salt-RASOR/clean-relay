@@ -28,7 +28,7 @@ import generateUser from "@/app/utils/generateUser";
  *         description: Server error
  *   post:
  *     summary: Creates a new issue based on the data
- *     description: Creates a new issue based on the data
+ *     description: Creates a new issue based on the data. Will create a new user id if not provided, or will use the given user id if possible (based on authentication.)
  *     parameters:
  *       - in: formData
  *         name: userId
@@ -63,10 +63,6 @@ import generateUser from "@/app/utils/generateUser";
  *         name: userId
  *         type: string
  *         description: User Id (UUID) for authentication
- *       - in: header
- *         name: email
- *         type: string
- *         description: User email for authentication
  *       - in: header
  *         name: authorization
  *         type: string
