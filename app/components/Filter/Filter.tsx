@@ -15,7 +15,7 @@ const Filter = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };
   return (
-    <div className="mt-4">
+    <>
       <div
         id="accordion-flush"
         data-accordion="collapse"
@@ -54,7 +54,7 @@ const Filter = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
