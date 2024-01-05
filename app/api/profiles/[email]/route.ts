@@ -3,7 +3,7 @@ import prisma from "../../prismaClient";
 import { NextResponse } from "next/server";
 import { validateProfilePatch } from "../../validation";
 import checkProfileAuth from "@/app/utils/checkProfileAuth";
-import { supabase } from "../../supabaseClient";
+import supabaseImages, { supabase } from "../../supabaseClient";
 
 export const GET = async (
   req: Request,
@@ -95,8 +95,33 @@ export const DELETE = async (
       return NextResponse.json(found, { status: 404 });
     }
 
-    const result = await prisma.profile.delete({
-      where: { hash },
+    const token = req.headers.get("authorization")?.replace("Bearer ", "");
+    const { data, error } = await supabase.auth.getUser(token);
+
+    if (!data || error) {
+      return NextResponse.json(error, { status: 404 });
+    }
+
+    const issues = await prisma.issue.findMany({
+      where: { userId: found.userId },
+    });
+    if (issues.length > 0) {
+      issues.forEach((issue) => {
+        const filePath = issue.filePath;
+        supabaseImages.remove([filePath]);
+      });
+    }
+
+    const supabaseId = data.user.id;
+
+    const deleteProfile = await supabase.auth.admin.deleteUser(supabaseId);
+
+    if (deleteProfile.error || !deleteProfile.data) {
+      return NextResponse.json(deleteProfile.error, { status: 500 });
+    }
+
+    const result = await prisma.user.delete({
+      where: { id: found.userId },
     });
     prisma.$disconnect();
 

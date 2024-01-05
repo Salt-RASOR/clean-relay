@@ -26,6 +26,7 @@ import supabase from "../utils/supabaseLocal";
 import generateAuthData from "../utils/generateAuthData";
 import { Roles, Status } from "../common/constants";
 import Loader from "../components/Loader/Loader";
+import { getIssuesThunk } from "@/lib/features/issuesSlice";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -77,6 +78,8 @@ const Page = () => {
           toastId: "accountDeleteError",
         });
       }
+
+      dispatch(getIssuesThunk());
 
       toast("Account Deleted", {
         type: "success",
