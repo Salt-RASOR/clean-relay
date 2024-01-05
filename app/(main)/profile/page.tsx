@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import Login from "../components/Login/Login";
-import Profile from "../components/Profile/Profile";
+import Login from "../../components/Login/Login";
+import Profile from "../../components/Profile/Profile";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
@@ -22,10 +22,10 @@ import {
   selectProfileStatus,
   deleteProfileThunk,
 } from "@/lib/features/profileSlice";
-import supabase from "../utils/supabaseLocal";
-import generateAuthData from "../utils/generateAuthData";
-import { Roles, Status } from "../common/constants";
-import Loader from "../components/Loader/Loader";
+import supabase from "../../utils/supabaseLocal";
+import generateAuthData from "../../utils/generateAuthData";
+import { Roles, Status } from "../../common/constants";
+import Loader from "../../components/Loader/Loader";
 import { getIssuesThunk } from "@/lib/features/issuesSlice";
 import { useRouter } from "next/navigation";
 

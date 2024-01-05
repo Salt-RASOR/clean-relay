@@ -2,8 +2,8 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import CustomInput from "../components/Input/CustomInput";
-import Button from "../components/Buttons/Button";
+import CustomInput from "../../components/Input/CustomInput";
+import Button from "../../components/Buttons/Button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   ProfileErrors,
@@ -17,10 +17,10 @@ import {
 } from "@/lib/features/profileSlice";
 import { toast } from "react-toastify";
 import supabase from "@/app/utils/supabaseLocal";
-import { SignUpData } from "../common/interfaces";
+import { SignUpData } from "../../common/interfaces";
 import { useRouter } from "next/navigation";
-import { Status } from "../common/constants";
-import Loader from "../components/Loader/Loader";
+import { Status } from "../../common/constants";
+import Loader from "../../components/Loader/Loader";
 
 const Page = () => {
   const router = useRouter();

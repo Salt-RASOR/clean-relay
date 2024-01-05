@@ -19,7 +19,7 @@ import {
 } from "@/lib/features/issuesSlice";
 import Confirmation from "@/app/components/Confirmation/Confirmation";
 import Loader from "@/app/components/Loader/Loader";
-import SelectedCard from "../../components/Card/SelectedCard";
+import SelectedCard from "../../../components/Card/SelectedCard";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
@@ -149,7 +149,8 @@ const Page = () => {
         <div className="p-4 mt-20">
           <button
             type="button"
-            className=" flex items-center justify-center w-1/2 px-2 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white  gap-x-2 sm:w-auto  hover:bg-gray-100  ">
+            className=" flex items-center justify-center w-1/2 px-2 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white  gap-x-2 sm:w-auto  hover:bg-gray-100  "
+          >
             <MdOutlineArrowBackIos />
 
             <span>Go back</span>
