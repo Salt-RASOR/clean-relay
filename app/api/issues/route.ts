@@ -15,6 +15,73 @@ import getAddress from "../../utils/getAddress";
 import sharp from "sharp";
 import generateUser from "@/app/utils/generateUser";
 
+/**
+ * @swagger
+ * /api/issues:
+ *   get:
+ *     summary: Gets a list of all active issues/reports
+ *     description: Gets a list of all active issues/reports
+ *     responses:
+ *       200:
+ *         description: Successful fetch
+ *       500:
+ *         description: Server error
+ *   post:
+ *     summary: Creates a new issue based on the data
+ *     description: Creates a new issue based on the data
+ *     parameters:
+ *       - in: formData
+ *         name: userId
+ *         type: string
+ *         description: User Id (UUID)
+ *       - in: formData
+ *         name: userText
+ *         type: string
+ *         description: User text description
+ *         required: true
+ *       - in: formData
+ *         name: categoryId
+ *         type: integer
+ *         description: Issue category int
+ *         required: true
+ *       - in: formData
+ *         name: lat
+ *         type: float
+ *         description: Issue latitude float
+ *         required: true
+ *       - in: formData
+ *         name: lng
+ *         type: float
+ *         description: Issue longitude float
+ *         required: true
+ *       - in: formData
+ *         name: imageFile
+ *         type: File
+ *         description: Issue attached image File object
+ *         required: true
+ *       - in: header
+ *         name: userId
+ *         type: string
+ *         description: User Id (UUID) for authentication
+ *       - in: header
+ *         name: email
+ *         type: string
+ *         description: User email for authentication
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       201:
+ *         description: Successful post
+ *       400:
+ *         description: Invalid formData
+ *       403:
+ *         description: Invalid credentials for userId formData
+ *       500:
+ *         description: Server error
+ */
+
 export const GET = async (req: Request) => {
   try {
     const data = await prisma.issue.findMany({

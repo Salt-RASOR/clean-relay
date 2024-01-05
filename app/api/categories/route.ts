@@ -3,12 +3,15 @@ import { NextResponse } from "next/server";
 
 /**
  * @swagger
- * /api/hello:
+ * /api/categories:
  *   get:
- *     description: Returns the hello world
+ *     summary: Gets a list of all categories
+ *     description: Gets a list of all categories
  *     responses:
  *       200:
- *         description: Hello World!
+ *         description: Successful fetch
+ *       500:
+ *         description: Server error
  */
 
 export const GET = async (req: Request) => {

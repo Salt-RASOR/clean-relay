@@ -4,6 +4,41 @@ import checkUserAuth from "@/app/utils/checkUserAuth";
 import { transformIssueGetData } from "@/app/utils/transformResponses";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/issues/byUser/{id}:
+ *   get:
+ *     summary: Gets a list of issues posted by a specific user
+ *     description: Gets a list of issues posted by a specific user. If the user is not signed up, only the user Id is required. If the user is signed up, the authorization token is required.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         required: true
+ *         description: User Id (UUID) of the specific user
+ *       - in: header
+ *         name: userId
+ *         type: string
+ *         description: User Id (UUID) for authentication
+ *       - in: header
+ *         name: email
+ *         type: string
+ *         description: User email for authentication
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful fetch
+ *       401:
+ *         description: Missing credentials for this user
+ *       403:
+ *         description: Invalid credentials for this user
+ *       500:
+ *         description: Server error
+ */
+
 export const GET = async (
   req: Request,
   { params }: { params: { id: string } }
