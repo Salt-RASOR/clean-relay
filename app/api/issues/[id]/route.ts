@@ -7,6 +7,104 @@ import checkUserAuth from "@/app/utils/checkUserAuth";
 import checkSuperUserAuth from "@/app/utils/checkSuperUserAuth";
 import getIssuePoints from "@/app/utils/getIssuePoints";
 
+/**
+ * @swagger
+ * /api/issues/{id}:
+ *   get:
+ *     summary: Gets a specific issue
+ *     description: Gets a specific issue
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         description: Issue Id (UUID) of the specific issue
+ *     responses:
+ *       200:
+ *         description: Successful fetch
+ *       404:
+ *         description: Issue not found
+ *       500:
+ *         description: Server error
+ *   patch:
+ *     summary: Updates a specific issue
+ *     description: Updates a specific issue
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         description: Issue Id (UUID) of the specific issue
+ *       - in: body
+ *         name: data
+ *         description: The data to change
+ *         schema:
+ *           type: object
+ *           required:
+ *             - statusId
+ *           properties:
+ *             statusId:
+ *               type: integer
+ *       - in: header
+ *         name: userId
+ *         type: string
+ *         description: User Id (UUID) for authentication
+ *       - in: header
+ *         name: email
+ *         type: string
+ *         description: User email for authentication
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful patch
+ *       400:
+ *         description: Invalid body data
+ *       401:
+ *         description: Missing credentials for this user
+ *       403:
+ *         description: Invalid credentials for this user
+ *       404:
+ *         description: Issue not found
+ *       500:
+ *         description: Server error
+ *   delete:
+ *     summary: Deletes a specific issue
+ *     description: Deletes a specific issue
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         description: Issue Id (UUID) of the specific issue
+ *       - in: header
+ *         name: complete
+ *         type: string
+ *         description: set to "true" to give points to the reporting user
+ *       - in: header
+ *         name: userId
+ *         type: string
+ *         description: User Id (UUID) for authentication
+ *       - in: header
+ *         name: email
+ *         type: string
+ *         description: User email for authentication
+ *       - in: header
+ *         name: authorization
+ *         type: string
+ *         description: Supabase JWT for authentication
+ *     responses:
+ *       200:
+ *         description: Successful delete
+ *       401:
+ *         description: Missing credentials for this user
+ *       403:
+ *         description: Invalid credentials for this user
+ *       404:
+ *         description: Issue not found
+ *       500:
+ *         description: Server error
+ */
+
 export const GET = async (
   req: Request,
   { params }: { params: { id: string } }
