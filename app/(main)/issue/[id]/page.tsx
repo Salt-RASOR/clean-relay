@@ -142,24 +142,17 @@ const Page = () => {
       />
     );
 
-  const redirectToHome = () => {
-    router.push("/");
-  };
   return (
     <>
       {status === Status.Loading && <Loader />}
       {issueById && (
         <div className="p-4 mt-20">
           <button
-            onClick={redirectToHome}
             type="button"
-<<<<<<< HEAD:app/(main)/issue/[id]/page.tsx
             className=" flex items-center justify-center w-1/2 px-2 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white  gap-x-2 sm:w-auto  hover:bg-gray-100  "
           >
-=======
-            className="flex items-center pl-2 pr-4 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white  gap-x-2 sm:w-auto  hover:bg-gray-100  ">
->>>>>>> f644853 (feat: add redirect to Home page):app/issue/[id]/page.tsx
             <MdOutlineArrowBackIos />
+
             <span>Go back</span>
           </button>
           <SelectedCard
