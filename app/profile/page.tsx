@@ -27,6 +27,7 @@ import generateAuthData from "../utils/generateAuthData";
 import { Roles, Status } from "../common/constants";
 import Loader from "../components/Loader/Loader";
 import { getIssuesThunk } from "@/lib/features/issuesSlice";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -43,13 +44,14 @@ const Page = () => {
 
   const dispatch = useAppDispatch();
 
+  const router = useRouter();
+
   const userLoggedIn = useAppSelector(selectUserLoggedIn);
   const currentUserEmail = useAppSelector(selectUserEmail);
   const currentUserName = useAppSelector(selectUserName);
   const currentUserPhone = useAppSelector(selectUserPhome);
   const userId = useAppSelector(selectUserId);
   const status = useAppSelector(selectProfileStatus);
-
   const errors = useAppSelector(selectProfileErrors);
 
   const handleSignOut = async () => {
@@ -114,6 +116,8 @@ const Page = () => {
         type: "success",
         toastId: "updateSuccess",
       });
+
+      router.push("/");
     });
   };
 
