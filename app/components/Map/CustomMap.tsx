@@ -28,9 +28,14 @@ const containerStyle = {
 export interface CustomMapProps {
   issues?: IssueGetResponse[];
   pinnable?: boolean;
+  showMyLocation?: boolean;
 }
 
-const CustomMap: FC<CustomMapProps> = ({ issues = [], pinnable = false }) => {
+const CustomMap: FC<CustomMapProps> = ({
+  issues = [],
+  pinnable = false,
+  showMyLocation = true,
+}) => {
   const router = useRouter();
 
   const iconImages = useAppSelector(selectIconImages);
@@ -69,6 +74,14 @@ const CustomMap: FC<CustomMapProps> = ({ issues = [], pinnable = false }) => {
     dispatch(setMapPin(coordinates));
   };
 
+  const customMarker =
+    "data:image/svg+xml," +
+    encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="34" viewBox="0 0 20 34">' +
+        '<path d="M10,0C4.5,0,0,4.5,0,10c0,10.8,10,23.2,10,23.2S20,20.8,20,10C20,4.5,15.5,0,10,0z M10,15c-2.8,0-5-2.2-5-5s2.2-5,5-5s5,2.2,5,5S12.8,15,10,15z" fill="blue" stroke="white" stroke-width="1"/>' +
+        "</svg>"
+    );
+
   return (
     <>
       {isLoaded ? (
@@ -102,7 +115,22 @@ const CustomMap: FC<CustomMapProps> = ({ issues = [], pinnable = false }) => {
                 />
               );
             })}
-            {pinnable && pin && <Marker position={pin} />}
+            {showMyLocation && myLocation && (
+              <Marker
+                position={myLocation}
+                clickable={false}
+                draggable={false}
+                icon={customMarker}
+              />
+            )}
+            {pinnable && pin && (
+              <Marker
+                position={pin}
+                clickable={false}
+                draggable={false}
+                zIndex={1000}
+              />
+            )}
           </GoogleMap>
         </>
       ) : (
