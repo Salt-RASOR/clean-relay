@@ -24,6 +24,7 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { selectUserEmail, selectUserId } from "@/lib/features/profileSlice";
 import generateAuthData from "@/app/utils/generateAuthData";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 
 const Page = () => {
   const { id } = useParams();
@@ -145,7 +146,19 @@ const Page = () => {
     <>
       {status === Status.Loading && <Loader />}
       {issueById && (
-        <SelectedCard {...issueById!} handleOptionsClick={handleOptionsClick} />
+        <div className="p-4 mt-20">
+          <button
+            type="button"
+            className=" flex items-center justify-center w-1/2 px-2 py-2 text-sm text-gray-700 rounded-lg transition-colors duration-200 bg-white  gap-x-2 sm:w-auto  hover:bg-gray-100  ">
+            <MdOutlineArrowBackIos />
+
+            <span>Go back</span>
+          </button>
+          <SelectedCard
+            {...issueById!}
+            handleOptionsClick={handleOptionsClick}
+          />
+        </div>
       )}
     </>
   );
