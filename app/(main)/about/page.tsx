@@ -91,7 +91,7 @@ const Page = () => {
       </section>
 
       <section className="mt-20">
-        <div className="bg-violet p-6 rounded flex justify-center">
+        <div className="bg-violet p-4 pr-0 rounded flex justify-center">
           <div className="max-w-md flex items-center justify-between ">
             <div className="text-primary_color">
               <h2 className="font-bold mb-10 text-lg">Who We Are</h2>
@@ -99,19 +99,19 @@ const Page = () => {
                 <Link
                   href="https://github.com/anttijankeri"
                   className="flex items-center gap-2 my-4">
-                  <FaGithub /> <span>Antti Jankeri</span>
+                  <FaGithub size={18} /> <span>Antti Jankeri</span>
                 </Link>
               </p>
               <p>
                 <Link
                   href="https://github.com/SvitlanaRybakova"
                   className="flex items-center gap-2">
-                  <FaGithub /> <span>Svitlana Rybakova </span>
+                  <FaGithub size={18} /> <span>Svitlana Rybakova </span>
                 </Link>
               </p>
             </div>
 
-            <Image src={developers} width={200} alt={"salt developers"} />
+            <Image src={developers} width={125} alt={"salt developers"} />
           </div>
         </div>
       </section>
