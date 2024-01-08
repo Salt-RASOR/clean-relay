@@ -60,20 +60,21 @@ const Page = () => {
   };
 
   const redirecAboutPage = () => {
-    router.push('/about')
-  }
+    router.push("/about");
+  };
 
   return (
     <>
       <div className="px-4">
         <div className="flex items-center justify-between my-4 mb-9 ">
-          <Logo clickHandler={redirecAboutPage}/>
+          <Logo clickHandler={redirecAboutPage} />
           <Filter />
         </div>
         <Tabs selectedIndex={viewMode} onSelect={handleTabClick}>
           <TabList
             className={clsx(
-              "grid grid-cols-3  justify-items-center gap-4",
+              "flex justify-between",
+              "gap-4",
               "mb-8 text-primary_color"
             )}>
             {status === Status.Loading && <Loader />}

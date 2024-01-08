@@ -15,11 +15,8 @@
 
 .react-tabs__tab--selected {
   border-bottom: 2px solid #343758 !important;
-  width: calc(100% / 3);
-  display: flex;
-  align-items: column;
-  justify-content: center;
 }
+
 .react-tabs__tab--selected:focus-visible {
   outline: none;
 }
