@@ -17,6 +17,7 @@ import getIssuePoints from "@/app/utils/getIssuePoints";
  *       - in: path
  *         name: id
  *         type: string
+ *         required: true
  *         description: Issue Id (UUID) of the specific issue
  *     responses:
  *       200:
@@ -32,6 +33,7 @@ import getIssuePoints from "@/app/utils/getIssuePoints";
  *       - in: path
  *         name: id
  *         type: string
+ *         required: true
  *         description: Issue Id (UUID) of the specific issue
  *       - in: body
  *         name: data
@@ -70,6 +72,7 @@ import getIssuePoints from "@/app/utils/getIssuePoints";
  *       - in: path
  *         name: id
  *         type: string
+ *         required: true
  *         description: Issue Id (UUID) of the specific issue
  *       - in: header
  *         name: complete

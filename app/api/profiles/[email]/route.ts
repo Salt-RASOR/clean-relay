@@ -15,6 +15,7 @@ import supabaseImages, { supabase } from "../../../utils/supabaseClient";
  *       - in: path
  *         name: email
  *         type: string
+ *         required: true
  *         description: email of the specific profile
  *       - in: header
  *         name: authorization
@@ -39,6 +40,7 @@ import supabaseImages, { supabase } from "../../../utils/supabaseClient";
  *       - in: path
  *         name: email
  *         type: string
+ *         required: true
  *         description: email of the specific profile
  *       - in: body
  *         name: data
@@ -81,6 +83,7 @@ import supabaseImages, { supabase } from "../../../utils/supabaseClient";
  *       - in: path
  *         name: email
  *         type: string
+ *         required: true
  *         description: email of the specific profile
  *       - in: header
  *         name: authorization
