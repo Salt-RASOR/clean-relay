@@ -50,8 +50,8 @@ Create an .env.local file based on env.local.example and paste in your variables
 - A Vercel deployment site for external deployment
 - A Supabase project with the following:
   - A PostgreSQL database for storing strings and numbers
-  - A Supabase storage for files (images) with full public access for viewing
-  - A Supabase authentication service
+  - A Supabase storage folder for files (images) with full public access for viewing
+  - A Supabase authentication service activated
 - Google Maps API keys:
   - A public key with the Maps Javascript API enabled
   - A private key with the Geocoding API enabled
@@ -60,11 +60,24 @@ Create an .env.local file based on env.local.example and paste in your variables
 
 **To run locally:**
 
+Dev environment:
+
 ```
 npm run dev
 ```
 
+OR
+
+Deployment environment:
+
+```
+npm run build
+npm run start
+```
+
 **To deploy to Vercel:**
+
+The app is deployed on Vercel at https://clean-relay.vercel.app/
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
@@ -72,9 +85,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## API
 
-The app is deployed on Vercel at https://clean-relay.vercel.app/
-
 The API docs can be found at https://clean-relay.vercel.app/docs, showing a Swagger list of the available API endpoints.
+
+Or http://localhost:3000/docs if you are running locally.
 
 ## License
 
