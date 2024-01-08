@@ -29,7 +29,7 @@
 
 ## Installation
 
-Install the whole repository from its root folder:
+Clone and install the whole repository from its root folder:
 
 ```
 git clone https://github.com/Salt-RASOR/clean-relay.git
