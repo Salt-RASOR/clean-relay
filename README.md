@@ -58,6 +58,8 @@ Create an .env.local file based on env.local.example and paste in your variables
 
 ## Usage
 
+The app is deployed on Vercel at https://clean-relay.vercel.app/
+
 **To run locally:**
 
 Dev environment:
@@ -77,11 +79,9 @@ npm run start
 
 **To deploy to Vercel:**
 
-The app is deployed on Vercel at https://clean-relay.vercel.app/
-
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out their [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ## API
 
